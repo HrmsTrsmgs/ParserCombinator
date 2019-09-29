@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserCombinator", "ParserCombinator\ParserCombinator.csproj", "{BEDAD7EB-B455-4074-A3E4-C0F9497C87D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserCombinatorのテスト", "ParserCombinatorのテスト\ParserCombinatorのテスト.csproj", "{805D79EA-69B4-4251-A168-9E84CCAC6E78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEDAD7EB-B455-4074-A3E4-C0F9497C87D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEDAD7EB-B455-4074-A3E4-C0F9497C87D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEDAD7EB-B455-4074-A3E4-C0F9497C87D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEDAD7EB-B455-4074-A3E4-C0F9497C87D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{805D79EA-69B4-4251-A168-9E84CCAC6E78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{805D79EA-69B4-4251-A168-9E84CCAC6E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{805D79EA-69B4-4251-A168-9E84CCAC6E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{805D79EA-69B4-4251-A168-9E84CCAC6E78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B90030C-31E9-482D-901D-BD7B9F331A8B}
+	EndGlobalSection
+EndGlobal

@@ -63,5 +63,27 @@ namespace Marimo.Test.ParserCombinator
 
             result.cursol.Index.Is(0);
         }
+
+        [Fact]
+        public async Task ParseAsyncは単語前のスペースを読み飛ばします()
+        {
+            var cursol = new Cursol(" public");
+            var tested = new WordParser("public");
+
+            var result = await tested.ParseAsync(cursol);
+
+            result.cursol.Index.Is(7);
+        }
+
+        [Fact]
+        public async Task ParseAsyncは単語後のスペースを読み飛ばします()
+        {
+            var cursol = new Cursol("public ");
+            var tested = new WordParser("public");
+
+            var result = await tested.ParseAsync(cursol);
+
+            result.cursol.Index.Is(7);
+        }
     }
 }

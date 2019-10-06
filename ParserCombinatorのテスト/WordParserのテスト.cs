@@ -31,16 +31,7 @@ namespace Marimo.Test.ParserCombinator
             result.isSuccess.IsFalse();
         }
 
-        [Fact]
-        public async Task ParseAsyncは読み込みに成功した場合にその分進んだカーソルを返します()
-        {
-            var cursol = new Cursol("public");
-            var tested = new WordParser("public");
 
-            var result = await tested.ParseAsync(cursol);
-
-            result.cursol.Index.Is(6);
-        }
 
         [Fact]
         public async Task ParseAsyncは読み込みに成功した場合に単語の長さだけ進んだカーソルを返します()

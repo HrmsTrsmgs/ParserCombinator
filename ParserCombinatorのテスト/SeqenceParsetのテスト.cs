@@ -21,7 +21,7 @@ namespace Marimo.Test.ParserCombinator
         }
 
         [Fact]
-        public async Task ParseAsyncは一つ目の解析に失敗した倍は失敗します()
+        public async Task ParseAsyncは一つ目の解析に失敗した場合は失敗します()
         {
             var cursol = new Cursol("publica static");
             var tested = SequenceParser.Create(new WordParser("public"), new WordParser("static"));
@@ -43,7 +43,7 @@ namespace Marimo.Test.ParserCombinator
         }
 
         [Fact]
-        public async Task ParseAsyncはふたつ目の解析に失敗した倍は失敗します()
+        public async Task ParseAsyncはふたつ目の解析に失敗した場合は失敗します()
         {
             var cursol = new Cursol("public statiac");
             var tested = SequenceParser.Create(new WordParser("public"), new WordParser("static"));

@@ -3,47 +3,44 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
+using System.Linq;
 namespace Marimo.ParserCombinator
 {
     public class WordParser : Parser<string>
     {
         public string Word { get; }
 
-        public WordParser(string word)
-        {
-            Word = word;
-        }
+        public WordParser(string word) =>Word = word;
 
         public override async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
         {
-            var readIndex = 0;
+            
+            var current = await SkipBlankAsync(cursol);
 
-            while(cursol.Text[cursol.Index + readIndex] == ' ')
+            var helper = new SequenceHelper(current);
+            var returnValue = new List<char>();
+            foreach (var parser in Word.Select(c => new CharParser(c)))
             {
-                readIndex++;
-            }
-
-            var wordIndex = 0;
-
-            while(readIndex < cursol.Text.Length && wordIndex < Word.Length && cursol.Text[cursol.Index + readIndex] == Word[wordIndex])
-            {
-                readIndex++;
-                wordIndex++;
-            }
-
-            if (wordIndex == Word.Length)
-            {
-                while (cursol.Index + readIndex < cursol.Text.Length && cursol.Text[cursol.Index + readIndex] == ' ')
+                if (!await helper.ParseAsync(parser, value => returnValue.Add(value)))
                 {
-                    readIndex++;
+                    return (false, cursol, default);
                 }
-                return (true, cursol.GoFoward(readIndex), Word);
             }
-            else
+            current = await SkipBlankAsync(helper.Current);
+            return (true, current, new string(returnValue.ToArray()));
+        }
+
+        private async Task<Cursol> SkipBlankAsync(Cursol current)
+        {
+            var space = new CharParser(' ');
+            while (true)
             {
-                return (false, cursol, default);
+                var result = await space.ParseAsync(current);
+                if (!result.isSuccess) break;
+                current = result.cursol;
             }
+
+            return current;
         }
     }
 }

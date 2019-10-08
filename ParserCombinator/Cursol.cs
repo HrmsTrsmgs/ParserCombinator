@@ -6,7 +6,7 @@ namespace Marimo.ParserCombinator
 {
     public class Cursol
     {
-        public char Current => Text[Index];
+        public char? Current => Index < Text.Length ? Text[Index] : (char?)null;
 
         public int Index { get; }
         public string Text { get; }

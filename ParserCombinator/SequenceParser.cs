@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Linq;
 namespace Marimo.ParserCombinator
 {
 
     public class SequenceParser
     {
         public static SequenceParser<T1, T2> Create<T1, T2>(Parser<T1> parser1, Parser<T2> parser2)
-        {
-            return new SequenceParser<T1, T2>(parser1, parser2);
-        }
+            => new SequenceParser<T1, T2>(parser1, parser2);
     }
 
     public class SequenceParser<T1, T2> : Parser<ValueTuple<T1, T2>>
@@ -23,22 +21,34 @@ namespace Marimo.ParserCombinator
             this.parser1 = parser1;
             this.parser2 = parser2;
         }
-
-        
-        public override async Task<(bool isSuccess, Cursol cursol, ValueTuple<T1, T2> parsed)> ParseAsync(Cursol cursol)
+        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2) parsed)> ParseAsync(Cursol cursol)
         {
-            var result1 = await parser1.ParseAsync(cursol);
+            (T1, T2) returnValue = default;
+            var helper =  new SequenceHelper(cursol);
+            
+            return
+                await helper.ParseAsync(parser1, value => returnValue.Item1 = value) &&
+                await helper.ParseAsync(parser2, value => returnValue.Item2 = value)
+                ? (true, helper.Current, returnValue)
+                :(false, cursol, default);
+        }
 
-            if(!result1.isSuccess)
+        class SequenceHelper
+        {
+            public Cursol Current { get; private set; }
+
+            public SequenceHelper(Cursol current) => Current = current;
+            public async Task<bool> ParseAsync<T>(Parser<T> parser, Action<T> setter)
             {
-                return (false, cursol, default);
+                var result = await parser.ParseAsync(Current);
+                if (!result.isSuccess)
+                {
+                    return result.isSuccess;
+                }
+                Current = result.cursol;
+                setter(result.parsed);
+                return result.isSuccess;
             }
-            var result2 = await parser2.ParseAsync(result1.cursol);
-            if (!result2.isSuccess)
-            {
-                return (false, cursol, default);
-            }
-            return (true, result2.cursol, (result1.parsed, result2.parsed));
         }
     }
 }

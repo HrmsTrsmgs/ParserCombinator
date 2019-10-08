@@ -7,26 +7,19 @@ namespace Marimo.ParserCombinator
     public class Cursol
     {
         public char Current => Text[Index];
-        public Cursol(string text) : this(text, 0)
-        {
 
-        }
+        public int Index { get; }
+        public string Text { get; }
+        public Cursol(string text) : this(text, 0)
+        {}
         private Cursol(string text, int index)
         {
             Text = text;
             Index = index;
         }
-        public string Text { get; }
+        
+        public Cursol GoFoward(int step) => new Cursol(Text, Math.Min(Index + step, Text.Length));
 
-        public int Index { get; }
-        public Cursol GoFoward(int step)
-        {
-            return new Cursol(Text, Math.Min(Index + step, Text.Length));
-        }
-
-        public Cursol Copy()
-        {
-            return new Cursol(Text, Index);
-        }
+        public Cursol Copy() => new Cursol(Text, Index);
     }
 }

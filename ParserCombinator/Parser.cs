@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 namespace Marimo.ParserCombinator
 {
     public abstract class Parser
-    {
-        
-    }
+    {}
 
     public abstract class Parser<T> : Parser
     {

@@ -30,7 +30,16 @@ namespace Marimo.Test.ParserCombinator
 
             result.isSuccess.IsFalse();
         }
+        [Fact]
+        public async Task ParseAsyncは指定した単語を読み込みます()
+        {
+            var cursol = new Cursol("public");
+            var tested = new WordParser("public");
 
+            var result = await tested.ParseAsync(cursol);
+
+            result.parsed.Is("public");
+        }
 
 
         [Fact]

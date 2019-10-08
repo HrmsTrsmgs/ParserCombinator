@@ -24,20 +24,21 @@ namespace Marimo.ParserCombinator
             this.parser2 = parser2;
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol)> ParseAsync(Cursol cursol)
+        
+        public override async Task<(bool isSuccess, Cursol cursol, ValueTuple<T1, T2> parsed)> ParseAsync(Cursol cursol)
         {
             var result1 = await parser1.ParseAsync(cursol);
 
             if(!result1.isSuccess)
             {
-                return (false, cursol);
+                return (false, cursol, default);
             }
             var result2 = await parser2.ParseAsync(result1.cursol);
             if (!result2.isSuccess)
             {
-                return (false, cursol);
+                return (false, cursol, default);
             }
-            return (true, result2.cursol);
+            return (true, result2.cursol, (result1.parsed, result2.parsed));
         }
     }
 }

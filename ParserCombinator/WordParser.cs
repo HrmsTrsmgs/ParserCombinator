@@ -15,7 +15,7 @@ namespace Marimo.ParserCombinator
             Word = word;
         }
 
-        public override async Task<(bool isSuccess,Cursol cursol)>  ParseAsync(Cursol cursol)
+        public override async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
         {
             var readIndex = 0;
 
@@ -26,9 +26,10 @@ namespace Marimo.ParserCombinator
 
             var wordIndex = 0;
 
-            while(readIndex < cursol.Text.Length && wordIndex < Word.Length && cursol.Text[cursol.Index + readIndex] == Word[wordIndex++])
+            while(readIndex < cursol.Text.Length && wordIndex < Word.Length && cursol.Text[cursol.Index + readIndex] == Word[wordIndex])
             {
                 readIndex++;
+                wordIndex++;
             }
 
             if (wordIndex == Word.Length)
@@ -37,11 +38,11 @@ namespace Marimo.ParserCombinator
                 {
                     readIndex++;
                 }
-                return (true, cursol.GoFoward(readIndex));
+                return (true, cursol.GoFoward(readIndex), Word);
             }
             else
             {
-                return (false, cursol);
+                return (false, cursol, default);
             }
         }
     }

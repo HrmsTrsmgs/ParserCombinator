@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Marimo.ParserCombinator
 {
-    public class CharParser
+    public class CharParser : Parser<char>
     {
         public char Char { get; }
 
@@ -14,15 +14,17 @@ namespace Marimo.ParserCombinator
             Char = @char;
         }
 
-        public async Task<(bool isSuccess, Cursol cursol)> ParseAsync(Cursol cursol)
+
+
+        public override async Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
         {
             if(cursol.Text[cursol.Index] == Char)
             {
-                return (true, cursol.GoFoward(1));
+                return (true, cursol.GoFoward(1), Char);
             }
             else
             {
-                return (false, cursol);
+                return (false, cursol, default);
             }
         }
     }

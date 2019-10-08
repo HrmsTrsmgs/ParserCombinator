@@ -54,5 +54,19 @@ namespace Marimo.Test.ParserCombinator
             tested.Index.Is(0);
         }
 
+        [Fact]
+        public void Copyは同じTextを持つCursolを返します()
+        {
+            var tested = new Cursol("ABC");
+            tested.Copy().Text.Is("ABC");
+        }
+
+        [Fact]
+        public void Copyは同じIndexを持つCursolを返します()
+        {
+            var tested = new Cursol("ABC");
+            tested = tested.GoFoward(1);
+            tested.Copy().Index.Is(1);
+        }
     }
 }

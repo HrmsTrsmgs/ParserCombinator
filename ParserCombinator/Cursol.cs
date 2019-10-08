@@ -5,7 +5,8 @@ using System.Text;
 namespace Marimo.ParserCombinator
 {
     public class Cursol
-    { 
+    {
+        public char Current => Text[Index];
         public Cursol(string text) : this(text, 0)
         {
 

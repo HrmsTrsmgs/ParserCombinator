@@ -9,23 +9,14 @@ namespace Marimo.ParserCombinator
     {
         public char Char { get; }
 
-        public CharParser(char @char)
-        {
-            Char = @char;
-        }
-
-
+        public CharParser(char @char) => Char = @char;
 
         public override async Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
-        {
-            if(cursol.Text[cursol.Index] == Char)
+            => cursol.Current switch
             {
-                return (true, cursol.GoFoward(1), Char);
-            }
-            else
-            {
-                return (false, cursol, default);
-            }
-        }
+                var c when c == Char 
+                    => (true, cursol.GoFoward(1), Char),
+                _ => (false, cursol, default)
+            };
     }
 }

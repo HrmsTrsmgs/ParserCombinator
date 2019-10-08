@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Marimo.ParserCombinator
 {
-    public class WordParser
+    public class WordParser : Parser<string>
     {
         public string Word { get; }
 
@@ -15,7 +15,7 @@ namespace Marimo.ParserCombinator
             Word = word;
         }
 
-        public async Task<(bool isSuccess,Cursol cursol)>  ParseAsync(Cursol cursol)
+        public override async Task<(bool isSuccess,Cursol cursol)>  ParseAsync(Cursol cursol)
         {
             var readIndex = 0;
 

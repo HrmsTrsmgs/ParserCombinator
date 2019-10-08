@@ -22,5 +22,10 @@ namespace Marimo.ParserCombinator
         {
             return new Cursol(Text, Math.Min(Index + step, Text.Length));
         }
+
+        public Cursol Copy()
+        {
+            return new Cursol(Text, Index);
+        }
     }
 }

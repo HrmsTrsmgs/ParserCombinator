@@ -24,5 +24,14 @@ namespace JsonParserテスト
             result.isSuccess.IsTrue();
             result.cursol.Index.Is(4);
         }
+
+        [Fact]
+        public async Task Nullは大文字小文字を認識せずにを識別します()
+        {
+            var result = await tested.Null.ParseAsync(new Cursol("NuLl"));
+
+            result.isSuccess.IsTrue();
+            result.cursol.Index.Is(4);
+        }
     }
 }

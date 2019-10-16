@@ -10,7 +10,13 @@ namespace Marimo.ParserCombinator
     {
         public string Word { get; }
 
-        public WordParser(string word) =>Word = word;
+        public bool IgnoreCase { get; }
+
+        public WordParser(string word, bool ignoreCase = false)
+        {
+            Word = word;
+            IgnoreCase = ignoreCase;
+        }
 
         public override async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
         {
@@ -19,7 +25,7 @@ namespace Marimo.ParserCombinator
 
             var helper = new SequenceHelper(current);
             var returnValue = new List<char>();
-            foreach (var parser in Word.Select(c => new CharParser(c)))
+            foreach (var parser in Word.Select(c => new CharParser(c, IgnoreCase)))
             {
                 if (!await helper.ParseAsync(parser, value => returnValue.Add(value)))
                 {

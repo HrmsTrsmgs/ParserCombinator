@@ -8,6 +8,7 @@ namespace Marimo.Parser
 
     public class JsonParser
     {
-        public Parser<string> Null => new WordParser("null");
+        public Parser<string> Null => new WordParser("null", true);
     }
 }
+    

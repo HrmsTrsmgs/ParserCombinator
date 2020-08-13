@@ -35,8 +35,17 @@ namespace SpracheJSONのテスト
                 result.Pairs.Count.Is(1);
                 var value = (JSONLiteral)result["a"];
                 value.ValueType.Is(LiteralType.Number);
-                value.Value.Is("1");
-                
+                value.Value.Is("1");   
+            }
+            [Fact]
+            public void 文字列の値を識別します()
+            {
+                var result = JSON.Parse(@"{""a"":""b""}");
+
+                result.Pairs.Count.Is(1);
+                var value = (JSONLiteral)result["a"];
+                value.ValueType.Is(LiteralType.String);
+                value.Value.Is("b");
             }
         }
     }

@@ -58,6 +58,19 @@ namespace SpracheJSONのテスト
                 value.ValueType.Is(LiteralType.Boolean);
                 value.Value.Is("true");
             }
+            [Fact]
+            public void 真偽値はtrueとfalseが可能ですします()
+            {
+                var result = JSON.Parse(@"{""a"":true, ""b"":false}");
+
+                result.Pairs.Count.Is(2);
+                var trueValue = (JSONLiteral)result["a"];
+                trueValue.ValueType.Is(LiteralType.Boolean);
+                trueValue.Value.Is("true");
+                var falseValue = (JSONLiteral)result["b"];
+                falseValue.ValueType.Is(LiteralType.Boolean);
+                falseValue.Value.Is("false");
+            }
 
             [Fact]
             public void Nullの値を識別します()

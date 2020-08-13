@@ -69,6 +69,16 @@ namespace SpracheJSONのテスト
                 value.ValueType.Is(LiteralType.Null);
                 value.Value.IsNull();
             }
+            [Fact]
+            public void Nullの値の識別は大文字小文字を区別しませんします()
+            {
+                var result = JSON.Parse(@"{""a"":NULL}");
+
+                result.Pairs.Count.Is(1);
+                var value = (JSONLiteral)result["a"];
+                value.ValueType.Is(LiteralType.Null);
+                value.Value.IsNull();
+            }
 
             [Fact]
             public void オブジェクトの中身の配列を識別します()

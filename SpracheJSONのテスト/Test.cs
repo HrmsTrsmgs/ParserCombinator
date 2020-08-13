@@ -19,7 +19,7 @@ namespace SpracheJSONのテスト
             }
 
             [Fact]
-            public void オブジェクトの中身を識別します()
+            public void オブジェクトの中身の値を識別します()
             {
                 var result = JSON.Parse(@"{""a"":1}");
 
@@ -66,8 +66,9 @@ namespace SpracheJSONのテスト
                 result.Pairs.Count.Is(1);
                 var value = (JSONLiteral)result["a"];
                 value.ValueType.Is(LiteralType.Null);
-                value.Value.Is("null");
+                value.Value.IsNull();
             }
+
         }
     }
 

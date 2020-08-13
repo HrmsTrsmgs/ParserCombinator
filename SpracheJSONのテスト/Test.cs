@@ -59,7 +59,7 @@ namespace SpracheJSONのテスト
                 value.Value.Is("true");
             }
             [Fact]
-            public void 真偽値はtrueとfalseが可能ですします()
+            public void 真偽値はtrueとfalseが可能です()
             {
                 var result = JSON.Parse(@"{""a"":true, ""b"":false}");
 
@@ -70,6 +70,20 @@ namespace SpracheJSONのテスト
                 var falseValue = (JSONLiteral)result["b"];
                 falseValue.ValueType.Is(LiteralType.Boolean);
                 falseValue.Value.Is("false");
+            }
+
+            [Fact]
+            public void 真偽値は大文字と小文字を区別せずに識別します()
+            {
+                var result = JSON.Parse(@"{""a"":TRUE, ""b"":FALSE}");
+
+                result.Pairs.Count.Is(2);
+                var trueValue = (JSONLiteral)result["a"];
+                trueValue.ValueType.Is(LiteralType.Boolean);
+                trueValue.Value.Is("TRUE");
+                var falseValue = (JSONLiteral)result["b"];
+                falseValue.ValueType.Is(LiteralType.Boolean);
+                falseValue.Value.Is("FALSE");
             }
 
             [Fact]

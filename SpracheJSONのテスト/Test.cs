@@ -90,7 +90,17 @@ namespace SpracheJSONのテスト
                 array.Elements[0].IsInstanceOf<JSONLiteral>();
                 array.Elements[1].IsInstanceOf<JSONLiteral>();
             }
+            [Fact]
+            public void オブジェクトの中身のオブジェクトを識別します()
+            {
+                var result = JSON.Parse(@"{""a"":{}}");
+
+                result.Pairs.Count.Is(1);
+                var value = result["a"];
+                value.IsInstanceOf<JSONObject>();
+            }
         }
+
     }
 
 }

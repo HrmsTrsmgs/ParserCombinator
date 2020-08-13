@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Xunit;
 using SpracheJSON;
 using System.CodeDom;
+using System.Collections.Generic;
 
 namespace SpracheJSONのテスト
 {
@@ -77,6 +78,17 @@ namespace SpracheJSONのテスト
                 result.Pairs.Count.Is(1);
                 var value = result["a"];
                 value.IsInstanceOf<JSONArray>();
+            }
+            [Fact]
+            public void オブジェクトの中身の配列の中身を識別します()
+            {
+                var result = JSON.Parse(@"{""a"":[1,2]}");
+
+                result.Pairs.Count.Is(1);
+                var array = (JSONArray)result["a"];
+                array.Elements.Count.Is(2);
+                array.Elements[0].IsInstanceOf<JSONLiteral>();
+                array.Elements[1].IsInstanceOf<JSONLiteral>();
             }
         }
     }

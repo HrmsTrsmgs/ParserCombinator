@@ -69,6 +69,15 @@ namespace SpracheJSONのテスト
                 value.Value.IsNull();
             }
 
+            [Fact]
+            public void オブジェクトの中身の配列を識別します()
+            {
+                var result = JSON.Parse(@"{""a"":[]}");
+
+                result.Pairs.Count.Is(1);
+                var value = result["a"];
+                value.IsInstanceOf<JSONArray>();
+            }
         }
     }
 

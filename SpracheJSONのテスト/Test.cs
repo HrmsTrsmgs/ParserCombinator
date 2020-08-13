@@ -27,6 +27,17 @@ namespace SpracheJSONのテスト
                 var value = result["a"];
                 value.IsInstanceOf<JSONLiteral>();
             }
+            [Fact]
+            public void 数値の値を識別します()
+            {
+                var result = JSON.Parse(@"{""a"":1}");
+
+                result.Pairs.Count.Is(1);
+                var value = (JSONLiteral)result["a"];
+                value.ValueType.Is(LiteralType.Number);
+                value.Value.Is("1");
+                
+            }
         }
     }
 

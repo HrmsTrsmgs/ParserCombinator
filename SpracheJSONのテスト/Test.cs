@@ -106,6 +106,17 @@ namespace SpracheJSONのテスト
                 value.ValueType.Is(LiteralType.Number);
                 value.Value.Is("E");
             }
+
+            [Fact]
+            public void 数値の指数部のプラスを識別します()
+            {
+                // これで指数部が成立するか疑問なのだがホワイトボックステストなので。
+                var result = JSON.Parse(@"{""a"":e+}");
+                result.Pairs.Count.Is(1);
+                var value = (JSONLiteral)result["a"];
+                value.ValueType.Is(LiteralType.Number);
+                value.Value.Is("e+");
+            }
             [Fact]
             public void 文字列の値を識別します()
             {

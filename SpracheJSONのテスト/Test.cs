@@ -137,6 +137,15 @@ namespace SpracheJSONのテスト
                 value.Value.Is("e+0");
             }
             [Fact]
+            public void 数値の指数部の複数の数字を識別します()
+            {
+                var result = JSON.Parse(@"{""a"":e+10}");
+                result.Pairs.Count.Is(1);
+                var value = (JSONLiteral)result["a"];
+                value.ValueType.Is(LiteralType.Number);
+                value.Value.Is("e+10");
+            }
+            [Fact]
             public void 文字列の値を識別します()
             {
                 var result = JSON.Parse(@"{""a"":""b""}");

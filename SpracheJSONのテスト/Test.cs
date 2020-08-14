@@ -29,14 +29,14 @@ namespace SpracheJSONのテスト
                 value.IsInstanceOf<JSONLiteral>();
             }
             [Fact]
-            public void 数値の値を識別します()
+            public void 数値はマイナスを識別します()
             {
-                var result = JSON.Parse(@"{""a"":1}");
+                var result = JSON.Parse(@"{""a"":-1}");
 
                 result.Pairs.Count.Is(1);
                 var value = (JSONLiteral)result["a"];
                 value.ValueType.Is(LiteralType.Number);
-                value.Value.Is("1");   
+                value.Value.Is("-1");   
             }
             [Fact]
             public void 文字列の値を識別します()

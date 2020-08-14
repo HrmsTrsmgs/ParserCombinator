@@ -151,7 +151,11 @@ namespace SpracheJSONのテスト
             public void 数値の指数部のプラスマイナスが数字の後だと認識しません()
             {
                 Assert.Throws<ParseException>(() => JSON.Parse(@"{""a"":e10+}"));
-                
+            }
+            [Fact]
+            public void 数値の指数部のプラスマイナスがeの前だと認識しません()
+            {
+                Assert.Throws<ParseException>(() => JSON.Parse(@"{""a"":+e10}"));
             }
             [Fact]
             public void 文字列の値を識別します()

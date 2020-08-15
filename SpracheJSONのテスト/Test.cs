@@ -179,6 +179,16 @@ namespace SpracheJSONのテスト
                 value.Value.Is("bc");
             }
             [Fact]
+            public void 文字列のエスケープ文字を識別します()
+            {
+                var result = JSON.Parse("{\"a\":\"\\\\\\\"\\b\\f\\n\\r\\t\"}");
+
+                result.Pairs.Count.Is(1);
+                var value = (JSONLiteral)result["a"];
+                value.ValueType.Is(LiteralType.String);
+                value.Value.Is("\\\"\b\n\n\r\t");
+            }
+            [Fact]
             public void 真偽値の値を識別します()
             {
                 var result = JSON.Parse(@"{""a"":true}");

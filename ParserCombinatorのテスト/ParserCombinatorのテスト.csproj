@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>Marimo.ParserCombinator.Test</AssemblyName>
+
+    <RootNamespace>Marimo.ParserCombinator.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

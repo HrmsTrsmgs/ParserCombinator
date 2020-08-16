@@ -1,9 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>Marimo.Parser.Test</AssemblyName>
+
+    <RootNamespace>Marimo.Parser.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

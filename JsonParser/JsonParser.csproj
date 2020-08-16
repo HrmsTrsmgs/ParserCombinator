@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Marimo.Parser</AssemblyName>
+    <RootNamespace>Marimo.Parser</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

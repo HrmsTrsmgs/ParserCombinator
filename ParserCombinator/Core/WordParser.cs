@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Linq;
-namespace Marimo.ParserCombinator
+namespace Marimo.ParserCombinator.Core
 {
     public class WordParser : Parser<string>
     {

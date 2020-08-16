@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace JsonParserテスト
+namespace Marimo.Parser.Test
 {
     public class JSONのテスト
     {

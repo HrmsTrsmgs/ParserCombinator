@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Marimo.ParserCombinator
+namespace Marimo.ParserCombinator.Core
 {
     public struct Optional<T>
     {

@@ -1,11 +1,12 @@
 ﻿using Marimo.ParserCombinator;
+using Marimo.ParserCombinator.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Marimo.Test.ParserCombinator
+namespace Marimo.Test.ParserCombinator.Core
 {
     public class CharParserのテスト
     {

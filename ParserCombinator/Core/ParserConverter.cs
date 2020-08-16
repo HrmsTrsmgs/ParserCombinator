@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Marimo.ParserCombinator
+namespace Marimo.ParserCombinator.Core
 {
     public static class ParserConverter
     {

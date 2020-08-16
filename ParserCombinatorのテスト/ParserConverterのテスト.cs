@@ -54,5 +54,12 @@ namespace ParserCombinatorのテスト
 
             cursol.Index.Is(3);
         }
+        [Fact]
+        public async Task 失敗した時はカーソルが進みません()
+        {
+            var (_, cursol, _) = await tested.ParseAsync(new Cursol("124"));
+
+            cursol.Index.Is(0);
+        }
     }
 }

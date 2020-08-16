@@ -25,7 +25,8 @@ namespace Marimo.ParserCombinator
 
         public override async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
         {
-            return (false, cursol, default(T));
+            var (isSuccess, _, _) = await parser.ParseAsync(cursol);
+            return (isSuccess, cursol, default(T));
         }
     }
 }

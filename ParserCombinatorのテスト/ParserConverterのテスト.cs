@@ -16,5 +16,15 @@ namespace ParserCombinatorのテスト
 
             await tested.ParseAsync(new Cursol("123"));
         }
+
+        [Fact]
+        public async Task 指定したパーサーと同じ条件で成功します()
+        {
+            var tested = ParserConverter.Create(new WordParser("123"), s => int.Parse(s));
+            var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("123"));
+
+            isSuccess.IsTrue();
+        }
+
     }
 }

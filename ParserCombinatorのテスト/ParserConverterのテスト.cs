@@ -9,18 +9,23 @@ namespace ParserCombinatorのテスト
 {
     public class ParserConverterのテスト
     {
+        ParserConverter<int, string> tested;
+
+        public ParserConverterのテスト()
+        {
+            tested = ParserConverter.Create(new WordParser("123"), s => int.Parse(s));
+        }
+
+
         [Fact]
         public async Task パースします()
         {
-            var tested = ParserConverter.Create(new WordParser("123"), s => int.Parse(s));
-
             await tested.ParseAsync(new Cursol("123"));
         }
 
         [Fact]
         public async Task 指定したパーサーと同じ条件で成功します()
         {
-            var tested = ParserConverter.Create(new WordParser("123"), s => int.Parse(s));
             var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("123"));
 
             isSuccess.IsTrue();
@@ -29,7 +34,6 @@ namespace ParserCombinatorのテスト
         [Fact]
         public async Task 指定したパーサーと同じ条件で失敗します()
         {
-            var tested = ParserConverter.Create(new WordParser("123"), s => int.Parse(s));
             var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("124"));
 
             isSuccess.IsFalse();

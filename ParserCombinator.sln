@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParserCombinator", "ParserCombinator\ParserCombinator.csproj", "{BEDAD7EB-B455-4074-A3E4-C0F9497C87D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonParser", "JsonParser\JsonParser.csproj", "{C2DF01F4-804C-4E1B-AD6C-25F0AC502FF8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaformanceTest", "PaformanceTest\PaformanceTest.csproj", "{25A833F3-67C5-46DA-BA8D-5A3EBD9FBD93}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpracheJSONのテスト", "SpracheJSONのテスト\SpracheJSONのテスト.csproj", "{FDB6C97D-6EE1-4CA5-93D0-EC5F388A5810}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonParserのテスト", "JsonParserのテスト\JsonParserのテスト.csproj", "{79260863-AD05-4D98-9B7F-1F2DA546BD99}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserCombinatorのテスト", "ParserCombinatorのテスト\ParserCombinatorのテスト.csproj", "{BD7E1561-B12E-4897-996E-AE350FA77ECA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonParser", "JsonParser\JsonParser.csproj", "{0D076D19-146D-4FC2-9FEB-598798BDB587}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonParserのテスト", "JsonParserのテスト\JsonParserのテスト.csproj", "{83EF2F82-7506-4869-AE88-9A4A93DA7AF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		{BEDAD7EB-B455-4074-A3E4-C0F9497C87D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEDAD7EB-B455-4074-A3E4-C0F9497C87D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEDAD7EB-B455-4074-A3E4-C0F9497C87D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2DF01F4-804C-4E1B-AD6C-25F0AC502FF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2DF01F4-804C-4E1B-AD6C-25F0AC502FF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2DF01F4-804C-4E1B-AD6C-25F0AC502FF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2DF01F4-804C-4E1B-AD6C-25F0AC502FF8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{25A833F3-67C5-46DA-BA8D-5A3EBD9FBD93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{25A833F3-67C5-46DA-BA8D-5A3EBD9FBD93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25A833F3-67C5-46DA-BA8D-5A3EBD9FBD93}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,14 +33,18 @@ Global
 		{FDB6C97D-6EE1-4CA5-93D0-EC5F388A5810}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDB6C97D-6EE1-4CA5-93D0-EC5F388A5810}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDB6C97D-6EE1-4CA5-93D0-EC5F388A5810}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79260863-AD05-4D98-9B7F-1F2DA546BD99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79260863-AD05-4D98-9B7F-1F2DA546BD99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79260863-AD05-4D98-9B7F-1F2DA546BD99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79260863-AD05-4D98-9B7F-1F2DA546BD99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD7E1561-B12E-4897-996E-AE350FA77ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD7E1561-B12E-4897-996E-AE350FA77ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD7E1561-B12E-4897-996E-AE350FA77ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD7E1561-B12E-4897-996E-AE350FA77ECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D076D19-146D-4FC2-9FEB-598798BDB587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D076D19-146D-4FC2-9FEB-598798BDB587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D076D19-146D-4FC2-9FEB-598798BDB587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D076D19-146D-4FC2-9FEB-598798BDB587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83EF2F82-7506-4869-AE88-9A4A93DA7AF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83EF2F82-7506-4869-AE88-9A4A93DA7AF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83EF2F82-7506-4869-AE88-9A4A93DA7AF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83EF2F82-7506-4869-AE88-9A4A93DA7AF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

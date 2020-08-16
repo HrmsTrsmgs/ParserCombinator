@@ -13,6 +13,8 @@ namespace ParserCombinatorのテスト
         public async Task パースします()
         {
             var tested = ParserConverter.Create(new WordParser("123"), s => int.Parse(s));
+
+            await tested.ParseAsync(new Cursol("123"));
         }
     }
 }

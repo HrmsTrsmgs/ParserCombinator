@@ -38,5 +38,21 @@ namespace ParserCombinatorのテスト
 
             isSuccess.IsFalse();
         }
+
+        [Fact]
+        public async Task 指定した通り変換がなされます()
+        {
+            var (_, _, parsed) = await tested.ParseAsync(new Cursol("123"));
+
+            parsed.Is(123);
+        }
+
+        [Fact]
+        public async Task 成功した時はカーソルが進みます()
+        {
+            var (_, cursol, _) = await tested.ParseAsync(new Cursol("123"));
+
+            cursol.Index.Is(3);
+        }
     }
 }

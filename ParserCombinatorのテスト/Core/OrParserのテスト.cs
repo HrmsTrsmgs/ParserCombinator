@@ -49,5 +49,15 @@ namespace Marimo.Test.ParserCombinator.Core
 
             isSuccess.IsTrue();
         }
+
+        [Fact]
+        public async Task 一つ目の要素のパースに失敗し二つ目の要素には成功したら二つ目の要素の分だけカーソルが進みます()
+        {
+            var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
+
+            var (_, cursol, _) = await tested.ParseAsync(new Cursol("ab"));
+
+            cursol.Index.Is("ab".Length);
+        }
     }
 }

@@ -20,7 +20,6 @@ namespace Marimo.ParserCombinator.Core
 
         public async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
         {
-            
             var current = await SkipBlankAsync(cursol);
 
             var helper = new SequenceHelper(current);

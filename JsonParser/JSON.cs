@@ -27,7 +27,7 @@ namespace Marimo.Parser
 
 
         static IParser<JSONObject> jsonObject =>
-            ParserConverter.Create(
+            new ParserConverter<(char, Optional<(string, char, int)>, char), JSONObject>(
                 SequenceParser.Create(
                     bracketOpen,
                     OptionalParser.Create(

@@ -5,13 +5,6 @@ using System.Threading.Tasks;
 
 namespace Marimo.ParserCombinator.Core
 {
-    public static class ParserConverter
-    {
-        public static ParserConverter<U, T> Create<T, U>(IParser<U> parser, Func<U, T> converter)
-        {
-            return new ParserConverter<U, T>(parser, converter);
-        }
-    }
     public class ParserConverter<U, T> : IParser<T>
     {
         IParser<U> parser { get; }

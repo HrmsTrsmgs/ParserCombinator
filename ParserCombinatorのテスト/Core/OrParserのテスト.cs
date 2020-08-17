@@ -69,5 +69,15 @@ namespace Marimo.Test.ParserCombinator.Core
 
             cursol.Index.Is("ab".Length);
         }
+
+        [Fact]
+        public async Task 二つとも失敗ならパースは失敗です()
+        {
+            var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
+
+            var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("a"));
+
+            isSuccess.IsFalse();
+        }
     }
 }

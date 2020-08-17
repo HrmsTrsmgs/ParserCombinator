@@ -7,12 +7,12 @@ namespace Marimo.ParserCombinator.Core
 {
     public static class ParserConverter
     {
-        public static ParserConverter<T, U> Create<T, U>(Parser<U> parser, Func<U, T> converter)
+        public static ParserConverter<U, T> Create<T, U>(Parser<U> parser, Func<U, T> converter)
         {
-            return new ParserConverter<T, U>(parser, converter);
+            return new ParserConverter<U, T>(parser, converter);
         }
     }
-    public class ParserConverter<T, U> : Parser<T>
+    public class ParserConverter<U, T> : Parser<T>
     {
         Parser<U> parser { get; }
         Func<U, T> converter { get; }

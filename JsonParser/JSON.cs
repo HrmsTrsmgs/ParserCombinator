@@ -23,7 +23,7 @@ namespace Marimo.Parser
 
         static Parser<string> @string = new WordParser(@"""a""");
 
-        static Parser<int> number =>new ParserConverter<int, char>(new CharParser('1'), s => int.Parse(s.ToString()));
+        static Parser<int> number =>new ParserConverter<char, int>(new CharParser('1'), s => int.Parse(s.ToString()));
 
 
         static Parser<JSONObject> jsonObject =>

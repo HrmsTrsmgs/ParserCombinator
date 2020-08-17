@@ -10,7 +10,7 @@ namespace Marimo.Test.ParserCombinator.Core
 {
     public class ParserConverterのテスト
     {
-        ParserConverter<int, string> tested;
+        ParserConverter<string, int> tested;
 
         public ParserConverterのテスト()
         {

@@ -23,7 +23,7 @@ namespace Marimo.Parser
 
         static Parser<string> @string = new WordParser(@"""a""");
 
-        static Parser<char> number => new CharParser('1');
+        static Parser<int> number => ParserConverter.Create(new CharParser('1'), s => int.Parse(s.ToString()));
 
 
         static Parser<JSONObject> jsonObject =>
@@ -36,7 +36,7 @@ namespace Marimo.Parser
                             collon,
                             number)),
                     bracketClose),
-                tuple => tuple.Item2.IsPresent ? new JSONObject { Pairs = { ["a"] = new JSONLiteral("1", LiteralType.Number) } } : new JSONObject());
+                tuple => tuple.Item2.IsPresent ? new JSONObject { Pairs = { ["a"] = new JSONLiteral(tuple.Item2.Value.Item3.ToString(), LiteralType.Number) } } : new JSONObject());
 
         public static async Task<JSONObject> ParseAsync(string text)
         {

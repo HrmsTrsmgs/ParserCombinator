@@ -10,6 +10,9 @@ namespace Marimo.ParserCombinator.Core
     {
         public static SequenceParser<T1, T2> Create<T1, T2>(Parser<T1> parser1, Parser<T2> parser2)
             => new SequenceParser<T1, T2>(parser1, parser2);
+
+        public static SequenceParser<T1, T2, T3> Create<T1, T2, T3>(Parser<T1> parser1, Parser<T2> parser2, Parser<T3> parser3)
+            => new SequenceParser<T1, T2, T3>(parser1, parser2, parser3);
     }
 
     public class SequenceParser<T1, T2> : Parser<(T1, T2)>
@@ -29,6 +32,30 @@ namespace Marimo.ParserCombinator.Core
             return
                 await helper.ParseAsync(parser1, value => returnValue.Item1 = value) &&
                 await helper.ParseAsync(parser2, value => returnValue.Item2 = value)
+                ? (true, helper.Current, returnValue)
+                : (false, cursol, default);
+        }
+    }
+    public class SequenceParser<T1, T2, T3> : Parser<(T1, T2, T3)>
+    {
+        Parser<T1> parser1 { get; }
+        Parser<T2> parser2 { get; }
+        Parser<T3> parser3 { get; }
+        public SequenceParser(Parser<T1> parser1, Parser<T2> parser2, Parser<T3> parser3)
+        {
+            this.parser1 = parser1;
+            this.parser2 = parser2;
+            this.parser3 = parser3;
+        }
+        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3) parsed)> ParseAsync(Cursol cursol)
+        {
+            (T1, T2, T3) returnValue = default;
+            var helper = new SequenceHelper(cursol);
+
+            return
+                await helper.ParseAsync(parser1, value => returnValue.Item1 = value) &&
+                await helper.ParseAsync(parser2, value => returnValue.Item2 = value) &&
+                await helper.ParseAsync(parser3, value => returnValue.Item3 = value)
                 ? (true, helper.Current, returnValue)
                 : (false, cursol, default);
         }

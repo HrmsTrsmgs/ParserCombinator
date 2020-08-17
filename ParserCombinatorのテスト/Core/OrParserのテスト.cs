@@ -38,6 +38,16 @@ namespace Marimo.Test.ParserCombinator.Core
             var (_, cursol, _) = await tested.ParseAsync(new Cursol("abc"));
 
             cursol.Index.Is("abc".Length);
+       }
+
+        [Fact]
+        public async Task 一つ目の要素のパースに失敗し二つ目の要素には成功したら成功です()
+        {
+            var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
+
+            var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("ab"));
+
+            isSuccess.IsTrue();
         }
     }
 }

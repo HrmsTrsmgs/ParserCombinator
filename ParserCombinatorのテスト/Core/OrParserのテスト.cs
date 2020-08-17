@@ -19,6 +19,7 @@ namespace Marimo.Test.ParserCombinator.Core
             isSuccess.IsTrue();
         }
 
+
         [Fact]
         public async Task 一つ目の要素のパースに成功したら一つ目の要素が返ります()
         {
@@ -27,6 +28,16 @@ namespace Marimo.Test.ParserCombinator.Core
             var (_, _, parsed) = await tested.ParseAsync(new Cursol("abc"));
 
             parsed.Is("abc");
+        }
+
+        [Fact]
+        public async Task 一つ目の要素のパースに成功したら一つ目の要素の分だけカーソルが進みます()
+        {
+            var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
+
+            var (_, cursol, _) = await tested.ParseAsync(new Cursol("abc"));
+
+            cursol.Index.Is("abc".Length);
         }
     }
 }

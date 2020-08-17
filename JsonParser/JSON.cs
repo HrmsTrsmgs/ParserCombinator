@@ -29,7 +29,14 @@ namespace Marimo.Parser
                     doubleQuote),
                 t => t.Item2);
 
-        static IParser<int> number =>new ParserConverter<char, int>(new CharParser('1'), s => int.Parse(s.ToString()));
+        
+
+        static IParser<int> number =>
+            new ParserConverter<(Optional<char>, char), int>(
+                new SequenceParser<Optional<char>, char>(
+                    new OptionalParser<char>(new CharParser('-')),
+                    new CharParser('1')),
+                tuple => int.Parse($"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}"));
 
 
         static IParser<JSONObject> jsonObject =>

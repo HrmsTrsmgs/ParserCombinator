@@ -5,13 +5,6 @@ using System.Threading.Tasks;
 
 namespace Marimo.ParserCombinator.Core
 {
-    public static class OptionalParser
-    {
-        public static OptionalParser<T> Create<T>(IParser<T> parser)
-        {
-            return new OptionalParser<T>(parser);
-        }
-    }
     public class OptionalParser<T> : IParser<Optional<T>>
     {
         IParser<T> parser { get; }

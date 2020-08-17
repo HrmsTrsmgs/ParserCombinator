@@ -30,13 +30,15 @@ namespace Marimo.Parser
             new ParserConverter<(char, Optional<(string, char, int)>, char), JSONObject>(
                 SequenceParser.Create(
                     bracketOpen,
-                    OptionalParser.Create(
+                    new OptionalParser<(string, char, int)>(
                         SequenceParser.Create(
                             @string,
                             collon,
                             number)),
                     bracketClose),
-                tuple => tuple.Item2.IsPresent ? new JSONObject { Pairs = { [tuple.Item2.Value.Item1[1..^1]] = new JSONLiteral(tuple.Item2.Value.Item3.ToString(), LiteralType.Number) } } : new JSONObject());
+                tuple => tuple.Item2.IsPresent ?
+                    new JSONObject { Pairs = { [tuple.Item2.Value.Item1[1..^1]] = new JSONLiteral(tuple.Item2.Value.Item3.ToString(), LiteralType.Number) } } 
+                    : new JSONObject());
 
         public static async Task<JSONObject> ParseAsync(string text)
         {

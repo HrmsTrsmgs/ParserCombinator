@@ -28,10 +28,10 @@ namespace Marimo.Parser
 
         static IParser<JSONObject> jsonObject =>
             new ParserConverter<(char, Optional<(string, char, int)>, char), JSONObject>(
-                SequenceParser.Create(
+                new SequenceParser<char, Optional<(string, char, int)>, char>(
                     bracketOpen,
                     new OptionalParser<(string, char, int)>(
-                        SequenceParser.Create(
+                        new SequenceParser<string, char, int>(
                             @string,
                             collon,
                             number)),

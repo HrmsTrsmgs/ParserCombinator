@@ -31,26 +31,29 @@ namespace Marimo.Parser
 
         
 
-        static IParser<int> JNumber =>
-            new ParserConverter<(Optional<char>, char), int>(
+        static IParser<JSONLiteral> JNumber =>
+            new ParserConverter<(Optional<char>, char), JSONLiteral>(
                 new SequenceParser<Optional<char>, char>(
                     new OptionalParser<char>(new CharParser('-')),
                     new CharParser('1')),
-                tuple => int.Parse($"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}"));
+                tuple => new JSONLiteral($"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}", LiteralType.Number));
 
-
-        static IParser<JSONObject> JObject =>
-            new ParserConverter<(char, Optional<(string, char, int)>, char), JSONObject>(
-                new SequenceParser<char, Optional<(string, char, int)>, char>(
-                    BracketOpen,
-                    new OptionalParser<(string, char, int)>(
-                        new SequenceParser<string, char, int>(
+        static IParser<KeyValuePair<string, JSONLiteral>> JPair =>
+            new ParserConverter<(string, char, JSONLiteral), KeyValuePair<string, JSONLiteral>>(
+                new SequenceParser<string, char, JSONLiteral>(
                             JString,
                             Collon,
-                            JNumber)),
+                            JNumber),
+                tuple => new KeyValuePair<string, JSONLiteral>(tuple.Item1, tuple.Item3));
+
+        static IParser<JSONObject> JObject =>
+            new ParserConverter<(char, Optional<KeyValuePair<string, JSONLiteral>>, char), JSONObject>(
+                new SequenceParser<char, Optional<KeyValuePair<string, JSONLiteral>>, char>(
+                    BracketOpen,
+                    new OptionalParser<KeyValuePair<string, JSONLiteral>>(JPair),
                     BracketClose),
                 tuple => tuple.Item2.IsPresent ?
-                    new JSONObject { Pairs = { [tuple.Item2.Value.Item1] = new JSONLiteral(tuple.Item2.Value.Item3.ToString(), LiteralType.Number) } } 
+                    new JSONObject { Pairs = { [tuple.Item2.Value.Key] = tuple.Item2.Value.Value} } 
                     : new JSONObject());
 
         public static async Task<JSONObject> ParseAsync(string text)

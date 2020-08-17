@@ -21,7 +21,13 @@ namespace Marimo.Parser
 
         static IParser<char> collon => new CharParser(':');
 
-        static IParser<string> @string = new WordParser(@"""a""");
+        static IParser<string> @string =>
+            new ParserConverter<(char, string, char), string>(
+                new SequenceParser<char, string, char>(
+                    doubleQuote,
+                    new WordParser("a"),
+                    doubleQuote),
+                t => t.Item2);
 
         static IParser<int> number =>new ParserConverter<char, int>(new CharParser('1'), s => int.Parse(s.ToString()));
 
@@ -37,7 +43,7 @@ namespace Marimo.Parser
                             number)),
                     bracketClose),
                 tuple => tuple.Item2.IsPresent ?
-                    new JSONObject { Pairs = { [tuple.Item2.Value.Item1[1..^1]] = new JSONLiteral(tuple.Item2.Value.Item3.ToString(), LiteralType.Number) } } 
+                    new JSONObject { Pairs = { [tuple.Item2.Value.Item1] = new JSONLiteral(tuple.Item2.Value.Item3.ToString(), LiteralType.Number) } } 
                     : new JSONObject());
 
         public static async Task<JSONObject> ParseAsync(string text)

@@ -13,25 +13,25 @@ namespace Marimo.Parser
     {
         static IParser<string> Null => new WordParser("null", true);
 
-        static IParser<char> bracketOpen => new CharParser('{');
+        static IParser<char> BracketOpen => new CharParser('{');
 
-        static IParser<char> bracketClose => new CharParser('}');
+        static IParser<char> BracketClose => new CharParser('}');
 
-        static IParser<char> doubleQuote => new CharParser('"');
+        static IParser<char> DoubleQuote => new CharParser('"');
 
-        static IParser<char> collon => new CharParser(':');
+        static IParser<char> Collon => new CharParser(':');
 
-        static IParser<string> @string =>
+        static IParser<string> JString =>
             new ParserConverter<(char, string, char), string>(
                 new SequenceParser<char, string, char>(
-                    doubleQuote,
+                    DoubleQuote,
                     new WordParser("a"),
-                    doubleQuote),
+                    DoubleQuote),
                 t => t.Item2);
 
         
 
-        static IParser<int> number =>
+        static IParser<int> JNumber =>
             new ParserConverter<(Optional<char>, char), int>(
                 new SequenceParser<Optional<char>, char>(
                     new OptionalParser<char>(new CharParser('-')),
@@ -39,23 +39,23 @@ namespace Marimo.Parser
                 tuple => int.Parse($"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}"));
 
 
-        static IParser<JSONObject> jsonObject =>
+        static IParser<JSONObject> JObject =>
             new ParserConverter<(char, Optional<(string, char, int)>, char), JSONObject>(
                 new SequenceParser<char, Optional<(string, char, int)>, char>(
-                    bracketOpen,
+                    BracketOpen,
                     new OptionalParser<(string, char, int)>(
                         new SequenceParser<string, char, int>(
-                            @string,
-                            collon,
-                            number)),
-                    bracketClose),
+                            JString,
+                            Collon,
+                            JNumber)),
+                    BracketClose),
                 tuple => tuple.Item2.IsPresent ?
                     new JSONObject { Pairs = { [tuple.Item2.Value.Item1] = new JSONLiteral(tuple.Item2.Value.Item3.ToString(), LiteralType.Number) } } 
                     : new JSONObject());
 
         public static async Task<JSONObject> ParseAsync(string text)
         {
-            var (isSuccess, _, parsed) = await jsonObject.ParseAsync(new Cursol(text));
+            var (isSuccess, _, parsed) = await JObject.ParseAsync(new Cursol(text));
             if(isSuccess)
             {
                 return parsed;

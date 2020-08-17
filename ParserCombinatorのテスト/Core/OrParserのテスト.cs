@@ -51,6 +51,16 @@ namespace Marimo.Test.ParserCombinator.Core
         }
 
         [Fact]
+        public async Task 一つ目の要素のパースに失敗し二つ目の要素のパースに成功したら二つ目の要素が返ります()
+        {
+            var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
+
+            var (_, _, parsed) = await tested.ParseAsync(new Cursol("abc"));
+
+            parsed.Is("abc");
+        }
+
+        [Fact]
         public async Task 一つ目の要素のパースに失敗し二つ目の要素には成功したら二つ目の要素の分だけカーソルが進みます()
         {
             var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));

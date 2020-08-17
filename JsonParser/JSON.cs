@@ -36,7 +36,7 @@ namespace Marimo.Parser
                             collon,
                             number)),
                     bracketClose),
-                tuple => tuple.Item2.IsPresent ? new JSONObject { Pairs = { ["a"] = new JSONLiteral(tuple.Item2.Value.Item3.ToString(), LiteralType.Number) } } : new JSONObject());
+                tuple => tuple.Item2.IsPresent ? new JSONObject { Pairs = { [tuple.Item2.Value.Item1[1..^1]] = new JSONLiteral(tuple.Item2.Value.Item3.ToString(), LiteralType.Number) } } : new JSONObject());
 
         public static async Task<JSONObject> ParseAsync(string text)
         {

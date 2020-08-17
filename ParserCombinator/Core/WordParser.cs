@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 namespace Marimo.ParserCombinator.Core
 {
-    public class WordParser : Parser<string>
+    public class WordParser : IParser<string>
     {
         public string Word { get; }
 
@@ -18,7 +18,7 @@ namespace Marimo.ParserCombinator.Core
             IgnoreCase = ignoreCase;
         }
 
-        public override async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
+        public async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
         {
             
             var current = await SkipBlankAsync(cursol);

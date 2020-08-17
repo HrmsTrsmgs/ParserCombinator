@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Marimo.ParserCombinator.Core
 {
-    public class CharParser : Parser<char>
+    public class CharParser : IParser<char>
     {
         public char Char { get; }
 
@@ -17,7 +17,7 @@ namespace Marimo.ParserCombinator.Core
             IgnoreCase = ignoreCase;
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
+        public async Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
         => cursol.Current switch
         {
             var c when (IgnoreCase && c.HasValue ? Char.ToLower(c.Value) == Char.ToLower(Char) : c == Char)

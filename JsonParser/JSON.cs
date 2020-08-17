@@ -11,22 +11,22 @@ namespace Marimo.Parser
     
     public class JSON
     {
-        static Parser<string> Null => new WordParser("null", true);
+        static IParser<string> Null => new WordParser("null", true);
 
-        static Parser<char> bracketOpen => new CharParser('{');
+        static IParser<char> bracketOpen => new CharParser('{');
 
-        static Parser<char> bracketClose => new CharParser('}');
+        static IParser<char> bracketClose => new CharParser('}');
 
-        static Parser<char> doubleQuote => new CharParser('"');
+        static IParser<char> doubleQuote => new CharParser('"');
 
-        static Parser<char> collon => new CharParser(':');
+        static IParser<char> collon => new CharParser(':');
 
-        static Parser<string> @string = new WordParser(@"""a""");
+        static IParser<string> @string = new WordParser(@"""a""");
 
-        static Parser<int> number =>new ParserConverter<char, int>(new CharParser('1'), s => int.Parse(s.ToString()));
+        static IParser<int> number =>new ParserConverter<char, int>(new CharParser('1'), s => int.Parse(s.ToString()));
 
 
-        static Parser<JSONObject> jsonObject =>
+        static IParser<JSONObject> jsonObject =>
             ParserConverter.Create(
                 SequenceParser.Create(
                     bracketOpen,

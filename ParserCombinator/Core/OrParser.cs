@@ -7,21 +7,25 @@ namespace Marimo.ParserCombinator.Core
 {
     public class OrParser<T> : IParser<T>
     {
-        IParser<T> parser1 { get; }
-        IParser<T> parser2 { get; }
-        public OrParser(IParser<T> parser1, IParser<T> parser2)
+        IParser<T>[] parsers { get; }
+
+        public OrParser(params IParser<T>[] parsers)
         {
-            this.parser1 = parser1;
-            this.parser2 = parser2;
+            this.parsers = parsers;
         }
 
         public async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
         {
-            var result = await  parser1.ParseAsync(cursol);
-            return 
-                result.isSuccess 
-                ? result 
-                : await parser2.ParseAsync(cursol);
+            foreach(var parser in parsers)
+            {
+                var result = await parser.ParseAsync(cursol);
+                
+                if(result.isSuccess)
+                {
+                    return result;
+                }
+            }
+            return (false, cursol, default);
         }
     }
 }

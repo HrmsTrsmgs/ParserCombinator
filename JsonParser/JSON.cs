@@ -31,9 +31,8 @@ namespace Marimo.Parser
 
         static IParser<char> Digit =>
             new OrParser<char>(
-                new OrParser<char>(
-                    new CharParser('1'),
-                    new CharParser('2')),
+                new CharParser('1'),
+                new CharParser('2'),
                 new CharParser('3'));
 
         static IParser<string> Digits =>

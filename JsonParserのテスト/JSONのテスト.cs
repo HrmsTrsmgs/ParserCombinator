@@ -36,5 +36,16 @@ namespace Marimo.Parser.Test
             value.ValueType.Is(LiteralType.Number);
             value.Value.Is("-1");
         }
+
+        [Fact]
+        public async Task 数値は複数桁を識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":123}");
+
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Number);
+            value.Value.Is("123");
+        }
     }
 }

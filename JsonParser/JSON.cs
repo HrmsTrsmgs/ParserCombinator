@@ -29,13 +29,26 @@ namespace Marimo.Parser
                     DoubleQuote),
                 t => t.Item2);
 
-        
+        static IParser<char> Digit =>
+            new OrParser<char>(
+                new OrParser<char>(
+                    new CharParser('1'),
+                    new CharParser('2')),
+                new CharParser('3'));
+
+        static IParser<string> Digits =>
+            new ParserConverter<(char, Optional<char>, Optional<char>), string>(
+                new SequenceParser<char, Optional<char>, Optional<char>>(
+                Digit,
+                new OptionalParser<char>(Digit),
+                new OptionalParser<char>(Digit)),
+            tuple => tuple.Item1 + (tuple.Item2.IsPresent ? tuple.Item2.Value.ToString() : "") + (tuple.Item3.IsPresent ? tuple.Item3.Value.ToString() : ""));
 
         static IParser<JSONLiteral> JNumber =>
-            new ParserConverter<(Optional<char>, char), JSONLiteral>(
-                new SequenceParser<Optional<char>, char>(
+            new ParserConverter<(Optional<char>, string), JSONLiteral>(
+                new SequenceParser<Optional<char>, string>(
                     new OptionalParser<char>(new CharParser('-')),
-                    new CharParser('1')),
+                    Digits),
                 tuple => new JSONLiteral($"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}", LiteralType.Number));
 
         static IParser<KeyValuePair<string, JSONLiteral>> JPair =>

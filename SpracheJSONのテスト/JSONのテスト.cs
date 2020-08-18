@@ -47,6 +47,18 @@ namespace SpracheJSONのテスト
             value.ValueType.Is(LiteralType.Number);
             value.Value.Is("123");
         }
+
+        [Fact]
+        public void 数値は0から9を識別します()
+        {
+            var result = JSON.Parse(@"{""a"":1234567890}");
+
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Number);
+            value.Value.Is("1234567890");
+        }
+
         [Fact]
         public void 数値は小数を識別します()
         {

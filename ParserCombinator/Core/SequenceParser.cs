@@ -44,6 +44,33 @@ namespace Marimo.ParserCombinator.Core
                 : (false, cursol, default);
         }
     }
+    public class SequenceParser<T1, T2, T3, T4> : IParser<(T1, T2, T3, T4)>
+    {
+        (IParser<T1>, IParser<T2>, IParser<T3>, IParser<T4>) parsers { get; }
+        public SequenceParser(
+            IParser<T1> parser1,
+            IParser<T2> parser2,
+            IParser<T3> parser3,
+            IParser<T4> parser4)
+        {
+            this.parsers = (parser1, parser2, parser3, parser4);
+        }
+
+        public async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4) parsed)> ParseAsync(Cursol cursol)
+        {
+            (T1, T2, T3, T4) returnValue = default;
+            var helper = new SequenceHelper(cursol);
+
+            return
+                await helper.ParseAsync(parsers.Item1, value => returnValue.Item1 = value) &&
+                await helper.ParseAsync(parsers.Item2, value => returnValue.Item2 = value) &&
+                await helper.ParseAsync(parsers.Item3, value => returnValue.Item3 = value) &&
+                await helper.ParseAsync(parsers.Item4, value => returnValue.Item4 = value)
+                ? (true, helper.Current, returnValue)
+                : (false, cursol, default);
+        }
+    }
+
     public class SequenceParser<T1, T2, T3, T4, T5> : IParser<(T1, T2, T3, T4, T5)>
     {
         (IParser<T1>, IParser<T2>, IParser<T3>, IParser<T4>, IParser<T5>) parsers { get; }

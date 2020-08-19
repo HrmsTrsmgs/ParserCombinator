@@ -143,6 +143,86 @@ namespace Marimo.Test.ParserCombinator.Core
             result.cursol.Index.Is("public static int".Length);
         }
     }
+    public class 要素を4つ持つSeqenceParserのテスト
+    {
+        IParser<(string, string, string, string)> tested;
+
+        public 要素を4つ持つSeqenceParserのテスト()
+        {
+            tested = new SequenceParser<string, string, string, string>(
+                new WordParser("ab"),
+                new WordParser("cd"),
+                new WordParser("ef"),
+                new WordParser("gh"));
+        }
+        [Fact]
+        public async Task ParseAsyncは指定した単語を読み込みに成功します()
+        {
+            var cursol = new Cursol("ab cd ef gh");
+
+            var result = await tested.ParseAsync(cursol);
+
+            result.isSuccess.IsTrue();
+        }
+
+        [Fact]
+        public async Task ParseAsyncは一つ目の解析に失敗した場合は失敗します()
+        {
+            var cursol = new Cursol("abc cd ef gh");
+
+            var result = await tested.ParseAsync(cursol);
+
+            result.isSuccess.IsFalse();
+        }
+
+        [Fact]
+        public async Task ParseAsyncはふたつ目の解析に失敗した場合は失敗します()
+        {
+            var cursol = new Cursol("ab cde ef gh");
+
+            var result = await tested.ParseAsync(cursol);
+
+            result.isSuccess.IsFalse();
+        }
+        [Fact]
+        public async Task ParseAsyncは三つ目の解析に失敗した場合は失敗します()
+        {
+            var cursol = new Cursol("ab cd efg gh");
+
+            var result = await tested.ParseAsync(cursol);
+
+            result.isSuccess.IsFalse();
+        }
+
+        [Fact]
+        public async Task ParseAsyncは4つ目の解析に失敗した場合は失敗します()
+        {
+            var cursol = new Cursol("ab cd ef g");
+
+            var result = await tested.ParseAsync(cursol);
+
+            result.isSuccess.IsFalse();
+        }
+
+        [Fact]
+        public async Task ParseAsyncは指定した単語を読み込みます()
+        {
+            var cursol = new Cursol("ab cd ef gh");
+            var result = await tested.ParseAsync(cursol);
+
+            result.parsed.Is(("ab", "cd", "ef", "gh"));
+        }
+
+        [Fact]
+        public async Task ParseAsyncは読み込みに成功した場合に単語の長さだけ進んだカーソルを返します()
+        {
+            var cursol = new Cursol("ab cd ef gh");
+
+            var result = await tested.ParseAsync(cursol);
+
+            result.cursol.Index.Is("ab cd ef gh".Length);
+        }
+    }
     public class 要素を5つ持つSeqenceParserのテスト
     {
         IParser<(string, string, string, string, string)> tested;

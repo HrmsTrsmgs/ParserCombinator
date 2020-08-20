@@ -20,6 +20,16 @@ namespace Marimo.Test.ParserCombinator.Core
         }
 
         [Fact]
+        public async Task 一つ目の要素のパースに失敗したらカーソルは進みません()
+        {
+            var tested = new ZeroOrMoreParser<char>(new CharParser('a'));
+
+            var (_, cursol, _) = await tested.ParseAsync(new Cursol("b"));
+
+            cursol.Index.Is(0);
+        }
+
+        [Fact]
         public async Task 一つ目の要素のパースに失敗したら結果は空です()
         {
             var tested = new ZeroOrMoreParser<char>(new CharParser('a'));

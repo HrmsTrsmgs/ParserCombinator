@@ -22,13 +22,7 @@ namespace Marimo.Parser
 
         static IParser<char> Collon => new CharParser(':');
 
-        static IParser<string> JString =>
-            new ParserConverter<(char, string, char), string>(
-                new SequenceParser<char, string, char>(
-                    DoubleQuote,
-                    new WordParser("a"),
-                    DoubleQuote),
-                t => t.Item2);
+        static IParser<char> Dot => new CharParser('.');
 
         static IParser<char> Digit =>
             new OrParser<char>(
@@ -43,17 +37,40 @@ namespace Marimo.Parser
                 new CharParser('9'),
                 new CharParser('0'));
 
+        static IParser<string> JString =>
+            new ParserConverter<(char, string, char), string>(
+                new SequenceParser<char, string, char>(
+                    DoubleQuote,
+                    new WordParser("a"),
+                    DoubleQuote),
+                t => t.Item2);
+
         static IParser<string> Digits =>
             new ParserConverter<IEnumerable<char>, string>(
                 new OneOrMoreParser<char>(Digit),
                 chars => new string(chars.ToArray()));
 
-        static IParser<JSONLiteral> JNumber =>
-            new ParserConverter<(Optional<char>, string), JSONLiteral>(
+        static IParser<string> JFrac =
+            new ParserConverter<(char, string), string>(
+                new SequenceParser<char, string>(Dot, Digits),
+                tuple => tuple.Item1.ToString() + tuple.Item2);
+
+        static IParser<string> JInt =>
+            new ParserConverter<(Optional<char>, string), string>(
                 new SequenceParser<Optional<char>, string>(
                     new OptionalParser<char>(new CharParser('-')),
                     Digits),
-                tuple => new JSONLiteral($"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}", LiteralType.Number));
+                tuple => $"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}");
+
+        static IParser<JSONLiteral> JNumber =>
+            new ParserConverter<(string, Optional<string>), JSONLiteral>(
+                new SequenceParser<string, Optional<string>>(
+                    JInt,
+                    new OptionalParser<string>(JFrac)),
+                tuple => 
+                    new JSONLiteral(
+                        tuple.Item1 + (tuple.Item2.IsPresent ? tuple.Item2.Value : ""), 
+                        LiteralType.Number));
 
         static IParser<KeyValuePair<string, JSONLiteral>> JPair =>
             new ParserConverter<(string, char, JSONLiteral), KeyValuePair<string, JSONLiteral>>(

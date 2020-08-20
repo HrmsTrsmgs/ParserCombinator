@@ -18,5 +18,15 @@ namespace Marimo.Test.ParserCombinator.Core
 
             isSuccess.IsTrue();
         }
+
+        [Fact]
+        public async Task 一つ目の要素のパースに失敗したら結果は空です()
+        {
+            var tested = new ZeroOrMoreParser<char>(new CharParser('a'));
+
+            var (_, _, parsed) = await tested.ParseAsync(new Cursol("b"));
+
+            parsed.Count().Is(0);
+        }
     }
 }

@@ -63,13 +63,14 @@ namespace Marimo.Parser
                 tuple => $"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}");
 
         static IParser<JSONLiteral> JNumber =>
-            new ParserConverter<(string, Optional<string>), JSONLiteral>(
-                new SequenceParser<string, Optional<string>>(
-                    JInt,
+            new ParserConverter<(Optional<string>, Optional<string>), JSONLiteral>(
+                new SequenceParser<Optional<string>, Optional<string>>(
+                    new OptionalParser<string>(JInt),
                     new OptionalParser<string>(JFrac)),
                 tuple => 
                     new JSONLiteral(
-                        tuple.Item1 + (tuple.Item2.IsPresent ? tuple.Item2.Value : ""), 
+                        (tuple.Item1.IsPresent ? tuple.Item1.Value : "")
+                        + (tuple.Item2.IsPresent ? tuple.Item2.Value : ""), 
                         LiteralType.Number));
 
         static IParser<KeyValuePair<string, JSONLiteral>> JPair =>

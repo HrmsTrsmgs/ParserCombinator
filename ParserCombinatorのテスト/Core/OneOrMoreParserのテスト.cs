@@ -1,6 +1,7 @@
 ﻿using Marimo.ParserCombinator.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -26,6 +27,16 @@ namespace Marimo.Test.ParserCombinator.Core
             var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("a"));
 
             isSuccess.IsTrue();
+        }
+        [Fact]
+        public async Task 一つ目の要素のパースに成功したら一つ目の要素のみが得られます()
+        {
+            var tested = new OneOrMoreParser<char>(new CharParser('a'));
+
+            var (_, _, parsed) = await tested.ParseAsync(new Cursol("a"));
+
+            parsed.Count().Is(1);
+            parsed.ElementAt(0).Is('a');
         }
 
         [Fact]

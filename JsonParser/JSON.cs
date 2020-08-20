@@ -50,6 +50,11 @@ namespace Marimo.Parser
                 new ZeroOrMoreParser<char>(Digit),
                 chars => new string(chars.ToArray()));
 
+        static IParser<string> JExp =
+            new ParserConverter<char, string>(
+                new CharParser('e'),
+                c => c.ToString());
+
         static IParser<string> JFrac =
             new ParserConverter<(char, string), string>(
                 new SequenceParser<char, string>(Dot, Digits),
@@ -63,13 +68,16 @@ namespace Marimo.Parser
                 tuple => $"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}");
 
         static IParser<JSONLiteral> JNumber =>
-            new ParserConverter<(string, Optional<string>), JSONLiteral>(
-                new SequenceParser<string, Optional<string>>(
+            new ParserConverter<(string, Optional<string>, Optional<string>), JSONLiteral>(
+                new SequenceParser<string, Optional<string>, Optional<string>>(
                     JInt,
-                    new OptionalParser<string>(JFrac)),
+                    new OptionalParser<string>(JFrac),
+                    new OptionalParser<string>(JExp)),
                 tuple => 
                     new JSONLiteral(
-                        tuple.Item1 + (tuple.Item2.IsPresent ? tuple.Item2.Value : ""), 
+                        tuple.Item1 
+                        + (tuple.Item2.IsPresent ? tuple.Item2.Value : "")
+                        + (tuple.Item3.IsPresent ? tuple.Item3.Value : ""), 
                         LiteralType.Number));
 
         static IParser<KeyValuePair<string, JSONLiteral>> JPair =>

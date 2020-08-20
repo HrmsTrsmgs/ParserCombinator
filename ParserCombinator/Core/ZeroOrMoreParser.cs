@@ -18,6 +18,10 @@ namespace Marimo.ParserCombinator.Core
         {
             var parseds = new List<T> { };
             var (isSuccess, current, parsed) = await parser.ParseAsync(cursol);
+            if(isSuccess)
+            {
+                parseds.Add(parsed);
+            }
             return (true, current, parseds);
         }
     }

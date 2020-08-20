@@ -69,5 +69,16 @@ namespace Marimo.Parser.Test
             value.ValueType.Is(LiteralType.Number);
             value.Value.Is("1.2");
         }
+
+        [Fact]
+        public async Task 数値は小数点以下複数桁を識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":1.234}");
+
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Number);
+            value.Value.Is("1.234");
+        }
     }
 }

@@ -47,7 +47,7 @@ namespace Marimo.Parser
 
         static IParser<string> Digits =>
             new ParserConverter<IEnumerable<char>, string>(
-                new OneOrMoreParser<char>(Digit),
+                new ZeroOrMoreParser<char>(Digit),
                 chars => new string(chars.ToArray()));
 
         static IParser<string> JFrac =
@@ -63,14 +63,13 @@ namespace Marimo.Parser
                 tuple => $"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}");
 
         static IParser<JSONLiteral> JNumber =>
-            new ParserConverter<(Optional<string>, Optional<string>), JSONLiteral>(
-                new SequenceParser<Optional<string>, Optional<string>>(
-                    new OptionalParser<string>(JInt),
+            new ParserConverter<(string, Optional<string>), JSONLiteral>(
+                new SequenceParser<string, Optional<string>>(
+                    JInt,
                     new OptionalParser<string>(JFrac)),
                 tuple => 
                     new JSONLiteral(
-                        (tuple.Item1.IsPresent ? tuple.Item1.Value : "")
-                        + (tuple.Item2.IsPresent ? tuple.Item2.Value : ""), 
+                        tuple.Item1 + (tuple.Item2.IsPresent ? tuple.Item2.Value : ""), 
                         LiteralType.Number));
 
         static IParser<KeyValuePair<string, JSONLiteral>> JPair =>

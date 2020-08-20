@@ -2,6 +2,7 @@
 using Marimo.ParserCombinator.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,29 +44,9 @@ namespace Marimo.Parser
                 new CharParser('0'));
 
         static IParser<string> Digits =>
-            new ParserConverter<(char, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>), string>(
-                new SequenceParser<char, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>, Optional<char>>(
-                    Digit,
-                    new OptionalParser<char>(Digit),
-                    new OptionalParser<char>(Digit),
-                    new OptionalParser<char>(Digit),
-                    new OptionalParser<char>(Digit),
-                    new OptionalParser<char>(Digit),
-                    new OptionalParser<char>(Digit),
-                    new OptionalParser<char>(Digit),
-                    new OptionalParser<char>(Digit),
-                    new OptionalParser<char>(Digit)),
-            tuple => 
-            tuple.Item1 
-            + (tuple.Item2.IsPresent ? tuple.Item2.Value.ToString() : "") 
-            + (tuple.Item3.IsPresent ? tuple.Item3.Value.ToString() : "")
-            + (tuple.Item4.IsPresent ? tuple.Item4.Value.ToString() : "")
-            + (tuple.Item5.IsPresent ? tuple.Item5.Value.ToString() : "")
-            + (tuple.Item6.IsPresent ? tuple.Item6.Value.ToString() : "")
-            + (tuple.Item7.IsPresent ? tuple.Item7.Value.ToString() : "")
-            + (tuple.Item8.IsPresent ? tuple.Item8.Value.ToString() : "")
-            + (tuple.Item9.IsPresent ? tuple.Item9.Value.ToString() : "")
-            + (tuple.Item10.IsPresent ? tuple.Item10.Value.ToString() : ""));
+            new ParserConverter<IEnumerable<char>, string>(
+                new OneOrMoreParser<char>(Digit),
+                chars => new string(chars.ToArray()));
 
         static IParser<JSONLiteral> JNumber =>
             new ParserConverter<(Optional<char>, string), JSONLiteral>(

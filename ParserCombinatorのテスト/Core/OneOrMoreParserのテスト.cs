@@ -37,5 +37,15 @@ namespace Marimo.Test.ParserCombinator.Core
 
             cursol.Index.Is("a".Length);
         }
+
+        [Fact]
+        public async Task 二つ目の要素のパースに成功したら二つ分カーソルは進みます()
+        {
+            var tested = new OneOrMoreParser<char>(new CharParser('a'));
+
+            var (_, cursol, _) = await tested.ParseAsync(new Cursol("aa"));
+
+            cursol.Index.Is("aa".Length);
+        }
     }
 }

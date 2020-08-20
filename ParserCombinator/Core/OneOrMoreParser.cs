@@ -16,8 +16,21 @@ namespace Marimo.ParserCombinator.Core
 
         public async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
         {
-            var (isSuccess, after, parsed) = await parser.ParseAsync(cursol);
-            return (isSuccess, after, new[] { parsed });
+            var (isSuccess, current, parsed) = await parser.ParseAsync(cursol);
+            if (!isSuccess)
+            {
+                return (false, cursol, null);
+            }
+            var parseds = new List<T> { parsed };
+            while (true)
+            {
+                (isSuccess, current, parsed) = await parser.ParseAsync(current);
+                if (!isSuccess) 
+                {
+                    return (true, current, parseds);
+                }
+                parseds.Add(parsed);
+            }
         }
     }
 }

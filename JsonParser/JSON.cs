@@ -24,6 +24,8 @@ namespace Marimo.Parser
 
         static IParser<char> Dot => new CharParser('.');
 
+        static IParser<char> Plus => new CharParser('+');
+
         static IParser<char> Digit =>
             new OrParser<char>(
                 new CharParser('1'),
@@ -51,9 +53,12 @@ namespace Marimo.Parser
                 chars => new string(chars.ToArray()));
 
         static IParser<string> JExp =
-            new ParserConverter<char, string>(
-                new CharParser('e', true),
-                c => c.ToString());
+            new ParserConverter<(char, Optional<char>), string>(
+                new SequenceParser<char, Optional<char>>(
+                    new CharParser('e', true),
+                    new OptionalParser<char>(Plus)),
+                tuple => tuple.Item1.ToString() 
+                + (tuple.Item2.IsPresent ? tuple.Item2.Value.ToString() : ""));
 
         static IParser<string> JFrac =
             new ParserConverter<(char, string), string>(

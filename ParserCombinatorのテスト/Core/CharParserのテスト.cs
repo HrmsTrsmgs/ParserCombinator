@@ -60,10 +60,11 @@ namespace Marimo.Test.ParserCombinator.Core
             var cursol = new Cursol("Public");
             var tested = new CharParser('p');
 
-            var result = await tested.ParseAsync(cursol);
+            var (isSuccess, _, _) = await tested.ParseAsync(cursol);
 
-            result.parsed.Is('p');
+            isSuccess.IsFalse();
         }
+
 
         [Fact]
         public async Task ParseAsyncはIgnoreCaseで小文字指定でも大文字を識別します()

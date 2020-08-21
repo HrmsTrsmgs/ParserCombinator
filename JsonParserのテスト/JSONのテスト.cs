@@ -112,7 +112,7 @@ namespace Marimo.Parser.Test
             value.Value.Is("e");
         }
 
-        [Fact(Skip ="詳細なテストが終わるまで")]
+        [Fact]
         public async Task 数値の指数部Eは大文字でも小文字でも識別します()
         {
             // これで指数部が成立するか疑問なのだが移植なので。

@@ -166,7 +166,14 @@ namespace Marimo.Parser.Test
         [Fact]
         public async Task 数値の指数部のプラスマイナスが数字の後だと認識しません()
         {
-            await Assert.ThrowsAsync<ParseException>(async () => await JSON.ParseAsync(@"{""a"":e10+}"));
+            await Assert.ThrowsAsync<ParseException>(
+                async () => await JSON.ParseAsync(@"{""a"":e10+}"));
+        }
+        [Fact]
+        public async Task 数値の指数部のプラスマイナスがeの前だと認識しません()
+        {
+            await Assert.ThrowsAsync<ParseException>(
+                async () => await JSON.ParseAsync(@"{""a"":+e10}"));
         }
     }
 }

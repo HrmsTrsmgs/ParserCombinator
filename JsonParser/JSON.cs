@@ -115,10 +115,7 @@ namespace Marimo.Parser
             {
                 return parsed;
             }
-            else
-            {
-                return null;
-            }
+            throw new ParseException();
         }
     }
 }

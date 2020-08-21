@@ -55,13 +55,15 @@ namespace Marimo.Parser
                 chars => new string(chars.ToArray()));
 
         static IParser<string> JExp =
-            new ParserConverter<(char, Optional<char>), string>(
-                new SequenceParser<char, Optional<char>>(
+            new ParserConverter<(char, Optional<char>, string), string>(
+                new SequenceParser<char, Optional<char>, string>(
                     new CharParser('e', true),
                     new OptionalParser<char>(
-                        new OrParser<char>(Plus, Minus))),
+                        new OrParser<char>(Plus, Minus)),
+                    Digits),
                 tuple => tuple.Item1.ToString() 
-                + (tuple.Item2.IsPresent ? tuple.Item2.Value.ToString() : ""));
+                + (tuple.Item2.IsPresent ? tuple.Item2.Value.ToString() : "")
+                + tuple.Item3);
 
         static IParser<string> JFrac =
             new ParserConverter<(char, string), string>(

@@ -144,5 +144,14 @@ namespace Marimo.Parser.Test
             value.ValueType.Is(LiteralType.Number);
             value.Value.Is("e-");
         }
+        [Fact]
+        public async Task 数値の指数部の数値を識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":e+0}");
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Number);
+            value.Value.Is("e+0");
+        }
     }
 }

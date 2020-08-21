@@ -175,5 +175,16 @@ namespace Marimo.Parser.Test
             await Assert.ThrowsAsync<ParseException>(
                 async () => await JSON.ParseAsync(@"{""a"":+e10}"));
         }
+
+        [Fact(Skip ="必要機能を実装するまで")]
+        public async Task 文字列の値を識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":""b""}");
+
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.String);
+            value.Value.Is("b");
+        }
     }
 }

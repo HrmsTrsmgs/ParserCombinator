@@ -21,7 +21,7 @@ namespace Marimo.ParserCombinator.Core
         => cursol.Current switch
         {
             var c when (IgnoreCase && c.HasValue ? Char.ToLower(c.Value) == Char.ToLower(Char) : c == Char)
-                    => (true, cursol.GoFoward(1), Char),
+                    => (true, cursol.GoFoward(1), c.Value),
             _ => (false, cursol, default)
         };
     }

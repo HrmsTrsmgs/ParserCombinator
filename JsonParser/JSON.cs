@@ -52,7 +52,7 @@ namespace Marimo.Parser
 
         static IParser<string> JExp =
             new ParserConverter<char, string>(
-                new CharParser('e'),
+                new CharParser('e', true),
                 c => c.ToString());
 
         static IParser<string> JFrac =

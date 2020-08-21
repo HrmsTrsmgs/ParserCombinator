@@ -133,5 +133,16 @@ namespace Marimo.Parser.Test
             value.ValueType.Is(LiteralType.Number);
             value.Value.Is("e+");
         }
+
+        [Fact]
+        public async Task 数値の指数部のマイナスを識別します()
+        {
+            // これで指数部が成立するか疑問なのだが移植なので。
+            var result = await JSON.ParseAsync(@"{""a"":e-}");
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Number);
+            value.Value.Is("e-");
+        }
     }
 }

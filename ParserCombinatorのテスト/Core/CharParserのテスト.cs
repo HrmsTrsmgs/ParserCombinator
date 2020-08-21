@@ -107,5 +107,16 @@ namespace Marimo.Test.ParserCombinator.Core
 
             parsed.Is('P');
         }
+
+        [Fact]
+        public async Task ParseAsyncはIgnoreCaseで大文字指定の場合に実際に識別した文字を結果とします()
+        {
+            var cursol = new Cursol("public");
+            var tested = new CharParser('P', true);
+
+            var (_, _, parsed) = await tested.ParseAsync(cursol);
+
+            parsed.Is('p');
+        }
     }
 }

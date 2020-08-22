@@ -13,8 +13,6 @@ namespace Marimo.Parser
     
     public class JSON
     {
-        static IParser<string> Null => new WordParser("null", true);
-
         static IParser<char> BracketOpen => new CharParser('{');
 
         static IParser<char> BracketClose => new CharParser('}');
@@ -30,6 +28,15 @@ namespace Marimo.Parser
         static IParser<char> Minus => new CharParser('-');
 
         static IParser<char> BackSlash => new CharParser('\\');
+
+        static IParser<string> Null => new WordParser("null", true);
+
+        static IParser<JSONLiteral> JBoolean =>
+            new ParserConverter<string, JSONLiteral>(
+                new OrParser<string>(
+                    new WordParser("true", true),
+                    new WordParser("false", true)),
+                word => new JSONLiteral(word, LiteralType.Boolean));
 
         static IParser<char> Digit =>
             new OrParser<char>(
@@ -126,6 +133,7 @@ namespace Marimo.Parser
         static IParser<JSONLiteral> JLiteral =>
             new OrParser<JSONLiteral>(
                 JString,
+                JBoolean,
                 JNumber);
 
         static IParser<KeyValuePair<string, JSONLiteral>> JPair =>

@@ -208,5 +208,15 @@ namespace Marimo.Parser.Test
             value.ValueType.Is(LiteralType.String);
             value.Value.Is("\\\"\b\f\n\r\t");
         }
+        [Fact]
+        public async Task 真偽値の値を識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":true}");
+
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Boolean);
+            value.Value.Is("true");
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Marimo.ParserCombinator.Core
 {
-    public class Cursol
+    public struct Cursol
     {
         public char? Current => Index < Text.Length ? Text[Index] : (char?)null;
 

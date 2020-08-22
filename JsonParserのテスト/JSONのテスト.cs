@@ -197,5 +197,16 @@ namespace Marimo.Parser.Test
             value.ValueType.Is(LiteralType.String);
             value.Value.Is("bc");
         }
+
+        [Fact]
+        public async Task 文字列のエスケープ文字を識別します()
+        {
+            var result = await JSON.ParseAsync("{\"a\":\"\\\\\\\"\\b\\f\\n\\r\\t\"}");
+
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.String);
+            value.Value.Is("\\\"\b\f\n\r\t");
+        }
     }
 }

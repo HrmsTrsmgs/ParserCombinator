@@ -10,7 +10,7 @@ namespace Marimo.ParserCombinator.Test.Core
     public class ExpectCharParserのテスト
     {
         [Fact]
-        public async Task ParseAsyncは指定した文字を読み込みに成功します()
+        public async Task ParseAsyncは指定ていない文字を読み込みに成功します()
         {
             var cursol = new Cursol("public");
             var tested = new ExpectCharParser(
@@ -22,7 +22,7 @@ namespace Marimo.ParserCombinator.Test.Core
         }
 
         [Fact]
-        public async Task ParseAsyncは指定した文字を読み込みます()
+        public async Task ParseAsyncは指定していない文字を読み込みます()
         {
             var cursol = new Cursol("public");
             var tested = new ExpectCharParser(
@@ -31,6 +31,18 @@ namespace Marimo.ParserCombinator.Test.Core
             var (_, _, parsed) = await tested.ParseAsync(cursol);
 
             parsed.Is('p');
+        }
+
+        [Fact]
+        public async Task ParseAsyncは指定した文字を読み込みに失敗します()
+        {
+            var cursol = new Cursol("public");
+            var tested = new ExpectCharParser(
+                new CharParser('p'));
+
+            var (isSuccess, _, _) = await tested.ParseAsync(cursol);
+
+            isSuccess.IsFalse();
         }
     }
 }

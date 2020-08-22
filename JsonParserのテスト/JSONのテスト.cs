@@ -177,6 +177,16 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
+        public async Task 値が何もない場合は数値と判断されます()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":}");
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Number);
+            value.Value.Is("");
+        }
+
+        [Fact]
         public async Task 文字列の値を識別します()
         {
             var result = await JSON.ParseAsync(@"{""a"":""b""}");

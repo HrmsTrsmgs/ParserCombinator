@@ -167,6 +167,17 @@ namespace SpracheJSONのテスト
         {
             Assert.Throws<ParseException>(() => JSON.Parse(@"{""a"":+e10}"));
         }
+
+        [Fact]
+        public void 値が何もない場合は数値と判断されます()
+        {
+            var result = JSON.Parse(@"{""a"":}");
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Number);
+            value.Value.Is("");
+        }
+
         [Fact]
         public void 文字列の値を識別します()
         {

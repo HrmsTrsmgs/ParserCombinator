@@ -55,5 +55,16 @@ namespace Marimo.ParserCombinator.Test.Core
 
             cursol.Index.Is(1);
         }
+
+        [Fact]
+        public async Task ParseAsyncは読み込みに成功した場合に読み込んだ文字を返します()
+        {
+            var tested = new ExpectCharParser(
+                new CharParser('a'));
+
+            var (_, _, parsed) = await tested.ParseAsync(new Cursol("public"));
+
+            parsed.Is('p');
+        }
     }
 }

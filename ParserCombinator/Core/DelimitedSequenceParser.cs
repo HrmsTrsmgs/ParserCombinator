@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Marimo.ParserCombinator.Core
 {
@@ -18,7 +19,8 @@ namespace Marimo.ParserCombinator.Core
 
         public async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
         {
-            return (false, cursol, new T[] { });
+            var (isSuccess, current, first) = await sequence.ParseAsync(cursol);
+            return (isSuccess, current, new T[] { });
         }
     }
 }

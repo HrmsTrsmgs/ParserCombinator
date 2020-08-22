@@ -54,5 +54,16 @@ namespace Marimo.ParserCombinator.Test.Core
 
             cursol.Index.Is("a".Length);
         }
+        [Fact]
+        public async Task 最初の要素のパースに成功すれば最初の一つが結果になります()
+        {
+            var tested = new DelimitedSequenceParser<char, char>(
+                new CharParser('a'),
+                new CharParser(','));
+
+            var (_, _, parsed) = await tested.ParseAsync(new Cursol("a"));
+
+            parsed.IsStructuralEqual(new[] { 'a' });
+        }
     }
 }

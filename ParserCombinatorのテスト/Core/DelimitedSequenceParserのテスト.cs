@@ -43,5 +43,16 @@ namespace Marimo.ParserCombinator.Test.Core
 
             isSuccess.IsTrue();
         }
+        [Fact]
+        public async Task 最初の要素のパースに成功すればカーソルが進みます()
+        {
+            var tested = new DelimitedSequenceParser<char, char>(
+                new CharParser('a'),
+                new CharParser(','));
+
+            var (_, cursol, _) = await tested.ParseAsync(new Cursol("a"));
+
+            cursol.Index.Is("a".Length);
+        }
     }
 }

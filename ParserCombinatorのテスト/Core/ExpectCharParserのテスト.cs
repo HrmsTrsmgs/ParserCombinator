@@ -44,5 +44,16 @@ namespace Marimo.ParserCombinator.Test.Core
 
             isSuccess.IsFalse();
         }
+
+        [Fact]
+        public async Task ParseAsyncは読み込みに成功した場合にその分進んだカーソルを返します()
+        {
+            var tested = new ExpectCharParser(
+                new CharParser('a'));
+
+            var (_, cursol, _) = await tested.ParseAsync(new Cursol("public"));
+
+            cursol.Index.Is(1);
+        }
     }
 }

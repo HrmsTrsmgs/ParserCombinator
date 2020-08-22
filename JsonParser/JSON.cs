@@ -3,6 +3,7 @@ using Marimo.ParserCombinator.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ namespace Marimo.Parser
 
         static IParser<char> Minus => new CharParser('-');
 
+        static IParser<char> BackSlash => new CharParser('\\');
+
         static IParser<char> Digit =>
             new OrParser<char>(
                 new CharParser('1'),
@@ -40,14 +43,6 @@ namespace Marimo.Parser
                 new CharParser('8'),
                 new CharParser('9'),
                 new CharParser('0'));
-
-        static IParser<string> JString =>
-            new ParserConverter<(char, string, char), string>(
-                new SequenceParser<char, string, char>(
-                    DoubleQuote,
-                    new WordParser("a"),
-                    DoubleQuote),
-                t => t.Item2);
 
         static IParser<string> Digits =>
             new ParserConverter<IEnumerable<char>, string>(
@@ -90,13 +85,56 @@ namespace Marimo.Parser
                         + (tuple.Item3.IsPresent ? tuple.Item3.Value : ""), 
                         LiteralType.Number));
 
+        static IParser<char> ControlChar =>
+            new ParserConverter<(char, char), char>(
+                new SequenceParser<char, char>(
+                    BackSlash,
+                    new OrParser<char>(
+                        DoubleQuote,
+                        BackSlash,
+                        new CharParser('b'),
+                        new CharParser('n'),
+                        new CharParser('f'),
+                        new CharParser('r'),
+                        new CharParser('t'))),
+                tuple => tuple.Item2 switch
+                {
+                    'b' => '\b',
+                    'n' => '\n',
+                    'f' => '\f',
+                    'r' => '\r',
+                    't' => '\t',
+                    var c => c
+                });
+
+        static IParser<char> JChar =>
+            new OrParser<char>(
+                new ExpectCharParser(
+                    new OrParser<char>(
+                        DoubleQuote,
+                        BackSlash)),
+                ControlChar);
+
+        static IParser<JSONLiteral> JString =>
+            new ParserConverter<(char, IEnumerable<char>, char), JSONLiteral>(
+                new SequenceParser<char, IEnumerable<char>, char>(
+                    DoubleQuote,
+                    new ZeroOrMoreParser<char>(JChar),
+                    DoubleQuote),
+                tuple => new JSONLiteral(new string(tuple.Item2.ToArray()), LiteralType.String));
+
+        static IParser<JSONLiteral> JLiteral =>
+            new OrParser<JSONLiteral>(
+                JString,
+                JNumber);
+
         static IParser<KeyValuePair<string, JSONLiteral>> JPair =>
-            new ParserConverter<(string, char, JSONLiteral), KeyValuePair<string, JSONLiteral>>(
-                new SequenceParser<string, char, JSONLiteral>(
+            new ParserConverter<(JSONLiteral, char, JSONLiteral), KeyValuePair<string, JSONLiteral>>(
+                new SequenceParser<JSONLiteral, char, JSONLiteral>(
                             JString,
                             Collon,
-                            JNumber),
-                tuple => new KeyValuePair<string, JSONLiteral>(tuple.Item1, tuple.Item3));
+                            JLiteral),
+                tuple => new KeyValuePair<string, JSONLiteral>(tuple.Item1.Value, tuple.Item3));
 
         static IParser<JSONObject> JObject =>
             new ParserConverter<(char, Optional<KeyValuePair<string, JSONLiteral>>, char), JSONObject>(

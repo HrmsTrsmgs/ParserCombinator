@@ -176,7 +176,7 @@ namespace Marimo.Parser.Test
                 async () => await JSON.ParseAsync(@"{""a"":+e10}"));
         }
 
-        [Fact(Skip ="必要機能を実装するまで")]
+        [Fact]
         public async Task 文字列の値を識別します()
         {
             var result = await JSON.ParseAsync(@"{""a"":""b""}");

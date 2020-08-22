@@ -16,9 +16,21 @@ namespace Marimo.ParserCombinator.Test.Core
             var tested = new ExpectCharParser(
                 new CharParser('a'));
 
-            var result = await tested.ParseAsync(cursol);
+            var (isSuccess, _, _) = await tested.ParseAsync(cursol);
 
-            result.isSuccess.IsTrue();
+            isSuccess.IsTrue();
+        }
+
+        [Fact]
+        public async Task ParseAsyncは指定した文字を読み込みます()
+        {
+            var cursol = new Cursol("public");
+            var tested = new ExpectCharParser(
+                new CharParser('a'));
+
+            var (_, _, parsed) = await tested.ParseAsync(cursol);
+
+            parsed.Is('p');
         }
     }
 }

@@ -7,16 +7,25 @@ namespace Marimo.ParserCombinator.Core
 {
     public class ExpectCharParser : IParser<char>
     {
-        IParser<char> ecpectChars { get; }
+        IParser<char> expectChars { get; }
 
-        public ExpectCharParser(IParser<char> ecpectChars)
+        public ExpectCharParser(IParser<char> expectChars)
         {
-            this.ecpectChars = ecpectChars;
+            this.expectChars = expectChars;
         }
 
         public async Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
         {
-            return (true, cursol, default);
+            var (isSuccess, _, _) = await expectChars.ParseAsync(cursol);
+            if (isSuccess)
+            {
+                return (false, cursol, default);
+            }
+            else
+            {
+                return (true, cursol.GoFoward(1), cursol.Current.Value);
+            }
+            
         }
     }
 }

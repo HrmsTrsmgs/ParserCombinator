@@ -186,5 +186,16 @@ namespace Marimo.Parser.Test
             value.ValueType.Is(LiteralType.String);
             value.Value.Is("b");
         }
+
+        [Fact]
+        public async Task 文字列の複数文字を識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":""bc""}");
+
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.String);
+            value.Value.Is("bc");
+        }
     }
 }

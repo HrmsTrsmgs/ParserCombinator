@@ -29,6 +29,8 @@ namespace Marimo.Parser
 
         static IParser<char> BackSlash => new CharParser('\\');
 
+        static IParser<char> Comma => new CharParser(',');
+
         static IParser<string> Null => new WordParser("null", true);
 
         static IParser<JSONLiteral> JBoolean =>
@@ -145,13 +147,16 @@ namespace Marimo.Parser
                 tuple => new KeyValuePair<string, JSONLiteral>(tuple.Item1.Value, tuple.Item3));
 
         static IParser<JSONObject> JObject =>
-            new ParserConverter<(char, Optional<KeyValuePair<string, JSONLiteral>>, char), JSONObject>(
-                new SequenceParser<char, Optional<KeyValuePair<string, JSONLiteral>>, char>(
+            new ParserConverter<(char, Optional<IEnumerable<KeyValuePair<string, JSONLiteral>>>, char), JSONObject>(
+                new SequenceParser<char, Optional<IEnumerable<KeyValuePair<string, JSONLiteral>>>, char>(
                     BracketOpen,
-                    new OptionalParser<KeyValuePair<string, JSONLiteral>>(JPair),
+                    new OptionalParser<IEnumerable<KeyValuePair<string, JSONLiteral>>>(
+                        new DelimitedSequenceParser<KeyValuePair<string, JSONLiteral>, char>(
+                        JPair,
+                        Comma)),
                     BracketClose),
                 tuple => tuple.Item2.IsPresent ?
-                    new JSONObject { Pairs = { [tuple.Item2.Value.Key] = tuple.Item2.Value.Value} } 
+                    new JSONObject { Pairs = tuple.Item2.Value.ToDictionary(kv => kv.Key, kv => (IJSONValue)kv.Value) } 
                     : new JSONObject());
 
         public static async Task<JSONObject> ParseAsync(string text)

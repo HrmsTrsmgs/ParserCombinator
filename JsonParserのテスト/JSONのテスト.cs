@@ -277,5 +277,16 @@ namespace Marimo.Parser.Test
             value.ValueType.Is(LiteralType.Null);
             value.Value.IsNull();
         }
+
+        [Fact]
+        public async Task Nullの値の識別は大文字小文字を区別しません()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":NULL}");
+
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Null);
+            value.Value.IsNull();
+        }
     }
 }

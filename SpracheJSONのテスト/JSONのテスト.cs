@@ -269,7 +269,7 @@ namespace SpracheJSONのテスト
             value.Value.IsNull();
         }
         [Fact]
-        public void Nullの値の識別は大文字小文字を区別しませんします()
+        public void Nullの値の識別は大文字小文字を区別しません()
         {
             var result = JSON.Parse(@"{""a"":NULL}");
 

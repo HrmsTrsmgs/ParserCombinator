@@ -280,6 +280,16 @@ namespace SpracheJSONのテスト
         [Fact]
         public void オブジェクトの中身の配列の中身を識別します()
         {
+            var result = JSON.Parse(@"{""a"":[1]}");
+
+            result.Pairs.Count.Is(1);
+            var array = (JSONArray)result["a"];
+            array.Elements.Count.Is(1);
+            array.Elements[0].IsInstanceOf<JSONLiteral>();
+        }
+        [Fact]
+        public void 配列は複数の要素を持ちます()
+        {
             var result = JSON.Parse(@"{""a"":[1,2]}");
 
             result.Pairs.Count.Is(1);

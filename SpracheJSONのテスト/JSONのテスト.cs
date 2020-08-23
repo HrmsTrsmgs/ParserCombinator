@@ -28,6 +28,17 @@ namespace SpracheJSONのテスト
             value.IsInstanceOf<JSONLiteral>();
         }
         [Fact]
+        public void オブジェクトの中身は複数持てます()
+        {
+            var result = JSON.Parse(@"{""a"":1, ""b"":2}");
+
+            result.Pairs.Count.Is(2);
+            var value = result["a"];
+            value.IsInstanceOf<JSONLiteral>();
+            var value2 = result["b"];
+            value2.IsInstanceOf<JSONLiteral>();
+        }
+        [Fact]
         public void 数値はマイナスを識別します()
         {
             var result = JSON.Parse(@"{""a"":-1}");

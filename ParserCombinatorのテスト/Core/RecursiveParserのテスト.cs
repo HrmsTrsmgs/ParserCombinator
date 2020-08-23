@@ -17,6 +17,13 @@ namespace Marimo.ParserCombinator.Test.Core
             var tested = new RecursiveParser<char>(() => parser);
             (await tested.ParseAsync(cursol)).IsStructuralEqual(await parser.ParseAsync(cursol));
         }
-
+        [Fact]
+        public async Task ParseAsyncは内部パーサーと同じように失敗します()
+        {
+            var cursol = new Cursol("public");
+            var parser = new CharParser('a');
+            var tested = new RecursiveParser<char>(() => parser);
+            (await tested.ParseAsync(cursol)).IsStructuralEqual(await parser.ParseAsync(cursol));
+        }
     }
 }

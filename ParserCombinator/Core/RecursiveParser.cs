@@ -14,9 +14,9 @@ namespace Marimo.ParserCombinator.Core
             this.parserGetter = parserGetter;
         }
 
-        public Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
+        public async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
         {
-            throw new NotImplementedException();
+            return await parserGetter().ParseAsync(cursol);
         }
     }
 }

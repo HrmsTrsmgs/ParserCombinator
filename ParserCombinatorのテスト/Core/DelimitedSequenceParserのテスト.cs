@@ -1,6 +1,7 @@
 ﻿using Marimo.ParserCombinator.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -10,7 +11,7 @@ namespace Marimo.ParserCombinator.Test.Core
     public class DelimitedSequenceParserのテスト
     {
         [Fact]
-        public async Task 最初の要素のパースに失敗すれば失敗です()
+        public async Task 最初の要素のパースに失敗しても成功です()
         {
             var tested = new DelimitedSequenceParser<char, char>(
                 new CharParser('a'),
@@ -18,7 +19,7 @@ namespace Marimo.ParserCombinator.Test.Core
 
             var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("b"));
 
-            isSuccess.IsFalse();
+            isSuccess.IsTrue();
         }
 
         [Fact]
@@ -32,6 +33,19 @@ namespace Marimo.ParserCombinator.Test.Core
 
             cursol.Index.Is(0);
         }
+
+        [Fact]
+        public async Task 最初の要素のパースに失敗すれば空の要素が結果となります()
+        {
+            var tested = new DelimitedSequenceParser<char, char>(
+                new CharParser('a'),
+                new CharParser(','));
+
+            var (_, _, parsed) = await tested.ParseAsync(new Cursol("b"));
+
+            parsed.Count().Is(0);
+        }
+
         [Fact]
         public async Task 最初の要素のパースに成功すれば成功です()
         {

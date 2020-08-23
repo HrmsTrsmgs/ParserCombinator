@@ -8,8 +8,8 @@ namespace Marimo.ParserCombinator.Core
 {
     public class RecursiveParser<T> : IParser<T>
     {
-        Func<T> parserGetter { get; }
-        public RecursiveParser(Func<T> parserGetter)
+        Func<IParser<T>> parserGetter { get; }
+        public RecursiveParser(Func<IParser<T>> parserGetter)
         {
             this.parserGetter = parserGetter;
         }

@@ -147,17 +147,14 @@ namespace Marimo.Parser
                 tuple => new KeyValuePair<string, JSONLiteral>(tuple.Item1.Value, tuple.Item3));
 
         static IParser<JSONObject> JObject =>
-            new ParserConverter<(char, Optional<IEnumerable<KeyValuePair<string, JSONLiteral>>>, char), JSONObject>(
-                new SequenceParser<char, Optional<IEnumerable<KeyValuePair<string, JSONLiteral>>>, char>(
+            new ParserConverter<(char, IEnumerable<KeyValuePair<string, JSONLiteral>>, char), JSONObject>(
+                new SequenceParser<char, IEnumerable<KeyValuePair<string, JSONLiteral>>, char>(
                     BracketOpen,
-                    new OptionalParser<IEnumerable<KeyValuePair<string, JSONLiteral>>>(
-                        new DelimitedSequenceParser<KeyValuePair<string, JSONLiteral>, char>(
+                    new DelimitedSequenceParser<KeyValuePair<string, JSONLiteral>, char>(
                         JPair,
-                        Comma)),
+                        Comma),
                     BracketClose),
-                tuple => tuple.Item2.IsPresent ?
-                    new JSONObject { Pairs = tuple.Item2.Value.ToDictionary(kv => kv.Key, kv => (IJSONValue)kv.Value) } 
-                    : new JSONObject());
+                tuple => new JSONObject { Pairs = tuple.Item2.ToDictionary(kv => kv.Key, kv => (IJSONValue)kv.Value) });
 
         public static async Task<JSONObject> ParseAsync(string text)
         {

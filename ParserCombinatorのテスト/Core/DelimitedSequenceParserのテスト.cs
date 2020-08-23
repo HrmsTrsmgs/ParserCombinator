@@ -63,7 +63,7 @@ namespace Marimo.ParserCombinator.Test.Core
 
             var (_, _, parsed) = await tested.ParseAsync(new Cursol("a"));
 
-            parsed.IsStructuralEqual(new[] { 'a' });
+            parsed.Is(new[] { 'a' });
         }
         [Fact]
         public async Task 区切り子で終わった場合は区切り子は読み込みません()
@@ -75,6 +75,18 @@ namespace Marimo.ParserCombinator.Test.Core
             var (_, cursol, _) = await tested.ParseAsync(new Cursol("a,"));
 
             cursol.Index.Is("a".Length);
+        }
+
+        [Fact]
+        public async Task 二つ目の要素も結果に入ります()
+        {
+            var tested = new DelimitedSequenceParser<char, char>(
+                new CharParser('a'),
+                new CharParser(','));
+
+            var (_, _, parsed) = await tested.ParseAsync(new Cursol("a,a"));
+
+            parsed.Is(new[] { 'a', 'a' });
         }
     }
 }

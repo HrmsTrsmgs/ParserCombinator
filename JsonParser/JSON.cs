@@ -31,7 +31,10 @@ namespace Marimo.Parser
 
         static IParser<char> Comma => new CharParser(',');
 
-        static IParser<string> Null => new WordParser("null", true);
+        static IParser<JSONLiteral> JNull =>
+            new ParserConverter<string, JSONLiteral>(
+                new WordParser("null", true),
+                word => new JSONLiteral(LiteralType.Null));
 
         static IParser<JSONLiteral> JBoolean =>
             new ParserConverter<string, JSONLiteral>(
@@ -136,6 +139,7 @@ namespace Marimo.Parser
             new OrParser<JSONLiteral>(
                 JString,
                 JBoolean,
+                JNull,
                 JNumber);
 
         static IParser<KeyValuePair<string, JSONLiteral>> JPair =>

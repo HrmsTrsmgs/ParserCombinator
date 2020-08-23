@@ -267,5 +267,15 @@ namespace Marimo.Parser.Test
             falseValue.ValueType.Is(LiteralType.Boolean);
             falseValue.Value.Is("FALSE");
         }
+        [Fact]
+        public async Task Nullの値を識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":null}");
+
+            result.Pairs.Count.Is(1);
+            var value = (JSONLiteral)result["a"];
+            value.ValueType.Is(LiteralType.Null);
+            value.Value.IsNull();
+        }
     }
 }

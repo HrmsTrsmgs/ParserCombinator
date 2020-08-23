@@ -233,7 +233,7 @@ namespace SpracheJSONのテスト
         [Fact]
         public void 真偽値はtrueとfalseが可能です()
         {
-            var result = JSON.Parse(@"{""a"":true, ""b"":false}");
+            var result = JSON.Parse(@"{""a"":true,""b"":false}");
 
             result.Pairs.Count.Is(2);
             var trueValue = (JSONLiteral)result["a"];

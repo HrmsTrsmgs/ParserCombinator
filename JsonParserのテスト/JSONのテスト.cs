@@ -239,5 +239,19 @@ namespace Marimo.Parser.Test
             value.ValueType.Is(LiteralType.Boolean);
             value.Value.Is("true");
         }
+
+        [Fact]
+        public async Task 真偽値はtrueとfalseが可能です()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":true,""b"":false}");
+
+            result.Pairs.Count.Is(2);
+            var trueValue = (JSONLiteral)result["a"];
+            trueValue.ValueType.Is(LiteralType.Boolean);
+            trueValue.Value.Is("true");
+            var falseValue = (JSONLiteral)result["b"];
+            falseValue.ValueType.Is(LiteralType.Boolean);
+            falseValue.Value.Is("false");
+        }
     }
 }

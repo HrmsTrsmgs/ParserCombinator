@@ -253,5 +253,19 @@ namespace Marimo.Parser.Test
             falseValue.ValueType.Is(LiteralType.Boolean);
             falseValue.Value.Is("false");
         }
+
+        [Fact]
+        public async Task 真偽値は大文字と小文字を区別せずに識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":TRUE,""b"":FALSE}");
+
+            result.Pairs.Count.Is(2);
+            var trueValue = (JSONLiteral)result["a"];
+            trueValue.ValueType.Is(LiteralType.Boolean);
+            trueValue.Value.Is("TRUE");
+            var falseValue = (JSONLiteral)result["b"];
+            falseValue.ValueType.Is(LiteralType.Boolean);
+            falseValue.Value.Is("FALSE");
+        }
     }
 }

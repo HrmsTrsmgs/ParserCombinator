@@ -348,5 +348,12 @@ namespace SpracheJSONのテスト
         {
             JSON.Parse(@"{""a"" :1}");
         }
+
+        [Fact]
+        public void 小数点の前に空白があったら読み込みません()
+        {
+            Assert.Throws< ParseException>(
+                () => JSON.Parse(@"{""a"":1 .}"));
+        }
     }
 }

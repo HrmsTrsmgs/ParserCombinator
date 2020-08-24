@@ -398,5 +398,12 @@ namespace Marimo.Parser.Test
             await Assert.ThrowsAsync<ParseException>(
                 async () => await JSON.ParseAsync(@"{""a"":1 .}"));
         }
+
+        [Fact]
+        public async Task 少数部の前に空白があったら読み込みません()
+        {
+            await Assert.ThrowsAsync<ParseException>(
+                async () => await JSON.ParseAsync(@"{""a"":1. 0}"));
+        }
     }
 }

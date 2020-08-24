@@ -13,16 +13,13 @@ namespace Marimo.Parser
     
     public class JSON
     {
-        static IParser<IEnumerable<char>> WhiteSpace =>
-            new ZeroOrMoreParser<char>(
-                new CharParser(' '));
+        static IParser<char> WhiteSpace => new CharParser(' ');
 
-        static IParser<char> BraceOpen =>
-            new ParserConverter<(IEnumerable<char>, char), char>(
-                new SequenceParser<IEnumerable<char>, char>(
-                    WhiteSpace,
-                    new CharParser('{')),
-                tuple => tuple.Item2);
+        static IParser<char> BraceOpen => new CharParser('{');
+        static IParser<char> BraceOpenSign =>
+            new WithWhiteSpaceParser<char>(
+                WhiteSpace,
+                BraceOpen);
 
         static IParser<char> BraceClose => new CharParser('}');
 
@@ -188,7 +185,7 @@ namespace Marimo.Parser
         static IParser<JSONObject> JObject =>
             new ParserConverter<(char, IEnumerable<KeyValuePair<string, IJSONValue>>, char), JSONObject>(
                 new SequenceParser<char, IEnumerable<KeyValuePair<string, IJSONValue>>, char>(
-                    BraceOpen,
+                    BraceOpenSign,
                     new DelimitedSequenceParser<KeyValuePair<string, IJSONValue>, char>(
                         JPair,
                         Comma),

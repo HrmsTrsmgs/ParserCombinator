@@ -121,17 +121,19 @@ namespace Marimo.Parser
                 tuple => $"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}");
 
         static IParser<JSONLiteral> JNumber =>
-            new ParserConverter<(string, Optional<string>, Optional<string>), JSONLiteral>(
-                new SequenceParser<string, Optional<string>, Optional<string>>(
-                    JInt,
-                    new OptionalParser<string>(JFrac),
-                    new OptionalParser<string>(JExp)),
-                tuple => 
-                    new JSONLiteral(
-                        tuple.Item1 
-                        + (tuple.Item2.IsPresent ? tuple.Item2.Value : "")
-                        + (tuple.Item3.IsPresent ? tuple.Item3.Value : ""), 
-                        LiteralType.Number));
+            new WithWhiteSpaceParser<JSONLiteral>(
+                WhiteSpace,
+                new ParserConverter<(string, Optional<string>, Optional<string>), JSONLiteral>(
+                    new SequenceParser<string, Optional<string>, Optional<string>>(
+                        JInt,
+                        new OptionalParser<string>(JFrac),
+                        new OptionalParser<string>(JExp)),
+                    tuple => 
+                        new JSONLiteral(
+                            tuple.Item1 
+                            + (tuple.Item2.IsPresent ? tuple.Item2.Value : "")
+                            + (tuple.Item3.IsPresent ? tuple.Item3.Value : ""), 
+                            LiteralType.Number)));
 
         static IParser<char> ControlChar =>
             new ParserConverter<(char, char), char>(
@@ -164,12 +166,14 @@ namespace Marimo.Parser
                 ControlChar);
 
         static IParser<JSONLiteral> JString =>
-            new ParserConverter<(char, IEnumerable<char>, char), JSONLiteral>(
-                new SequenceParser<char, IEnumerable<char>, char>(
-                    DoubleQuote,
-                    new ZeroOrMoreParser<char>(JChar),
-                    DoubleQuote),
-                tuple => new JSONLiteral(new string(tuple.Item2.ToArray()), LiteralType.String));
+            new WithWhiteSpaceParser<JSONLiteral>(
+                WhiteSpace,
+                new ParserConverter<(char, IEnumerable<char>, char), JSONLiteral>(
+                    new SequenceParser<char, IEnumerable<char>, char>(
+                        DoubleQuote,
+                        new ZeroOrMoreParser<char>(JChar),
+                        DoubleQuote),
+                    tuple => new JSONLiteral(new string(tuple.Item2.ToArray()), LiteralType.String)));
 
         static IParser<JSONLiteral> JLiteral =>
             new OrParser<JSONLiteral>(
@@ -179,14 +183,12 @@ namespace Marimo.Parser
                 JNumber);
 
         static IParser<IJSONValue> JValue =>
-            new WithWhiteSpaceParser<IJSONValue>(
-                WhiteSpace,
-                new OrParser<IJSONValue>(
-                    new RecursiveParser<IJSONValue>(
-                        () => new ParserConverter<JSONArray, IJSONValue>(JArray, array => array)),
-                    new RecursiveParser<IJSONValue>(
-                        () => new ParserConverter<JSONObject, IJSONValue>(JObject, obj => obj)),
-                    new ParserConverter<JSONLiteral, IJSONValue>(JLiteral, literal => literal)));
+            new OrParser<IJSONValue>(
+                new RecursiveParser<IJSONValue>(
+                    () => new ParserConverter<JSONArray, IJSONValue>(JArray, array => array)),
+                new RecursiveParser<IJSONValue>(
+                    () => new ParserConverter<JSONObject, IJSONValue>(JObject, obj => obj)),
+                new ParserConverter<JSONLiteral, IJSONValue>(JLiteral, literal => literal));
 
         static IParser<IEnumerable<IJSONValue>> JElements =>
             new DelimitedSequenceParser<IJSONValue, char>(

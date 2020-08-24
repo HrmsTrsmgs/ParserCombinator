@@ -319,5 +319,14 @@ namespace Marimo.Parser.Test
             array.Elements[0].IsInstanceOf<JSONLiteral>();
             array.Elements[1].IsInstanceOf<JSONLiteral>();
         }
+        [Fact]
+        public async Task オブジェクトの中身のオブジェクトを識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":{}}");
+
+            result.Pairs.Count.Is(1);
+            var value = result["a"];
+            value.IsInstanceOf<JSONObject>();
+        }
     }
 }

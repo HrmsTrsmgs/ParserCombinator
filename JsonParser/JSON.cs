@@ -150,8 +150,9 @@ namespace Marimo.Parser
             new OrParser<IJSONValue>(
                 new RecursiveParser<IJSONValue>(
                     () => new ParserConverter<JSONArray, IJSONValue>(JArray, array => array)),
-                new ParserConverter<JSONLiteral, IJSONValue>(JLiteral, literal => literal)
-                );
+                new RecursiveParser<IJSONValue>(
+                    () => new ParserConverter<JSONObject, IJSONValue>(JObject, obj => obj)),
+                new ParserConverter<JSONLiteral, IJSONValue>(JLiteral, literal => literal));
 
         static IParser<IEnumerable<IJSONValue>> JElements =>
             new DelimitedSequenceParser<IJSONValue, char>(

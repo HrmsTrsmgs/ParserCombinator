@@ -318,5 +318,11 @@ namespace SpracheJSONのテスト
             var value = result["a"];
             value.IsInstanceOf<JSONObject>();
         }
+
+        [Fact]
+        public void オブジェクトの前に空白があっても読み込みます()
+        {
+            JSON.Parse(@" {}");
+        }
     }
 }

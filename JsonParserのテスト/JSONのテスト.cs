@@ -328,5 +328,11 @@ namespace Marimo.Parser.Test
             var value = result["a"];
             value.IsInstanceOf<JSONObject>();
         }
+
+        [Fact]
+        public async Task オブジェクトの前に空白があっても読み込みます()
+        {
+            await JSON.ParseAsync(@" {}");
+        }
     }
 }

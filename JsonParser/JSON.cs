@@ -96,7 +96,7 @@ namespace Marimo.Parser
                 new ZeroOrMoreParser<char>(Digit),
                 chars => new string(chars.ToArray()));
 
-        static IParser<string> JExp =
+        static IParser<string> JExp =>
             new ParserConverter<(char, Optional<char>, string), string>(
                 new SequenceParser<char, Optional<char>, string>(
                     new CharParser('e', true),
@@ -107,7 +107,7 @@ namespace Marimo.Parser
                 + (tuple.Item2.IsPresent ? tuple.Item2.Value.ToString() : "")
                 + tuple.Item3);
 
-        static IParser<string> JFrac =
+        static IParser<string> JFrac =>
             new ParserConverter<(char, string), string>(
                 new SequenceParser<char, string>(Dot, Digits),
                 tuple => tuple.Item1.ToString() + tuple.Item2);

@@ -324,5 +324,11 @@ namespace SpracheJSONのテスト
         {
             JSON.Parse(@" {}");
         }
+
+        [Fact]
+        public void オブジェクト終了の前に空白があっても読み込みます()
+        {
+            JSON.Parse(@"{ }");
+        }
     }
 }

@@ -23,6 +23,11 @@ namespace Marimo.Parser
 
         static IParser<char> BraceClose => new CharParser('}');
 
+        static IParser<char> BraceCloseSign =>
+            new WithWhiteSpaceParser<char>(
+                WhiteSpace,
+                BraceClose);
+
         static IParser<char> BracketOpen => new CharParser('[');
 
         static IParser<char> BracketClose => new CharParser(']');
@@ -189,7 +194,7 @@ namespace Marimo.Parser
                     new DelimitedSequenceParser<KeyValuePair<string, IJSONValue>, char>(
                         JPair,
                         Comma),
-                    BraceClose),
+                    BraceCloseSign),
                 tuple => new JSONObject { Pairs = tuple.Item2.ToDictionary(kv => kv.Key, kv => kv.Value) });
 
         public static async Task<JSONObject> ParseAsync(string text)

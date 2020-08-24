@@ -297,5 +297,16 @@ namespace Marimo.Parser.Test
             var value = result["a"];
             value.IsInstanceOf<JSONArray>();
         }
+
+        [Fact]
+        public async Task オブジェクトの中身の配列の中身を識別します()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":[1]}");
+
+            result.Pairs.Count.Is(1);
+            var array = (JSONArray)result["a"];
+            array.Elements.Count.Is(1);
+            array.Elements[0].IsInstanceOf<JSONLiteral>();
+        }
     }
 }

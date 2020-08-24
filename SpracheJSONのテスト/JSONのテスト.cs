@@ -378,6 +378,13 @@ namespace SpracheJSONのテスト
         }
 
         [Fact]
+        public void 数字と数字の間に空白があったら読み込みません()
+        {
+            Assert.Throws<ParseException>(
+                () => JSON.Parse(@"{""a"":1 0}"));
+        }
+
+        [Fact]
         public void 小数点の前に空白があったら読み込みません()
         {
             Assert.Throws< ParseException>(

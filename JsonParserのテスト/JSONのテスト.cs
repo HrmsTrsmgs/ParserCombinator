@@ -386,6 +386,13 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
+        public async Task 数字と数字の間に空白があったら読み込みません()
+        {
+            await Assert.ThrowsAsync<ParseException>(
+                async () => await JSON.ParseAsync(@"{""a"":1 0}"));
+        }
+
+        [Fact]
         public async Task 小数点の前に空白があったら読み込みません()
         {
             await Assert.ThrowsAsync<ParseException>(

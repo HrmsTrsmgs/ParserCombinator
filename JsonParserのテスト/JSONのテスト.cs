@@ -308,5 +308,16 @@ namespace Marimo.Parser.Test
             array.Elements.Count.Is(1);
             array.Elements[0].IsInstanceOf<JSONLiteral>();
         }
+        [Fact]
+        public async Task 配列は複数の要素を持ちます()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":[1,2]}");
+
+            result.Pairs.Count.Is(1);
+            var array = (JSONArray)result["a"];
+            array.Elements.Count.Is(2);
+            array.Elements[0].IsInstanceOf<JSONLiteral>();
+            array.Elements[1].IsInstanceOf<JSONLiteral>();
+        }
     }
 }

@@ -373,6 +373,11 @@ namespace Marimo.Parser.Test
         {
             await JSON.ParseAsync(@"{""a"": null}");
         }
+        [Fact]
+        public async Task 真偽値の前に空白があっても読み込みます()
+        {
+            await JSON.ParseAsync(@"{""a"": true}");
+        }
 
         [Fact]
         public async Task 小数点の前に空白があったら読み込みません()

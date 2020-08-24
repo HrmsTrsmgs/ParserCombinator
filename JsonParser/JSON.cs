@@ -61,6 +61,11 @@ namespace Marimo.Parser
                 WhiteSpace,
                 Collon);
 
+        static IParser<char> CommaSign =>
+            new WithWhiteSpaceParser<char>(
+                WhiteSpace,
+                Comma);
+
         static IParser<JSONLiteral> JNull =>
             new ParserConverter<string, JSONLiteral>(
                 new WordParser("null", true),
@@ -183,7 +188,7 @@ namespace Marimo.Parser
         static IParser<IEnumerable<IJSONValue>> JElements =>
             new DelimitedSequenceParser<IJSONValue, char>(
                 JValue,
-                Comma);
+                CommaSign);
 
         static IParser<JSONArray> JArray =>
             new ParserConverter<(char, IEnumerable<IJSONValue>, char), JSONArray>(
@@ -208,7 +213,7 @@ namespace Marimo.Parser
                     BraceOpenSign,
                     new DelimitedSequenceParser<KeyValuePair<string, IJSONValue>, char>(
                         JPair,
-                        Comma),
+                        CommaSign),
                     BraceCloseSign),
                 tuple => new JSONObject { Pairs = tuple.Item2.ToDictionary(kv => kv.Key, kv => kv.Value) });
 

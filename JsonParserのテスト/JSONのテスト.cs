@@ -439,5 +439,15 @@ namespace Marimo.Parser.Test
         {
             await JSON.ParseAsync(@"{""a"": ""b""}");
         }
+
+        [Fact]
+        public async Task 文字列の中の空白は文字列として読み込みます()
+        {
+            var result = await JSON.ParseAsync(@"{""a"":"" b ""}");
+
+            result.Pairs.Count.Is(1);
+            var str = (JSONLiteral)result["a"];
+            str.Value.Is(@""" b """);
+        }
     }
 }

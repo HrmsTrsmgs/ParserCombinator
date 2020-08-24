@@ -431,5 +431,15 @@ namespace SpracheJSONのテスト
         {
             JSON.Parse(@"{""a"": ""b""}");
         }
+
+        [Fact]
+        public void 文字列の中の空白は文字列として読み込みます()
+        {
+            var result = JSON.Parse(@"{""a"":"" b ""}");
+
+            result.Pairs.Count.Is(1);
+            var str = (JSONLiteral)result["a"];
+            str.Value.Is(@""" b """);
+        }
     }
 }

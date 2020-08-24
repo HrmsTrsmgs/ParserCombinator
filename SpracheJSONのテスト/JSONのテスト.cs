@@ -356,6 +356,12 @@ namespace SpracheJSONのテスト
         }
 
         [Fact]
+        public void 配列区切りのカンマの前に空白があっても読み込みます()
+        {
+            JSON.Parse(@"{""a"" :[1 ,2]}");
+        }
+
+        [Fact]
         public void 小数点の前に空白があったら読み込みません()
         {
             Assert.Throws< ParseException>(

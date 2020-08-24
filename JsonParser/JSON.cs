@@ -13,9 +13,13 @@ namespace Marimo.Parser
     
     public class JSON
     {
-        static IParser<char> BracketOpen => new CharParser('{');
+        static IParser<char> BraceOpen => new CharParser('{');
 
-        static IParser<char> BracketClose => new CharParser('}');
+        static IParser<char> BraceClose => new CharParser('}');
+
+        static IParser<char> BracketOpen => new CharParser('[');
+
+        static IParser<char> BracketClose => new CharParser(']');
 
         static IParser<char> DoubleQuote => new CharParser('"');
 
@@ -142,23 +146,44 @@ namespace Marimo.Parser
                 JNull,
                 JNumber);
 
-        static IParser<KeyValuePair<string, JSONLiteral>> JPair =>
-            new ParserConverter<(JSONLiteral, char, JSONLiteral), KeyValuePair<string, JSONLiteral>>(
-                new SequenceParser<JSONLiteral, char, JSONLiteral>(
+        static IParser<IJSONValue> JValue =>
+            new OrParser<IJSONValue>(
+                new RecursiveParser<IJSONValue>(
+                    () => new ParserConverter<JSONArray, IJSONValue>(JArray, array => array)),
+                new ParserConverter<JSONLiteral, IJSONValue>(JLiteral, literal => literal)
+                );
+
+        static IParser<IEnumerable<IJSONValue>> JElements =>
+            new DelimitedSequenceParser<IJSONValue, char>(
+                JValue,
+                Comma);
+
+        static IParser<JSONArray> JArray =>
+            new ParserConverter<(char, IEnumerable<IJSONValue>, char), JSONArray>(
+                new SequenceParser<char, IEnumerable<IJSONValue>, char>(
+                    BracketOpen,
+                    JElements,
+                    BracketClose),
+                tuple => new JSONArray(tuple.Item2.Any() ? tuple.Item2 : null));
+                
+
+        static IParser<KeyValuePair<string, IJSONValue>> JPair =>
+            new ParserConverter<(JSONLiteral, char, IJSONValue), KeyValuePair<string, IJSONValue>>(
+                new SequenceParser<JSONLiteral, char, IJSONValue>(
                             JString,
                             Collon,
-                            JLiteral),
-                tuple => new KeyValuePair<string, JSONLiteral>(tuple.Item1.Value, tuple.Item3));
+                            JValue),
+                tuple => new KeyValuePair<string, IJSONValue>(tuple.Item1.Value, tuple.Item3));
 
         static IParser<JSONObject> JObject =>
-            new ParserConverter<(char, IEnumerable<KeyValuePair<string, JSONLiteral>>, char), JSONObject>(
-                new SequenceParser<char, IEnumerable<KeyValuePair<string, JSONLiteral>>, char>(
-                    BracketOpen,
-                    new DelimitedSequenceParser<KeyValuePair<string, JSONLiteral>, char>(
+            new ParserConverter<(char, IEnumerable<KeyValuePair<string, IJSONValue>>, char), JSONObject>(
+                new SequenceParser<char, IEnumerable<KeyValuePair<string, IJSONValue>>, char>(
+                    BraceOpen,
+                    new DelimitedSequenceParser<KeyValuePair<string, IJSONValue>, char>(
                         JPair,
                         Comma),
-                    BracketClose),
-                tuple => new JSONObject { Pairs = tuple.Item2.ToDictionary(kv => kv.Key, kv => (IJSONValue)kv.Value) });
+                    BraceClose),
+                tuple => new JSONObject { Pairs = tuple.Item2.ToDictionary(kv => kv.Key, kv => kv.Value) });
 
         public static async Task<JSONObject> ParseAsync(string text)
         {

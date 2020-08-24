@@ -359,13 +359,19 @@ namespace Marimo.Parser.Test
         [Fact]
         public async Task オブジェクト区切りのカンマの前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@"{""a"" :1 ,""b"" :1}");
+            await JSON.ParseAsync(@"{""a"":1 ,""b"":1}");
         }
 
         [Fact]
         public async Task 配列区切りのカンマの前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@"{""a"" :[1 ,2]}");
+            await JSON.ParseAsync(@"{""a"":[1 ,2]}");
+        }
+
+        [Fact]
+        public async Task nullの前に空白があっても読み込みます()
+        {
+            await JSON.ParseAsync(@"{""a"": null}");
         }
 
         [Fact]

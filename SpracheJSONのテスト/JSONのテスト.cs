@@ -352,13 +352,18 @@ namespace SpracheJSONのテスト
         [Fact]
         public void オブジェクト区切りのカンマの前に空白があっても読み込みます()
         {
-            JSON.Parse(@"{""a"" :1 ,""b"" :1}");
+            JSON.Parse(@"{""a"":1 ,""b"":1}");
         }
 
         [Fact]
         public void 配列区切りのカンマの前に空白があっても読み込みます()
         {
-            JSON.Parse(@"{""a"" :[1 ,2]}");
+            JSON.Parse(@"{""a"":[1 ,2]}");
+        }
+        [Fact]
+        public void nullの前に空白があっても読み込みます()
+        {
+            JSON.Parse(@"{""a"": null}");
         }
 
         [Fact]

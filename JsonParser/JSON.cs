@@ -51,6 +51,11 @@ namespace Marimo.Parser
                 WhiteSpace,
                 BracketOpen);
 
+        static IParser<char> BracketCloseSign =>
+            new WithWhiteSpaceParser<char>(
+                WhiteSpace,
+                BracketClose);
+
         static IParser<JSONLiteral> JNull =>
             new ParserConverter<string, JSONLiteral>(
                 new WordParser("null", true),
@@ -180,7 +185,7 @@ namespace Marimo.Parser
                 new SequenceParser<char, IEnumerable<IJSONValue>, char>(
                     BracketOpenSign,
                     JElements,
-                    BracketClose),
+                    BracketCloseSign),
                 tuple => new JSONArray(tuple.Item2.Any() ? tuple.Item2 : null));
                 
 

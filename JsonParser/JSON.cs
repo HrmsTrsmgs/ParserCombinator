@@ -38,19 +38,11 @@ namespace Marimo.Parser
 
         static IParser<char> Comma => new CharParser(',');
 
-        static IParser<char> BraceOpenSign =>
-            new WithWhiteSpaceParser<char>(
-                WhiteSpace,
-                BraceOpen);
         static IParser<char> BraceCloseSign =>
             new WithWhiteSpaceParser<char>(
                 WhiteSpace,
                 BraceClose);
 
-        static IParser<char> BracketOpenSign =>
-            new WithWhiteSpaceParser<char>(
-                WhiteSpace,
-                BracketOpen);
 
         static IParser<char> BracketCloseSign =>
             new WithWhiteSpaceParser<char>(
@@ -196,7 +188,7 @@ namespace Marimo.Parser
         static IParser<JSONArray> JArray =>
             new ParserConverter<(char, IEnumerable<IJSONValue>, char), JSONArray>(
                 new SequenceParser<char, IEnumerable<IJSONValue>, char>(
-                    BracketOpenSign,
+                    BracketOpen,
                     JElements,
                     BracketCloseSign),
                 tuple => new JSONArray(tuple.Item2.Any() ? tuple.Item2 : null));
@@ -213,7 +205,7 @@ namespace Marimo.Parser
         static IParser<JSONObject> JObject =>
             new ParserConverter<(char, IEnumerable<KeyValuePair<string, IJSONValue>>, char), JSONObject>(
                 new SequenceParser<char, IEnumerable<KeyValuePair<string, IJSONValue>>, char>(
-                    BraceOpenSign,
+                    BraceOpen,
                     new DelimitedSequenceParser<KeyValuePair<string, IJSONValue>, char>(
                         JPair,
                         CommaSign),

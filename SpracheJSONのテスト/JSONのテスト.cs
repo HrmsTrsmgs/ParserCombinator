@@ -330,5 +330,11 @@ namespace SpracheJSONのテスト
         {
             JSON.Parse(@"{ }");
         }
+
+        [Fact]
+        public void 配列の前に空白があっても読み込みます()
+        {
+            JSON.Parse(@"{""a"": []}");
+        }
     }
 }

@@ -340,5 +340,10 @@ namespace Marimo.Parser.Test
         {
             await JSON.ParseAsync(@"{ }");
         }
+        [Fact]
+        public async Task 配列の前に空白があっても読み込みます()
+        {
+            await JSON.ParseAsync(@"{""a"": []}");
+        }
     }
 }

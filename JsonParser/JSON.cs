@@ -56,6 +56,11 @@ namespace Marimo.Parser
                 WhiteSpace,
                 BracketClose);
 
+        static IParser<char> CollonSign =>
+            new WithWhiteSpaceParser<char>(
+                WhiteSpace,
+                Collon);
+
         static IParser<JSONLiteral> JNull =>
             new ParserConverter<string, JSONLiteral>(
                 new WordParser("null", true),
@@ -193,7 +198,7 @@ namespace Marimo.Parser
             new ParserConverter<(JSONLiteral, char, IJSONValue), KeyValuePair<string, IJSONValue>>(
                 new SequenceParser<JSONLiteral, char, IJSONValue>(
                             JString,
-                            Collon,
+                            CollonSign,
                             JValue),
                 tuple => new KeyValuePair<string, IJSONValue>(tuple.Item1.Value, tuple.Item3));
 

@@ -350,5 +350,10 @@ namespace Marimo.Parser.Test
         {
             await JSON.ParseAsync(@"{""a"":[ ]}");
         }
+        [Fact]
+        public async Task オブジェクト区切りのコロンの前に空白があっても読み込みます()
+        {
+            await JSON.ParseAsync(@"{""a"" :1}");
+        }
     }
 }

@@ -342,5 +342,11 @@ namespace SpracheJSONのテスト
         {
             JSON.Parse(@"{""a"":[ ]}");
         }
+
+        [Fact]
+        public void オブジェクト区切りのコロンの前に空白があっても読み込みます()
+        {
+            JSON.Parse(@"{""a"" :1}");
+        }
     }
 }

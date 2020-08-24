@@ -425,5 +425,11 @@ namespace SpracheJSONのテスト
             Assert.Throws<ParseException>(
                 () => JSON.Parse(@"{""a"":1.0e+ 1}"));
         }
+
+        [Fact]
+        public void 文字列の前に空白があっても読み込みます()
+        {
+            JSON.Parse(@"{""a"": ""b""}");
+        }
     }
 }

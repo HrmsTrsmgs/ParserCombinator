@@ -411,5 +411,12 @@ namespace SpracheJSONのテスト
             Assert.Throws<ParseException>(
                 () => JSON.Parse(@"{""a"":1.0e +}"));
         }
+
+        [Fact]
+        public void 指数部の数字の前に空白があったら読み込みません()
+        {
+            Assert.Throws<ParseException>(
+                () => JSON.Parse(@"{""a"":1.0e+ 1}"));
+        }
     }
 }

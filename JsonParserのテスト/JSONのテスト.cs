@@ -419,5 +419,12 @@ namespace Marimo.Parser.Test
             await Assert.ThrowsAsync<ParseException>(
                 async () => await JSON.ParseAsync(@"{""a"":1.0e +}"));
         }
+
+        [Fact]
+        public async Task 指数部の数字の前に空白があったら読み込みません()
+        {
+            await Assert.ThrowsAsync<ParseException>(
+                async () => await JSON.ParseAsync(@"{""a"":1.0e+ 1}"));
+        }
     }
 }

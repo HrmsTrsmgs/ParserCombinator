@@ -439,7 +439,7 @@ namespace SpracheJSONのテスト
 
             result.Pairs.Count.Is(1);
             var str = (JSONLiteral)result["a"];
-            str.Value.Is(@""" b """);
+            str.Value.Is(@" b ");
         }
     }
 }

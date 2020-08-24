@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Marimo.Parser
 {
@@ -178,12 +179,14 @@ namespace Marimo.Parser
                 JNumber);
 
         static IParser<IJSONValue> JValue =>
-            new OrParser<IJSONValue>(
-                new RecursiveParser<IJSONValue>(
-                    () => new ParserConverter<JSONArray, IJSONValue>(JArray, array => array)),
-                new RecursiveParser<IJSONValue>(
-                    () => new ParserConverter<JSONObject, IJSONValue>(JObject, obj => obj)),
-                new ParserConverter<JSONLiteral, IJSONValue>(JLiteral, literal => literal));
+            new WithWhiteSpaceParser<IJSONValue>(
+                WhiteSpace,
+                new OrParser<IJSONValue>(
+                    new RecursiveParser<IJSONValue>(
+                        () => new ParserConverter<JSONArray, IJSONValue>(JArray, array => array)),
+                    new RecursiveParser<IJSONValue>(
+                        () => new ParserConverter<JSONObject, IJSONValue>(JObject, obj => obj)),
+                    new ParserConverter<JSONLiteral, IJSONValue>(JLiteral, literal => literal)));
 
         static IParser<IEnumerable<IJSONValue>> JElements =>
             new DelimitedSequenceParser<IJSONValue, char>(

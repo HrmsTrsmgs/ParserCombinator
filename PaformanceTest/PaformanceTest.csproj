@@ -18,4 +18,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\JsonParser\JsonParser.csproj" />
+    <ProjectReference Include="..\ParserCombinator\ParserCombinator.csproj" />
+  </ItemGroup>
+
 </Project>

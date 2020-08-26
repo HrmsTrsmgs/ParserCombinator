@@ -74,14 +74,14 @@ namespace Marimo.Parser
 
         static IParser<JSONLiteral> JNull =>
             new ParserConverter<string, JSONLiteral>(
-                new WordParser("null", true),
+                new WordParser("null", true, WhiteSpace),
                 word => new JSONLiteral(LiteralType.Null));
 
         static IParser<JSONLiteral> JBoolean =>
             new ParserConverter<string, JSONLiteral>(
                 new OrParser<string>(
-                    new WordParser("true", true),
-                    new WordParser("false", true)),
+                    new WordParser("true", true, WhiteSpace),
+                    new WordParser("false", true, WhiteSpace)),
                 word => new JSONLiteral(word, LiteralType.Boolean));
 
         static IParser<char> Digit =>

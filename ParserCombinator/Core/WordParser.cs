@@ -4,6 +4,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Http.Headers;
+
 namespace Marimo.ParserCombinator.Core
 {
     public class WordParser : IParser<string>
@@ -12,10 +14,14 @@ namespace Marimo.ParserCombinator.Core
 
         public bool IgnoreCase { get; }
 
-        public WordParser(string word, bool ignoreCase = false)
+        IParser<char> whiteSpace { get; }
+
+        public WordParser(string word, bool ignoreCase = false, IParser<char> whiteSpace = null)
         {
             Word = word;
             IgnoreCase = ignoreCase;
+            this.whiteSpace = whiteSpace ?? new CharParser(' ');
+
         }
 
         public async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
@@ -37,10 +43,9 @@ namespace Marimo.ParserCombinator.Core
 
         private async Task<Cursol> SkipBlankAsync(Cursol current)
         {
-            var space = new CharParser(' ');
             while (true)
             {
-                var result = await space.ParseAsync(current);
+                var result = await whiteSpace.ParseAsync(current);
                 if (!result.isSuccess) break;
                 current = result.cursol;
             }

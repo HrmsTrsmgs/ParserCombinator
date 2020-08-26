@@ -326,6 +326,18 @@ namespace SpracheJSONのテスト
         }
 
         [Fact]
+        public void タブ記号も空白として読み飛ばします()
+        {
+            JSON.Parse("\t{}");
+        }
+
+        [Fact]
+        public void CR記号も空白として読み飛ばします()
+        {
+            JSON.Parse("\r{}");
+        }
+
+        [Fact]
         public void オブジェクト終了の前に空白があっても読み込みます()
         {
             JSON.Parse(@"{ }");

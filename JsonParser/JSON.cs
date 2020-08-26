@@ -14,7 +14,11 @@ namespace Marimo.Parser
     
     public class JSON
     {
-        static IParser<char> WhiteSpace => new CharParser(' ');
+        static IParser<char> WhiteSpace =>
+            new OrParser<char>(
+                new CharParser(' '),
+                new CharParser('\t'),
+                new CharParser('\r'));
 
         static IParser<char> BraceOpen => new CharParser('{');
         

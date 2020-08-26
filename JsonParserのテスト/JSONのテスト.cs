@@ -336,6 +336,18 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
+        public async Task タブ記号も空白として読み飛ばします()
+        {
+            await JSON.ParseAsync("\t{}");
+        }
+
+        [Fact]
+        public async Task CR記号も空白として読み飛ばします()
+        {
+            await JSON.ParseAsync("\r{}");
+        }
+
+        [Fact]
         public async Task オブジェクト終了の前に空白があっても読み込みます()
         {
             await JSON.ParseAsync(@"{ }");

@@ -348,6 +348,12 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
+        public async Task LF記号も空白として読み飛ばします()
+        {
+            await JSON.ParseAsync("\n{}");
+        }
+
+        [Fact]
         public async Task オブジェクト終了の前に空白があっても読み込みます()
         {
             await JSON.ParseAsync(@"{ }");

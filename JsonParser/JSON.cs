@@ -18,7 +18,8 @@ namespace Marimo.Parser
             new OrParser<char>(
                 new CharParser(' '),
                 new CharParser('\t'),
-                new CharParser('\r'));
+                new CharParser('\r'),
+                new CharParser('\n'));
 
         static IParser<char> BraceOpen => new CharParser('{');
         

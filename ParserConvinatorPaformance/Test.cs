@@ -17,7 +17,7 @@ namespace ParserConbinatorParormance
             var path = @"..\..\..\testdata\test.json";
             if (File.Exists(path))
             {
-                string text = File.ReadAllText(@"..\..\..\testdata\test.json");
+                string text = File.ReadAllText(path);
 
                 await JSON.ParseAsync(text);
             }

@@ -11,12 +11,16 @@ namespace ParserConbinatorParormance
 {
     public class Test
     {
-        [Fact(Skip ="必要なときのみ実行")]
+        [Fact]
         public async Task パフォーマンス測定()
         {
-            string text = File.ReadAllText(@"..\..\..\testdata\test.json");
+            var path = @"..\..\..\testdata\test.json";
+            if (File.Exists(path))
+            {
+                string text = File.ReadAllText(@"..\..\..\testdata\test.json");
 
-            await JSON.ParseAsync(text);
+                await JSON.ParseAsync(text);
+            }
         }
     }
 }

@@ -14,9 +14,13 @@ namespace SpracheJSONParormanceTest
         [Fact]
         public void パフォーマンス測定()
         {
-            string text = File.ReadAllText(@"..\..\testdata\test.json");
+            var path = @"..\..\testdata\test.json";
+            if (File.Exists(path))
+            {
+                string text = File.ReadAllText(@"..\..\..\testdata\test.json");
 
-            JSON.Parse(text);
+                JSON.Parse(text);
+            }
         }
     }
 }

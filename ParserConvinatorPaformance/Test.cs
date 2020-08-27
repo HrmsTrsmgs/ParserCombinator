@@ -1,6 +1,7 @@
 ﻿using Marimo.Parser;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,14 @@ namespace ParserConbinatorParormance
             var path = @"..\..\..\testdata\test.json";
             if (File.Exists(path))
             {
+                var sw = new Stopwatch();
+                sw.Start();
                 string text = File.ReadAllText(path);
 
                 await JSON.ParseAsync(text);
+                sw.Stop();
+                var time = sw.Elapsed;
+                Console.WriteLine(time);
             }
         }
     }

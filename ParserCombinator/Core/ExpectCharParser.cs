@@ -15,16 +15,10 @@ namespace Marimo.ParserCombinator.Core
         }
 
         public async Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
-        {
-            var (isSuccess, _, _) = await ExpectChars.ParseAsync(cursol);
-            if (isSuccess)
+            => await ExpectChars.ParseAsync(cursol) switch
             {
-                return (false, cursol, default);
-            }
-            else
-            {
-                return (true, cursol.GoFoward(1), cursol.Current.Value);
-            }
-        }
+                (true, _, _) => (false, cursol, default),
+                (false, _, _) => (true, cursol.GoFoward(1), cursol.Current.Value)
+            };
     }
 }

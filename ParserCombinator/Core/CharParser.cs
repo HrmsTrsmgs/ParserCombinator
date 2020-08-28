@@ -17,12 +17,12 @@ namespace Marimo.ParserCombinator.Core
             IgnoreCase = ignoreCase;
         }
 
-        public async Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
-        => cursol.Current switch
-        {
-            var c when (IgnoreCase && c.HasValue ? Char.ToLower(c.Value) == Char.ToLower(Char) : c == Char)
-                    => (true, cursol.GoFoward(1), c.Value),
-            _ => (false, cursol, default)
-        };
+        public Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
+            => Task.FromResult(cursol.Current switch
+            {
+                var c when (IgnoreCase && c.HasValue ? Char.ToLower(c.Value) == Char.ToLower(Char) : c == Char)
+                        => (true, cursol.GoFoward(1), c.Value),
+                _ => (false, cursol, default)
+            });
     }
 }

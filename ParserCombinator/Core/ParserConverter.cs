@@ -7,20 +7,20 @@ namespace Marimo.ParserCombinator.Core
 {
     public class ParserConverter<U, T> : IParser<T>
     {
-        IParser<U> parser { get; }
-        Func<U, T> converter { get; }
+        IParser<U> Parser { get; }
+        Func<U, T> Converter { get; }
 
         public ParserConverter(IParser<U> parser, Func<U, T> converter)
         {
-            this.parser = parser;
-            this.converter = converter;
+            Parser = parser;
+            Converter = converter;
         }
 
         public async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
         {
-            var (isSuccess, afterCursol, parsed) = await parser.ParseAsync(cursol);
+            var (isSuccess, afterCursol, parsed) = await Parser.ParseAsync(cursol);
             
-            return (isSuccess, afterCursol, (isSuccess ? converter(parsed) : default));
+            return (isSuccess, afterCursol, (isSuccess ? Converter(parsed) : default));
         }
     }
 }

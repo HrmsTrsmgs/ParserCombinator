@@ -11,12 +11,10 @@ namespace Marimo.ParserCombinator.Core
         Func<IParser<T>> ParserGetter { get; }
         public RecursiveParser(Func<IParser<T>> parserGetter)
         {
-            this.ParserGetter = parserGetter;
+            ParserGetter = parserGetter;
         }
 
         public async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
-        {
-            return await ParserGetter().ParseAsync(cursol);
-        }
+            => await ParserGetter().ParseAsync(cursol);
     }
 }

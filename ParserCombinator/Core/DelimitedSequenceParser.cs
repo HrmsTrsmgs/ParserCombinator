@@ -9,17 +9,16 @@ namespace Marimo.ParserCombinator.Core
     public class DelimitedSequenceParser<T, U> : IParser<IEnumerable<T>>
     {
 
-        IParser<T> sequence { get; }
-        IParser<U> delimiter { get; }
+        IParser<T> Sequence { get; }
+        IParser<U> Delimiter { get; }
         public DelimitedSequenceParser(IParser<T> sequence, IParser<U> delimiter)
         {
-            this.sequence = sequence;
-            this.delimiter = delimiter;
+            Sequence = sequence;
+            Delimiter = delimiter;
         }
 
         public async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
         {
-
             var parseds = new List<T>();
             var current = cursol;
             bool isSuccess;
@@ -27,7 +26,7 @@ namespace Marimo.ParserCombinator.Core
             var beforeDelimiter = current;
             while (true)
             {
-                (isSuccess, current, parsed) = await sequence.ParseAsync(current);
+                (isSuccess, current, parsed) = await Sequence.ParseAsync(current);
                 if (isSuccess)
                 {
                     parseds.Add(parsed);
@@ -37,7 +36,7 @@ namespace Marimo.ParserCombinator.Core
                     return (true, beforeDelimiter, parseds);
                 }
                 beforeDelimiter = current;
-                (isSuccess, current, _) = await delimiter.ParseAsync(current);
+                (isSuccess, current, _) = await Delimiter.ParseAsync(current);
                 if (!isSuccess)
                 {
                     return (true, beforeDelimiter, parseds);

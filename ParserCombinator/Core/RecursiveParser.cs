@@ -8,15 +8,15 @@ namespace Marimo.ParserCombinator.Core
 {
     public class RecursiveParser<T> : IParser<T>
     {
-        Func<IParser<T>> parserGetter { get; }
+        Func<IParser<T>> ParserGetter { get; }
         public RecursiveParser(Func<IParser<T>> parserGetter)
         {
-            this.parserGetter = parserGetter;
+            this.ParserGetter = parserGetter;
         }
 
         public async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
         {
-            return await parserGetter().ParseAsync(cursol);
+            return await ParserGetter().ParseAsync(cursol);
         }
     }
 }

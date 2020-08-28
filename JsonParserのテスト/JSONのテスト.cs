@@ -387,7 +387,7 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task nullの前に空白があっても読み込みます()
+        public async Task Nullの前に空白があっても読み込みます()
         {
             await JSON.ParseAsync(@"{""a"": null}");
         }

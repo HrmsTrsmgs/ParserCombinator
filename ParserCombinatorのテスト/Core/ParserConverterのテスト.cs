@@ -10,24 +10,24 @@ namespace Marimo.Test.ParserCombinator.Core
 {
     public class ParserConverterのテスト
     {
-        ParserConverter<string, int> tested;
+        ParserConverter<string, int> Tested { get; }
 
         public ParserConverterのテスト()
         {
-            tested = ParserConverter.Create(new WordParser("123"), s => int.Parse(s));
+            Tested = ParserConverter.Create(new WordParser("123"), s => int.Parse(s));
         }
 
 
         [Fact]
         public async Task パースします()
         {
-            await tested.ParseAsync(new Cursol("123"));
+            await Tested.ParseAsync(new Cursol("123"));
         }
 
         [Fact]
         public async Task 指定したパーサーと同じ条件で成功します()
         {
-            var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("123"));
+            var (isSuccess, _, _) = await Tested.ParseAsync(new Cursol("123"));
 
             isSuccess.IsTrue();
         }
@@ -35,7 +35,7 @@ namespace Marimo.Test.ParserCombinator.Core
         [Fact]
         public async Task 指定したパーサーと同じ条件で失敗します()
         {
-            var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("124"));
+            var (isSuccess, _, _) = await Tested.ParseAsync(new Cursol("124"));
 
             isSuccess.IsFalse();
         }
@@ -43,7 +43,7 @@ namespace Marimo.Test.ParserCombinator.Core
         [Fact]
         public async Task 指定した通り変換がなされます()
         {
-            var (_, _, parsed) = await tested.ParseAsync(new Cursol("123"));
+            var (_, _, parsed) = await Tested.ParseAsync(new Cursol("123"));
 
             parsed.Is(123);
         }
@@ -51,14 +51,14 @@ namespace Marimo.Test.ParserCombinator.Core
         [Fact]
         public async Task 成功した時はカーソルが進みます()
         {
-            var (_, cursol, _) = await tested.ParseAsync(new Cursol("123"));
+            var (_, cursol, _) = await Tested.ParseAsync(new Cursol("123"));
 
             cursol.Index.Is(3);
         }
         [Fact]
         public async Task 失敗した時はカーソルが進みません()
         {
-            var (_, cursol, _) = await tested.ParseAsync(new Cursol("124"));
+            var (_, cursol, _) = await Tested.ParseAsync(new Cursol("124"));
 
             cursol.Index.Is(0);
         }

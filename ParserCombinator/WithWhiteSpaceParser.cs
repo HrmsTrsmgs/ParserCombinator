@@ -9,12 +9,12 @@ namespace Marimo.ParserCombinator
 {
     public class WithWhiteSpaceParser<T> : IParser<T>
     {
-        IParser<char> whiteSpace { get; }
-        IParser<T> parser { get; }
+        IParser<char> WhiteSpace { get; }
+        IParser<T> Parser { get; }
         public WithWhiteSpaceParser(IParser<char> whiteSpace, IParser<T> parser)
         {
-            this.whiteSpace = whiteSpace;
-            this.parser = parser;
+            WhiteSpace = whiteSpace;
+            Parser = parser;
         }
 
         public async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
@@ -23,10 +23,10 @@ namespace Marimo.ParserCombinator
             bool isSuccess;
             do
             {
-                (isSuccess, current, _) = await whiteSpace.ParseAsync(current);
+                (isSuccess, current, _) = await WhiteSpace.ParseAsync(current);
             } while (isSuccess);
 
-            return await parser.ParseAsync(current);
+            return await Parser.ParseAsync(current);
         }
     }
 }

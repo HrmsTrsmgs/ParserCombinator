@@ -7,15 +7,15 @@ namespace Marimo.ParserCombinator.Core
 {
     public class OptionalParser<T> : IParser<Optional<T>>
     {
-        IParser<T> parser { get; }
+        IParser<T> Parser { get; }
         public OptionalParser(IParser<T> parser)
         {
-            this.parser = parser;
+            Parser = parser;
         }
 
         public async Task<(bool isSuccess, Cursol cursol, Optional<T> parsed)> ParseAsync(Cursol cursol)
         {
-            var (isSuccess, afterCursol, parsed) = await parser.ParseAsync(cursol);
+            var (isSuccess, afterCursol, parsed) = await Parser.ParseAsync(cursol);
             return (true, afterCursol, new Optional<T>(isSuccess, parsed));
         }
     }

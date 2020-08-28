@@ -7,19 +7,17 @@ namespace Marimo.ParserCombinator.Core
 {
     public class DebugParser<T> : IParser<T>
     {
-
-
-        IParser<T> parser { get; }
-        Action hasBreakPoint { get; }
+        IParser<T> Parser { get; }
+        Action HasBreakPoint { get; }
         public DebugParser(IParser<T> parser, Action hasBreakPoint)
         {
-            this.parser = parser;
-            this.hasBreakPoint = hasBreakPoint;
+            Parser = parser;
+            HasBreakPoint = hasBreakPoint;
         }
         public async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
         {
-            hasBreakPoint();
-            return await parser.ParseAsync(cursol);
+            HasBreakPoint();
+            return await Parser.ParseAsync(cursol);
         }
     }
 }

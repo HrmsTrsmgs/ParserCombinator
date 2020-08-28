@@ -10,11 +10,11 @@ namespace Marimo.Test.ParserCombinator.Core
 {
     public class 要素を2つ持つSeqenceParserのテスト
     {
-        IParser<(string, string)> tested;
+        IParser<(string, string)> Tested { get; }
 
         public 要素を2つ持つSeqenceParserのテスト()
         {
-            tested = new SequenceParser<string, string>(
+            Tested = new SequenceParser<string, string>(
                 new WordParser("public"),
                 new WordParser("static"));
         }
@@ -24,7 +24,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("public static");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsTrue();
         }
@@ -34,7 +34,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("publica static");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -44,7 +44,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("public statiac");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -54,7 +54,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("public static");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.parsed.Is(("public", "static"));
         }
@@ -72,11 +72,11 @@ namespace Marimo.Test.ParserCombinator.Core
     }
     public class 要素を3つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string)> tested;
+        IParser<(string, string, string)> Tested { get; }
 
         public 要素を3つ持つSeqenceParserのテスト()
         {
-            tested = new SequenceParser<string, string, string>(
+            Tested = new SequenceParser<string, string, string>(
                 new WordParser("public"),
                 new WordParser("static"),
                 new WordParser("int"));
@@ -88,7 +88,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("public static int");
             
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsTrue();
         }
@@ -98,7 +98,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("publica static int");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -108,7 +108,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("public statiac int");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -118,7 +118,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("public statiac innt");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -128,7 +128,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("public static int");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.parsed.Is(("public", "static", "int"));
         }
@@ -138,18 +138,18 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("public static int");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.cursol.Index.Is("public static int".Length);
         }
     }
     public class 要素を4つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string)> tested;
+        IParser<(string, string, string, string)> Tested { get; }
 
         public 要素を4つ持つSeqenceParserのテスト()
         {
-            tested = new SequenceParser<string, string, string, string>(
+            Tested = new SequenceParser<string, string, string, string>(
                 new WordParser("ab"),
                 new WordParser("cd"),
                 new WordParser("ef"),
@@ -160,7 +160,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsTrue();
         }
@@ -170,7 +170,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("abc cd ef gh");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -180,7 +180,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cde ef gh");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -189,7 +189,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd efg gh");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -199,7 +199,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef g");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -208,7 +208,7 @@ namespace Marimo.Test.ParserCombinator.Core
         public async Task ParseAsyncは指定した単語を読み込みます()
         {
             var cursol = new Cursol("ab cd ef gh");
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.parsed.Is(("ab", "cd", "ef", "gh"));
         }
@@ -218,18 +218,18 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.cursol.Index.Is("ab cd ef gh".Length);
         }
     }
     public class 要素を5つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string)> tested;
+        IParser<(string, string, string, string, string)> Tested { get; }
 
         public 要素を5つ持つSeqenceParserのテスト()
         {
-            tested = new SequenceParser<string, string, string, string, string>(
+            Tested = new SequenceParser<string, string, string, string, string>(
                 new WordParser("ab"),
                 new WordParser("cd"),
                 new WordParser("ef"),
@@ -241,7 +241,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsTrue();
         }
@@ -251,7 +251,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("abc cd ef gh ij");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -261,7 +261,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cde ef gh ij");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -270,7 +270,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd efg gh ij");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -280,7 +280,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef ghi ij");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -290,7 +290,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh i");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -299,7 +299,7 @@ namespace Marimo.Test.ParserCombinator.Core
         public async Task ParseAsyncは指定した単語を読み込みます()
         {
             var cursol = new Cursol("ab cd ef gh ij");
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.parsed.Is(("ab", "cd", "ef", "gh", "ij"));
         }
@@ -309,18 +309,18 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.cursol.Index.Is("ab cd ef gh ij".Length);
         }
     }
     public class 要素を6つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string)> tested;
+        IParser<(string, string, string, string, string, string)> Tested { get; }
 
         public 要素を6つ持つSeqenceParserのテスト()
         {
-            tested = new SequenceParser<string, string, string, string, string, string>(
+            Tested = new SequenceParser<string, string, string, string, string, string>(
                 new WordParser("ab"),
                 new WordParser("cd"),
                 new WordParser("ef"),
@@ -333,7 +333,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsTrue();
         }
@@ -343,7 +343,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("abc cd ef gh ij kl");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -353,7 +353,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cde ef gh ij kl");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -362,7 +362,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd efg gh ij kl");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -372,7 +372,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef ghi ij kl");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -382,7 +382,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ijk kl");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -392,7 +392,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij k");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -401,7 +401,7 @@ namespace Marimo.Test.ParserCombinator.Core
         public async Task ParseAsyncは指定した単語を読み込みます()
         {
             var cursol = new Cursol("ab cd ef gh ij kl");
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.parsed.Is(("ab", "cd", "ef", "gh", "ij", "kl"));
         }
@@ -411,18 +411,18 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.cursol.Index.Is("ab cd ef gh ij kl".Length);
         }
     }
     public class 要素を7つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string, string)> tested;
+        IParser<(string, string, string, string, string, string, string)> Tested { get; }
 
         public 要素を7つ持つSeqenceParserのテスト()
         {
-            tested = new SequenceParser<string, string, string, string, string, string, string>(
+            Tested = new SequenceParser<string, string, string, string, string, string, string>(
                 new WordParser("ab"),
                 new WordParser("cd"),
                 new WordParser("ef"),
@@ -436,7 +436,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsTrue();
         }
@@ -446,7 +446,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("abc cd ef gh ij kl mn");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -456,7 +456,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cde ef gh ij kl mn");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -465,7 +465,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd efg gh ij kl mn");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -475,7 +475,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef ghi ij kl mn");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -485,7 +485,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ijk kl mn");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -495,7 +495,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij klm mn");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -505,7 +505,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl m");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -514,7 +514,7 @@ namespace Marimo.Test.ParserCombinator.Core
         public async Task ParseAsyncは指定した単語を読み込みます()
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn");
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.parsed.Is(("ab", "cd", "ef", "gh", "ij", "kl", "mn"));
         }
@@ -524,18 +524,18 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.cursol.Index.Is("ab cd ef gh ij kl mn".Length);
         }
     }
     public class 要素を8つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string, string, string)> tested;
+        IParser<(string, string, string, string, string, string, string, string)> Tested { get; }
 
         public 要素を8つ持つSeqenceParserのテスト()
         {
-            tested = new SequenceParser<string, string, string, string, string, string, string, string>(
+            Tested = new SequenceParser<string, string, string, string, string, string, string, string>(
                 new WordParser("ab"),
                 new WordParser("cd"),
                 new WordParser("ef"),
@@ -550,7 +550,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsTrue();
         }
@@ -560,7 +560,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("abc cd ef gh ij kl mn op");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -570,7 +570,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cde ef gh ij kl mn op");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -579,7 +579,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd efg gh ij kl mn op");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -589,7 +589,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef ghi ij kl mn op");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -599,7 +599,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ijk kl mn op");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -609,7 +609,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij klm mn op");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -619,7 +619,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mno op");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -629,7 +629,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn o");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -638,7 +638,7 @@ namespace Marimo.Test.ParserCombinator.Core
         public async Task ParseAsyncは指定した単語を読み込みます()
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op");
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.parsed.Is(("ab", "cd", "ef", "gh", "ij", "kl", "mn", "op"));
         }
@@ -648,18 +648,18 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.cursol.Index.Is("ab cd ef gh ij kl mn op".Length);
         }
     }
     public class 要素を9つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string, string, string, string)> tested;
+        IParser<(string, string, string, string, string, string, string, string, string)> Tested { get; }
 
         public 要素を9つ持つSeqenceParserのテスト()
         {
-            tested = new SequenceParser<string, string, string, string, string, string, string, string, string>(
+            Tested = new SequenceParser<string, string, string, string, string, string, string, string, string>(
                 new WordParser("ab"),
                 new WordParser("cd"),
                 new WordParser("ef"),
@@ -675,7 +675,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsTrue();
         }
@@ -685,7 +685,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("abc cd ef gh ij kl mn op qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -695,7 +695,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cde ef gh ij kl mn op qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -704,7 +704,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd efg gh ij kl mn op qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -714,7 +714,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef ghi ij kl mn op qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -724,7 +724,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ijk kl mn op qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -734,7 +734,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij klm mn op qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -744,7 +744,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mno op qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -754,7 +754,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn opq qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -764,7 +764,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op q");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -773,7 +773,7 @@ namespace Marimo.Test.ParserCombinator.Core
         public async Task ParseAsyncは指定した単語を読み込みます()
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op qr");
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.parsed.Is(("ab", "cd", "ef", "gh", "ij", "kl", "mn", "op", "qr"));
         }
@@ -783,18 +783,18 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op qr");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.cursol.Index.Is("ab cd ef gh ij kl mn op qr".Length);
         }
     }
     public class 要素を10持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string, string, string, string, string)> tested;
+        IParser<(string, string, string, string, string, string, string, string, string, string)> Tested { get; }
 
         public 要素を10持つSeqenceParserのテスト()
         {
-            tested = new SequenceParser<string, string, string, string, string, string, string, string, string, string>(
+            Tested = new SequenceParser<string, string, string, string, string, string, string, string, string, string>(
                 new WordParser("ab"),
                 new WordParser("cd"),
                 new WordParser("ef"),
@@ -811,7 +811,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op qr st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsTrue();
         }
@@ -821,7 +821,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("abc cd ef gh ij kl mn op qr st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -831,7 +831,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cde ef gh ij kl mn op qr st");
             
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -840,7 +840,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd efg gh ij kl mn op qr st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -850,7 +850,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef ghi ij kl mn op qr st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -860,7 +860,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ijk kl mn op qr st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -870,7 +870,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij klm mn op qr st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -880,7 +880,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mno op qr st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -890,7 +890,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn opq qr st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -900,7 +900,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op qrs st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -910,7 +910,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op qr s");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.isSuccess.IsFalse();
         }
@@ -919,7 +919,7 @@ namespace Marimo.Test.ParserCombinator.Core
         public async Task ParseAsyncは指定した単語を読み込みます()
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op qr st");
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.parsed.Is(("ab", "cd", "ef", "gh", "ij", "kl", "mn", "op", "qr", "st"));
         }
@@ -929,7 +929,7 @@ namespace Marimo.Test.ParserCombinator.Core
         {
             var cursol = new Cursol("ab cd ef gh ij kl mn op qr st");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = await Tested.ParseAsync(cursol);
 
             result.cursol.Index.Is("ab cd ef gh ij kl mn op qr st".Length);
         }

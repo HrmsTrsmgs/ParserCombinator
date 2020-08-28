@@ -14,13 +14,13 @@ namespace Marimo.ParserCombinator.Core
 
         public bool IgnoreCase { get; }
 
-        IParser<char> whiteSpace { get; }
+        IParser<char> WhiteSpace { get; }
 
         public WordParser(string word, bool ignoreCase = false, IParser<char> whiteSpace = null)
         {
             Word = word;
             IgnoreCase = ignoreCase;
-            this.whiteSpace = whiteSpace ?? new CharParser(' ');
+            WhiteSpace = whiteSpace ?? new CharParser(' ');
 
         }
 
@@ -45,9 +45,9 @@ namespace Marimo.ParserCombinator.Core
         {
             while (true)
             {
-                var result = await whiteSpace.ParseAsync(current);
-                if (!result.isSuccess) break;
-                current = result.cursol;
+                var (isSuccess, cursol, _) = await WhiteSpace.ParseAsync(current);
+                if (!isSuccess) break;
+                current = cursol;
             }
 
             return current;

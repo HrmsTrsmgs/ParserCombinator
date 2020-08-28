@@ -379,7 +379,7 @@ namespace SpracheJSONのテスト
             JSON.Parse(@"{""a"":[1 ,2]}");
         }
         [Fact]
-        public void nullの前に空白があっても読み込みます()
+        public void Nullの前に空白があっても読み込みます()
         {
             JSON.Parse(@"{""a"": null}");
         }

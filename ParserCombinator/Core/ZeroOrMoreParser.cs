@@ -7,11 +7,11 @@ namespace Marimo.ParserCombinator.Core
 {
     public class ZeroOrMoreParser<T> : IParser<IEnumerable<T>>
     {
-        IParser<T> parser;
+        IParser<T> Parser { get; }
 
         public ZeroOrMoreParser(IParser<T> parser)
         {
-            this.parser = parser;
+            Parser = parser;
         }
 
         public async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
@@ -22,7 +22,7 @@ namespace Marimo.ParserCombinator.Core
             var current = cursol;
             while (true)
             {
-                (isSuccess, current, parsed) = await parser.ParseAsync(current);
+                (isSuccess, current, parsed) = await Parser.ParseAsync(current);
                 if (!isSuccess)
                 {
                     return (true, current, parseds);

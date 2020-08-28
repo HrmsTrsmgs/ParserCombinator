@@ -7,9 +7,9 @@ namespace Marimo.ParserCombinator.Core
 {
     public class CharParser : IParser<char>
     {
-        public char Char { get; }
+        char Char { get; }
 
-        public bool IgnoreCase { get; }
+        bool IgnoreCase { get; }
 
         public CharParser(char @char, bool ignoreCase = false)
         {

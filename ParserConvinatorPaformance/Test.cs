@@ -12,7 +12,7 @@ namespace ParserConbinatorParormance
 {
     public class Test
     {
-        [Fact]
+        [Fact(Skip="リファクタリング中は基本的には実行しない")]
         public async Task パフォーマンス測定()
         {
             var path = @"..\..\..\testdata\test.json";

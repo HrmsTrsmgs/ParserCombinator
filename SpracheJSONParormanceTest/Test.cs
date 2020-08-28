@@ -12,7 +12,7 @@ namespace SpracheJSONParormanceTest
 {
     public class Test
     {
-        [Fact]
+        [Fact(Skip = "リファクタリング中は基本的には実行しない")]
         public void パフォーマンス測定()
         {
             var path = @"..\..\testdata\test.json";

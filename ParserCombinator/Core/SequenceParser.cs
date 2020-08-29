@@ -299,22 +299,4 @@ namespace Marimo.ParserCombinator.Core
         public async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) parsed)> ParseAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
-
-    class SequenceHelper
-    {
-        public Cursol Current { get; private set; }
-
-        public SequenceHelper(Cursol current) => Current = current;
-        public async Task<bool> ParseAsync<T>(IParser<T> parser, Action<T> setter)
-        {
-            var (isSuccess, cursol, parsed) = await parser.ParseAsync(Current);
-            if (!isSuccess)
-            {
-                return isSuccess;
-            }
-            Current = cursol;
-            setter(parsed);
-            return isSuccess;
-        }
-    }
 }

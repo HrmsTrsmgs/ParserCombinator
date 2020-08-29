@@ -5,39 +5,41 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Transactions;
 
 namespace Marimo.ParserCombinator.Core
 {
     public class WordParser : IParser<string>
-    {
-        public string Word { get; }
-
+    { 
+        IEnumerable<IParser<char>> Parsers { get; }
         public bool IgnoreCase { get; }
 
         IParser<char> WhiteSpace { get; }
 
         public WordParser(string word, bool ignoreCase = false, IParser<char> whiteSpace = null)
         {
-            Word = word;
-            IgnoreCase = ignoreCase;
-            WhiteSpace = whiteSpace ?? new CharParser(' ');
+            Parsers = word.Select(c => new CharParser(c, ignoreCase));
 
+            WhiteSpace = whiteSpace ?? new CharParser(' ');
         }
 
         public async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
         {
             var current = await SkipBlankAsync(cursol);
 
-            var helper = new SequenceHelper(current);
             var returnValue = new List<char>();
-            foreach (var parser in Word.Select(c => new CharParser(c, IgnoreCase)))
+            foreach (var parser in Parsers)
             {
-                if (!await helper.ParseAsync(parser, value => returnValue.Add(value)))
+                bool isSuccess;
+                char parsed;
+                (isSuccess, current, parsed) = await parser.ParseAsync(current);
+                if(!isSuccess)
                 {
-                    return (false, cursol, default);
+                    return (false, cursol, null);
                 }
+                returnValue.Add(parsed);
             }
-            current = await SkipBlankAsync(helper.Current);
+            current = await SkipBlankAsync(current);
             return (true, current, new string(returnValue.ToArray()));
         }
 
@@ -45,12 +47,10 @@ namespace Marimo.ParserCombinator.Core
         {
             while (true)
             {
-                var (isSuccess, cursol, _) = await WhiteSpace.ParseAsync(current);
-                if (!isSuccess) break;
-                current = cursol;
+                bool isSuccess;
+                (isSuccess, current, _) = await WhiteSpace.ParseAsync(current);
+                if (!isSuccess) return current;
             }
-
-            return current;
         }
     }
 }

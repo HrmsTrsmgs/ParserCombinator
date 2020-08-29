@@ -30,13 +30,13 @@ namespace Marimo.ParserCombinator.Core
         public SequenceParser(IParser<T1> parser1, IParser<T2> parser2, IParser<T3> parser3)
         {
             Parser =
-                new ParserConverter<((T1, T2), T3), (T1, T2, T3)>(
-                new SequenceParser<(T1, T2), T3>(
-                    new SequenceParser<T1, T2>(
-                        parser1,
-                        parser2),
-                    parser3),
-                tuple => (tuple.Item1.Item1, tuple.Item1.Item2, tuple.Item2));
+                new ParserConverter<(T1, (T2, T3)), (T1, T2, T3)>(
+                new SequenceParser<T1, (T2, T3)>(
+                    parser1,
+                    new SequenceParser<T2, T3>(
+                        parser2,
+                        parser3)),
+                tuple => (tuple.Item1, tuple.Item2.Item1, tuple.Item2.Item2));
         }
         public async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3) parsed)> ParseAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
@@ -51,14 +51,14 @@ namespace Marimo.ParserCombinator.Core
             IParser<T4> parser4)
         {
             Parser =
-                new ParserConverter<((T1, T2, T3), T4), (T1, T2, T3, T4)>(
-                new SequenceParser<(T1, T2, T3), T4>(
-                    new SequenceParser<T1, T2, T3>(
-                        parser1,
+                new ParserConverter<(T1, (T2, T3, T4)), (T1, T2, T3, T4)>(
+                new SequenceParser<T1, (T2, T3, T4)>(
+                    parser1,
+                    new SequenceParser<T2, T3, T4>(
                         parser2,
-                        parser3),
-                    parser4),
-                tuple => (tuple.Item1.Item1, tuple.Item1.Item2, tuple.Item1.Item3, tuple.Item2));
+                        parser3,
+                        parser4)),
+                tuple => (tuple.Item1, tuple.Item2.Item1, tuple.Item2.Item2, tuple.Item2.Item3));
         }
 
         public async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4) parsed)> ParseAsync(Cursol cursol)

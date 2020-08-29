@@ -98,7 +98,7 @@ namespace Marimo.ParserCombinator.Core
 
     public class SequenceParser<T1, T2, T3, T4, T5, T6> : IParser<(T1, T2, T3, T4, T5, T6)>
     {
-        (IParser<T1>, IParser<T2>, IParser<T3>, IParser<T4>, IParser<T5>, IParser<T6>) Parsers { get; }
+        IParser<(T1, T2, T3, T4, T5, T6)> Parser { get; }
         public SequenceParser(
             IParser<T1> parser1,
             IParser<T2> parser2,
@@ -107,24 +107,27 @@ namespace Marimo.ParserCombinator.Core
             IParser<T5> parser5,
             IParser<T6> parser6)
         {
-            Parsers = (parser1, parser2, parser3, parser4, parser5, parser6);
+            Parser =
+                new ParserConverter<(T1, (T2, T3, T4, T5, T6)), (T1, T2, T3, T4, T5, T6)>(
+                new SequenceParser<T1, (T2, T3, T4, T5, T6)>(
+                    parser1,
+                    new SequenceParser<T2, T3, T4, T5, T6>(
+                        parser2,
+                        parser3,
+                        parser4,
+                        parser5,
+                        parser6)),
+                tuple => (
+                    tuple.Item1,
+                    tuple.Item2.Item1,
+                    tuple.Item2.Item2,
+                    tuple.Item2.Item3,
+                    tuple.Item2.Item4,
+                    tuple.Item2.Item5));
         }
 
         public async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6) parsed)> ParseAsync(Cursol cursol)
-        {
-            (T1, T2, T3, T4, T5, T6) returnValue = default;
-            var helper = new SequenceHelper(cursol);
-
-            return
-                await helper.ParseAsync(Parsers.Item1, value => returnValue.Item1 = value) &&
-                await helper.ParseAsync(Parsers.Item2, value => returnValue.Item2 = value) &&
-                await helper.ParseAsync(Parsers.Item3, value => returnValue.Item3 = value) &&
-                await helper.ParseAsync(Parsers.Item4, value => returnValue.Item4 = value) &&
-                await helper.ParseAsync(Parsers.Item5, value => returnValue.Item5 = value) &&
-                await helper.ParseAsync(Parsers.Item6, value => returnValue.Item6 = value)
-                ? (true, helper.Current, returnValue)
-                : (false, cursol, default);
-        }
+            => await Parser.ParseAsync(cursol);
     }
 
     public class SequenceParser<T1, T2, T3, T4, T5, T6, T7> : IParser<(T1, T2, T3, T4, T5, T6, T7)>

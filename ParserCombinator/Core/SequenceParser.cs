@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Transactions;
+using System.Data.SqlTypes;
+
 namespace Marimo.ParserCombinator.Core
 {
     public class SequenceParser<T1, T2> : IParser<(T1, T2)>
@@ -14,14 +17,18 @@ namespace Marimo.ParserCombinator.Core
         }
         public async Task<(bool isSuccess, Cursol cursol, (T1, T2) parsed)> ParseAsync(Cursol cursol)
         {
-            (T1, T2) returnValue = default;
-            var helper = new SequenceHelper(cursol);
-
-            return
-                await helper.ParseAsync(Parsers.Item1, value => returnValue.Item1 = value) &&
-                await helper.ParseAsync(Parsers.Item2, value => returnValue.Item2 = value)
-                ? (true, helper.Current, returnValue)
-                : (false, cursol, default);
+            var (isSuccess, current, parsed1) = await Parsers.Item1.ParseAsync(cursol);
+            if (!isSuccess)
+            {
+                return (false, cursol, default);
+            }
+            T2 parsed2;
+            (isSuccess, current, parsed2) = await Parsers.Item2.ParseAsync(current);
+            if (!isSuccess)
+            {
+                return (false, cursol, default);
+            }
+            return (true, current, (parsed1, parsed2));
         }
     }
     public class SequenceParser<T1, T2, T3> : IParser<(T1, T2, T3)>

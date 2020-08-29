@@ -20,7 +20,7 @@ namespace Marimo.ParserCombinator.Core
         public override Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
             => Task.FromResult(cursol.Current switch
             {
-                var c when (IgnoreCase && c.HasValue ? Char.ToLower(c.Value) == Char.ToLower(Char) : c == Char)
+                var c when (IgnoreCase && c.HasValue ? char.ToLower(c.Value) == char.ToLower(Char) : c == Char)
                         => (true, cursol.GoFoward(1), c.Value),
                 _ => (false, cursol, default)
             });

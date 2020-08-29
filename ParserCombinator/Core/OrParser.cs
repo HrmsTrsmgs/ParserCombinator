@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace Marimo.ParserCombinator.Core
 {
-    public class OrParser<T> : IParser<T>
+    public class OrParser<T> : Parser<T>
     {
-        IParser<T>[] Parsers { get; }
+        Parser<T>[] Parsers { get; }
 
-        public OrParser(params IParser<T>[] parsers)
+        public OrParser(params Parser<T>[] parsers)
         {
             Parsers = parsers;
         }
 
-        public async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
+        public override async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
         {
             foreach(var parser in Parsers)
             {

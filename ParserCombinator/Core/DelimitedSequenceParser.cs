@@ -6,17 +6,17 @@ using System.Transactions;
 
 namespace Marimo.ParserCombinator.Core
 {
-    public class DelimitedSequenceParser<T, U> : IParser<IEnumerable<T>>
+    public class DelimitedSequenceParser<T, U> : Parser<IEnumerable<T>>
     {
-        IParser<T> Sequence { get; }
-        IParser<U> Delimiter { get; }
-        public DelimitedSequenceParser(IParser<T> sequence, IParser<U> delimiter)
+        Parser<T> Sequence { get; }
+        Parser<U> Delimiter { get; }
+        public DelimitedSequenceParser(Parser<T> sequence, Parser<U> delimiter)
         {
             Sequence = sequence;
             Delimiter = delimiter;
         }
 
-        public async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
+        public override async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
         {
             var parseds = new List<T>();
             var current = cursol;

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Marimo.ParserCombinator
 {
-    public interface IParser
+    public interface Parser
     {}
 
-    public interface IParser<T> : IParser
+    public abstract class Parser<T> : Parser
     {
-        Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol);
+        public abstract Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol);
     }
 }

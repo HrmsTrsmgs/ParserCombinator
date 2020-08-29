@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Marimo.ParserCombinator.Core
 {
-    public class OneOrMoreParser<T> : IParser<IEnumerable<T>>
+    public class OneOrMoreParser<T> : Parser<IEnumerable<T>>
     {
-        IParser<IEnumerable<T>> Parser { get; }
+        Parser<IEnumerable<T>> Parser { get; }
 
-        public OneOrMoreParser(IParser<T> parser)
+        public OneOrMoreParser(Parser<T> parser)
         {
             Parser =
                 new ParserConverter<(T, IEnumerable<T>), IEnumerable<T>>(
@@ -20,7 +20,7 @@ namespace Marimo.ParserCombinator.Core
                     tuple => new[] { tuple.Item1 }.Concat(tuple.Item2));
         }
 
-        public async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
+        public override async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
 }

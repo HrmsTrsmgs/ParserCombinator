@@ -10,7 +10,7 @@ namespace Marimo.Test.ParserCombinator.Core
 {
     public class 要素を2つ持つSeqenceParserのテスト
     {
-        IParser<(string, string)> Tested { get; }
+        Parser<(string, string)> Tested { get; }
 
         public 要素を2つ持つSeqenceParserのテスト()
         {
@@ -72,7 +72,7 @@ namespace Marimo.Test.ParserCombinator.Core
     }
     public class 要素を3つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string)> Tested { get; }
+        Parser<(string, string, string)> Tested { get; }
 
         public 要素を3つ持つSeqenceParserのテスト()
         {
@@ -145,7 +145,7 @@ namespace Marimo.Test.ParserCombinator.Core
     }
     public class 要素を4つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string)> Tested { get; }
+        Parser<(string, string, string, string)> Tested { get; }
 
         public 要素を4つ持つSeqenceParserのテスト()
         {
@@ -225,7 +225,7 @@ namespace Marimo.Test.ParserCombinator.Core
     }
     public class 要素を5つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string)> Tested { get; }
+        Parser<(string, string, string, string, string)> Tested { get; }
 
         public 要素を5つ持つSeqenceParserのテスト()
         {
@@ -316,7 +316,7 @@ namespace Marimo.Test.ParserCombinator.Core
     }
     public class 要素を6つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string)> Tested { get; }
+        Parser<(string, string, string, string, string, string)> Tested { get; }
 
         public 要素を6つ持つSeqenceParserのテスト()
         {
@@ -418,7 +418,7 @@ namespace Marimo.Test.ParserCombinator.Core
     }
     public class 要素を7つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string, string)> Tested { get; }
+        Parser<(string, string, string, string, string, string, string)> Tested { get; }
 
         public 要素を7つ持つSeqenceParserのテスト()
         {
@@ -531,7 +531,7 @@ namespace Marimo.Test.ParserCombinator.Core
     }
     public class 要素を8つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string, string, string)> Tested { get; }
+        Parser<(string, string, string, string, string, string, string, string)> Tested { get; }
 
         public 要素を8つ持つSeqenceParserのテスト()
         {
@@ -655,7 +655,7 @@ namespace Marimo.Test.ParserCombinator.Core
     }
     public class 要素を9つ持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string, string, string, string)> Tested { get; }
+        Parser<(string, string, string, string, string, string, string, string, string)> Tested { get; }
 
         public 要素を9つ持つSeqenceParserのテスト()
         {
@@ -790,7 +790,7 @@ namespace Marimo.Test.ParserCombinator.Core
     }
     public class 要素を10持つSeqenceParserのテスト
     {
-        IParser<(string, string, string, string, string, string, string, string, string, string)> Tested { get; }
+        Parser<(string, string, string, string, string, string, string, string, string, string)> Tested { get; }
 
         public 要素を10持つSeqenceParserのテスト()
         {

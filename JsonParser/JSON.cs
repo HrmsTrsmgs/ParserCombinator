@@ -14,77 +14,77 @@ namespace Marimo.Parser
     
     public class JSON
     {
-        static IParser<char> WhiteSpace =
+        static Parser<char> WhiteSpace =
             new OrParser<char>(
                 new CharParser(' '),
                 new CharParser('\t'),
                 new CharParser('\r'),
                 new CharParser('\n'));
 
-        static IParser<char> BraceOpen = new CharParser('{');
+        static Parser<char> BraceOpen = new CharParser('{');
         
-        static IParser<char> BraceClose = new CharParser('}');
+        static Parser<char> BraceClose = new CharParser('}');
 
-        static IParser<char> BracketOpen = new CharParser('[');
+        static Parser<char> BracketOpen = new CharParser('[');
 
-        static IParser<char> BracketClose = new CharParser(']');
+        static Parser<char> BracketClose = new CharParser(']');
 
-        static IParser<char> DoubleQuote = new CharParser('"');
+        static Parser<char> DoubleQuote = new CharParser('"');
 
-        static IParser<char> Collon = new CharParser(':');
+        static Parser<char> Collon = new CharParser(':');
 
-        static IParser<char> Dot = new CharParser('.');
+        static Parser<char> Dot = new CharParser('.');
 
-        static IParser<char> Plus = new CharParser('+');
+        static Parser<char> Plus = new CharParser('+');
 
-        static IParser<char> Minus = new CharParser('-');
+        static Parser<char> Minus = new CharParser('-');
 
-        static IParser<char> BackSlash = new CharParser('\\');
+        static Parser<char> BackSlash = new CharParser('\\');
 
-        static IParser<char> Comma = new CharParser(',');
+        static Parser<char> Comma = new CharParser(',');
 
-        static IParser<char> BraceOpenSign =
+        static Parser<char> BraceOpenSign =
             new WithWhiteSpaceParser<char>(
                 WhiteSpace,
                 BraceOpen);
-        static IParser<char> BraceCloseSign =
+        static Parser<char> BraceCloseSign =
             new WithWhiteSpaceParser<char>(
                 WhiteSpace,
                 BraceClose);
 
-        static IParser<char> BracketOpenSign =
+        static Parser<char> BracketOpenSign =
             new WithWhiteSpaceParser<char>(
                 WhiteSpace,
                 BracketOpen);
 
-        static IParser<char> BracketCloseSign =
+        static Parser<char> BracketCloseSign =
             new WithWhiteSpaceParser<char>(
                 WhiteSpace,
                 BracketClose);
 
-        static IParser<char> CollonSign =
+        static Parser<char> CollonSign =
             new WithWhiteSpaceParser<char>(
                 WhiteSpace,
                 Collon);
 
-        static IParser<char> CommaSign =
+        static Parser<char> CommaSign =
             new WithWhiteSpaceParser<char>(
                 WhiteSpace,
                 Comma);
 
-        static IParser<JSONLiteral> JNull =
+        static Parser<JSONLiteral> JNull =
             new ParserConverter<string, JSONLiteral>(
                 new WordParser("null", true, WhiteSpace),
                 word => new JSONLiteral(LiteralType.Null));
 
-        static IParser<JSONLiteral> JBoolean =
+        static Parser<JSONLiteral> JBoolean =
             new ParserConverter<string, JSONLiteral>(
                 new OrParser<string>(
                     new WordParser("true", true, WhiteSpace),
                     new WordParser("false", true, WhiteSpace)),
                 word => new JSONLiteral(word, LiteralType.Boolean));
 
-        static IParser<char> Digit =
+        static Parser<char> Digit =
             new OrParser<char>(
                 new CharParser('1'),
                 new CharParser('2'),
@@ -97,12 +97,12 @@ namespace Marimo.Parser
                 new CharParser('9'),
                 new CharParser('0'));
 
-        static IParser<string> Digits =
+        static Parser<string> Digits =
             new ParserConverter<IEnumerable<char>, string>(
                 new ZeroOrMoreParser<char>(Digit),
                 chars => new string(chars.ToArray()));
 
-        static IParser<string> JExp =
+        static Parser<string> JExp =
             new ParserConverter<(char, Optional<char>, string), string>(
                 new SequenceParser<char, Optional<char>, string>(
                     new CharParser('e', true),
@@ -113,19 +113,19 @@ namespace Marimo.Parser
                 + (tuple.Item2.IsPresent ? tuple.Item2.Value.ToString() : "")
                 + tuple.Item3);
 
-        static IParser<string> JFrac =
+        static Parser<string> JFrac =
             new ParserConverter<(char, string), string>(
                 new SequenceParser<char, string>(Dot, Digits),
                 tuple => tuple.Item1.ToString() + tuple.Item2);
 
-        static IParser<string> JInt =
+        static Parser<string> JInt =
             new ParserConverter<(Optional<char>, string), string>(
                 new SequenceParser<Optional<char>, string>(
                     new OptionalParser<char>(new CharParser('-')),
                     Digits),
                 tuple => $"{(tuple.Item1.IsPresent ? "-" : "")}{tuple.Item2}");
 
-        static IParser<JSONLiteral> JNumber =
+        static Parser<JSONLiteral> JNumber =
             new WithWhiteSpaceParser<JSONLiteral>(
                 WhiteSpace,
                 new ParserConverter<(string, Optional<string>, Optional<string>), JSONLiteral>(
@@ -140,7 +140,7 @@ namespace Marimo.Parser
                             + (tuple.Item3.IsPresent ? tuple.Item3.Value : ""), 
                             LiteralType.Number)));
 
-        static IParser<char> ControlChar =
+        static Parser<char> ControlChar =
             new ParserConverter<(char, char), char>(
                 new SequenceParser<char, char>(
                     BackSlash,
@@ -162,7 +162,7 @@ namespace Marimo.Parser
                     var c => c
                 });
 
-        static IParser<char> JChar =
+        static Parser<char> JChar =
             new OrParser<char>(
                 new ExpectCharParser(
                     new OrParser<char>(
@@ -170,7 +170,7 @@ namespace Marimo.Parser
                         BackSlash)),
                 ControlChar);
 
-        static IParser<JSONLiteral> JString =
+        static Parser<JSONLiteral> JString =
             new WithWhiteSpaceParser<JSONLiteral>(
                 WhiteSpace,
                 new ParserConverter<(char, IEnumerable<char>, char), JSONLiteral>(
@@ -180,14 +180,14 @@ namespace Marimo.Parser
                         DoubleQuote),
                     tuple => new JSONLiteral(new string(tuple.Item2.ToArray()), LiteralType.String)));
 
-        static IParser<JSONLiteral> JLiteral =
+        static Parser<JSONLiteral> JLiteral =
             new OrParser<JSONLiteral>(
                 JString,
                 JBoolean,
                 JNull,
                 JNumber);
 
-        static IParser<IJSONValue> JValue =
+        static Parser<IJSONValue> JValue =
             new OrParser<IJSONValue>(
                 new RecursiveParser<IJSONValue>(
                     () => new ParserConverter<JSONArray, IJSONValue>(JArray, array => array)),
@@ -195,12 +195,12 @@ namespace Marimo.Parser
                     () => new ParserConverter<JSONObject, IJSONValue>(JObject, obj => obj)),
                 new ParserConverter<JSONLiteral, IJSONValue>(JLiteral, literal => literal));
 
-        static IParser<IEnumerable<IJSONValue>> JElements =
+        static Parser<IEnumerable<IJSONValue>> JElements =
             new DelimitedSequenceParser<IJSONValue, char>(
                 JValue,
                 CommaSign);
 
-        static IParser<JSONArray> JArray =
+        static Parser<JSONArray> JArray =
             new ParserConverter<(char, IEnumerable<IJSONValue>, char), JSONArray>(
                 new SequenceParser<char, IEnumerable<IJSONValue>, char>(
                     BracketOpenSign,
@@ -209,7 +209,7 @@ namespace Marimo.Parser
                 tuple => new JSONArray(tuple.Item2.Any() ? tuple.Item2 : null));
                 
 
-        static IParser<KeyValuePair<string, IJSONValue>> JPair =
+        static Parser<KeyValuePair<string, IJSONValue>> JPair =
             new ParserConverter<(JSONLiteral, char, IJSONValue), KeyValuePair<string, IJSONValue>>(
                 new SequenceParser<JSONLiteral, char, IJSONValue>(
                             JString,
@@ -217,7 +217,7 @@ namespace Marimo.Parser
                             JValue),
                 tuple => new KeyValuePair<string, IJSONValue>(tuple.Item1.Value, tuple.Item3));
 
-        static IParser<JSONObject> JObject =
+        static Parser<JSONObject> JObject =
             new ParserConverter<(char, IEnumerable<KeyValuePair<string, IJSONValue>>, char), JSONObject>(
                 new SequenceParser<char, IEnumerable<KeyValuePair<string, IJSONValue>>, char>(
                     BraceOpenSign,

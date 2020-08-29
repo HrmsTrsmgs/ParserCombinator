@@ -7,17 +7,17 @@ using System.Transactions;
 
 namespace Marimo.ParserCombinator
 {
-    public class WithWhiteSpaceParser<T> : IParser<T>
+    public class WithWhiteSpaceParser<T> : Parser<T>
     {
-        IParser<char> WhiteSpace { get; }
-        IParser<T> Parser { get; }
-        public WithWhiteSpaceParser(IParser<char> whiteSpace, IParser<T> parser)
+        Parser<char> WhiteSpace { get; }
+        Parser<T> Parser { get; }
+        public WithWhiteSpaceParser(Parser<char> whiteSpace, Parser<T> parser)
         {
             WhiteSpace = whiteSpace;
             Parser = parser;
         }
 
-        public async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
+        public override async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
         {
             var current = cursol;
             bool isSuccess;

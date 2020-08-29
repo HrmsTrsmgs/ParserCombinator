@@ -9,21 +9,21 @@ using System.Transactions;
 
 namespace Marimo.ParserCombinator.Core
 {
-    public class WordParser : IParser<string>
+    public class WordParser : Parser<string>
     { 
-        IEnumerable<IParser<char>> Parsers { get; }
+        IEnumerable<Parser<char>> Parsers { get; }
         public bool IgnoreCase { get; }
 
-        IParser<char> WhiteSpace { get; }
+        Parser<char> WhiteSpace { get; }
 
-        public WordParser(string word, bool ignoreCase = false, IParser<char> whiteSpace = null)
+        public WordParser(string word, bool ignoreCase = false, Parser<char> whiteSpace = null)
         {
             Parsers = word.Select(c => new CharParser(c, ignoreCase));
 
             WhiteSpace = whiteSpace ?? new CharParser(' ');
         }
 
-        public async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
+        public override async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
         {
             var current = await SkipBlankAsync(cursol);
 

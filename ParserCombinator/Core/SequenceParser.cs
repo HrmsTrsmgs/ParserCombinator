@@ -26,23 +26,21 @@ namespace Marimo.ParserCombinator.Core
     }
     public class SequenceParser<T1, T2, T3> : IParser<(T1, T2, T3)>
     {
-        (IParser<T1>, IParser<T2>, IParser<T3>) Parsers { get; }
+        IParser<(T1, T2, T3)> Parser { get; }
         public SequenceParser(IParser<T1> parser1, IParser<T2> parser2, IParser<T3> parser3)
         {
-            Parsers = (parser1, parser2, parser3);
+            Parser =
+                new ParserConverter<((T1, T2), T3), (T1, T2, T3)>(
+                new SequenceParser<(T1, T2), T3>(
+                    new SequenceParser<T1, T2>(
+                        parser1,
+                        parser2),
+                    parser3),
+                tuple => (tuple.Item1.Item1, tuple.Item1.Item2, tuple.Item2));
+
         }
         public async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3) parsed)> ParseAsync(Cursol cursol)
-        {
-            (T1, T2, T3) returnValue = default;
-            var helper = new SequenceHelper(cursol);
-
-            return
-                await helper.ParseAsync(Parsers.Item1, value => returnValue.Item1 = value) &&
-                await helper.ParseAsync(Parsers.Item2, value => returnValue.Item2 = value) &&
-                await helper.ParseAsync(Parsers.Item3, value => returnValue.Item3 = value)
-                ? (true, helper.Current, returnValue)
-                : (false, cursol, default);
-        }
+            => await Parser.ParseAsync(cursol);
     }
     public class SequenceParser<T1, T2, T3, T4> : IParser<(T1, T2, T3, T4)>
     {

@@ -23,7 +23,7 @@ namespace Marimo.ParserCombinator.Core
             WhiteSpace = whiteSpace ?? new CharParser(' ');
         }
 
-        public override async Task<(bool isSuccess,Cursol cursol, string parsed)>  ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess,Cursol cursol, string parsed)>  ParseCoreAsync(Cursol cursol)
         {
             var current = await SkipBlankAsync(cursol);
 

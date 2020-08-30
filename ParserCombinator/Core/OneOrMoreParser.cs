@@ -20,7 +20,7 @@ namespace Marimo.ParserCombinator.Core
                     tuple => new[] { tuple.Item1 }.Concat(tuple.Item2));
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseCoreAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
 }

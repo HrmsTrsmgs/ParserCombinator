@@ -14,7 +14,7 @@ namespace Marimo.ParserCombinator.Core
             Parser = parser;
             HasBreakPoint = hasBreakPoint;
         }
-        public override async Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, T parsed)> ParseCoreAsync(Cursol cursol)
         {
             HasBreakPoint();
             return await Parser.ParseAsync(cursol);

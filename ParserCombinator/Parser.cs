@@ -11,6 +11,11 @@ namespace Marimo.ParserCombinator
 
     public abstract class Parser<T> : Parser
     {
-        public abstract Task<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol);
+        public async ValueTask<(bool isSuccess, Cursol cursol, T parsed)> ParseAsync(Cursol cursol)
+        {
+            return await ParseCoreAsync(cursol);
+        }
+
+        protected abstract ValueTask<(bool isSuccess, Cursol cursol, T parsed)> ParseCoreAsync(Cursol cursol);
     }
 }

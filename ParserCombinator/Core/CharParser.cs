@@ -17,8 +17,8 @@ namespace Marimo.ParserCombinator.Core
             IgnoreCase = ignoreCase;
         }
 
-        public override Task<(bool isSuccess, Cursol cursol, char parsed)> ParseAsync(Cursol cursol)
-            => Task.FromResult(cursol.Current switch
+        protected override ValueTask<(bool isSuccess, Cursol cursol, char parsed)> ParseCoreAsync(Cursol cursol)
+            => new ValueTask<(bool isSuccess, Cursol cursol, char parsed)>(cursol.Current switch
             {
                 var c when (IgnoreCase && c.HasValue ? char.ToLower(c.Value) == char.ToLower(Char) : c == Char)
                         => (true, cursol.GoFoward(1), c.Value),

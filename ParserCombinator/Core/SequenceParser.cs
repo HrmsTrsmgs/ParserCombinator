@@ -15,7 +15,7 @@ namespace Marimo.ParserCombinator.Core
         {
             Parsers = (parser1, parser2);
         }
-        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2) parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, (T1, T2) parsed)> ParseCoreAsync(Cursol cursol)
         {
             var (isSuccess, current, parsed1) = await Parsers.Item1.ParseAsync(cursol);
             if (!isSuccess)
@@ -45,7 +45,7 @@ namespace Marimo.ParserCombinator.Core
                         parser3)),
                 tuple => (tuple.Item1, tuple.Item2.Item1, tuple.Item2.Item2));
         }
-        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3) parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, (T1, T2, T3) parsed)> ParseCoreAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
     public class SequenceParser<T1, T2, T3, T4> : Parser<(T1, T2, T3, T4)>
@@ -68,7 +68,7 @@ namespace Marimo.ParserCombinator.Core
                 tuple => (tuple.Item1, tuple.Item2.Item1, tuple.Item2.Item2, tuple.Item2.Item3));
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4) parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4) parsed)> ParseCoreAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
 
@@ -99,7 +99,7 @@ namespace Marimo.ParserCombinator.Core
                     tuple.Item2.Item4));
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5) parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5) parsed)> ParseCoreAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
 
@@ -133,7 +133,7 @@ namespace Marimo.ParserCombinator.Core
                     tuple.Item2.Item5));
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6) parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6) parsed)> ParseCoreAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
 
@@ -170,7 +170,7 @@ namespace Marimo.ParserCombinator.Core
                     tuple.Item2.Item6));
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6, T7) parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6, T7) parsed)> ParseCoreAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
     public class SequenceParser<T1, T2, T3, T4, T5, T6, T7, T8> : Parser<(T1, T2, T3, T4, T5, T6, T7, T8)>
@@ -209,7 +209,7 @@ namespace Marimo.ParserCombinator.Core
                     tuple.Item2.Item7));
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6, T7, T8) parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6, T7, T8) parsed)> ParseCoreAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
     public class SequenceParser<T1, T2, T3, T4, T5, T6, T7, T8, T9> : Parser<(T1, T2, T3, T4, T5, T6, T7, T8, T9)>
@@ -251,7 +251,7 @@ namespace Marimo.ParserCombinator.Core
                     tuple.Item2.Item8));
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6, T7, T8, T9) parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6, T7, T8, T9) parsed)> ParseCoreAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
     public class SequenceParser<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : Parser<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)>
@@ -296,7 +296,7 @@ namespace Marimo.ParserCombinator.Core
                     tuple.Item2.Item9));
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) parsed)> ParseCoreAsync(Cursol cursol)
             => await Parser.ParseAsync(cursol);
     }
 }

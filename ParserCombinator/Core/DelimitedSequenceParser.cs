@@ -16,7 +16,7 @@ namespace Marimo.ParserCombinator.Core
             Delimiter = delimiter;
         }
 
-        public override async Task<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseAsync(Cursol cursol)
+        protected override async ValueTask<(bool isSuccess, Cursol cursol, IEnumerable<T> parsed)> ParseCoreAsync(Cursol cursol)
         {
             var parseds = new List<T>();
             var current = cursol;

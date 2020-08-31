@@ -1,13 +1,15 @@
 ﻿using Marimo.ParserCombinator.Core;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Marimo.ParserCombinator
 {
-    public interface Parser
-    {}
+    public abstract class Parser
+    {
+    }
 
     public abstract class Parser<T> : Parser
     {

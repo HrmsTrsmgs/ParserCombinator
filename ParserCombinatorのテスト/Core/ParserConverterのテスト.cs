@@ -19,46 +19,46 @@ namespace Marimo.Test.ParserCombinator.Core
 
 
         [Fact]
-        public async Task パースします()
+        public void パースします()
         {
-            await Tested.ParseAsync(new Cursol("123"));
+            Tested.Parse(new Cursol("123"));
         }
 
         [Fact]
-        public async Task 指定したパーサーと同じ条件で成功します()
+        public void 指定したパーサーと同じ条件で成功します()
         {
-            var (isSuccess, _, _) = await Tested.ParseAsync(new Cursol("123"));
+            var (isSuccess, _, _) = Tested.Parse(new Cursol("123"));
 
             isSuccess.IsTrue();
         }
 
         [Fact]
-        public async Task 指定したパーサーと同じ条件で失敗します()
+        public void 指定したパーサーと同じ条件で失敗します()
         {
-            var (isSuccess, _, _) = await Tested.ParseAsync(new Cursol("124"));
+            var (isSuccess, _, _) = Tested.Parse(new Cursol("124"));
 
             isSuccess.IsFalse();
         }
 
         [Fact]
-        public async Task 指定した通り変換がなされます()
+        public void 指定した通り変換がなされます()
         {
-            var (_, _, parsed) = await Tested.ParseAsync(new Cursol("123"));
+            var (_, _, parsed) = Tested.Parse(new Cursol("123"));
 
             parsed.Is(123);
         }
 
         [Fact]
-        public async Task 成功した時はカーソルが進みます()
+        public void 成功した時はカーソルが進みます()
         {
-            var (_, cursol, _) = await Tested.ParseAsync(new Cursol("123"));
+            var (_, cursol, _) = Tested.Parse(new Cursol("123"));
 
             cursol.Index.Is(3);
         }
         [Fact]
-        public async Task 失敗した時はカーソルが進みません()
+        public void 失敗した時はカーソルが進みません()
         {
-            var (_, cursol, _) = await Tested.ParseAsync(new Cursol("124"));
+            var (_, cursol, _) = Tested.Parse(new Cursol("124"));
 
             cursol.Index.Is(0);
         }

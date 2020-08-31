@@ -10,20 +10,20 @@ namespace Marimo.ParserCombinator.Test.Core
     public class RecursiveParserのテスト
     {
         [Fact]
-        public async Task ParseAsyncは内部パーサーと同じように成功します()
+        public void ParseAsyncは内部パーサーと同じように成功します()
         {
             var cursol = new Cursol("public");
             var parser = new CharParser('p');
             var tested = new RecursiveParser<char>(() => parser);
-            (await tested.ParseAsync(cursol)).IsStructuralEqual(await parser.ParseAsync(cursol));
+            (tested.Parse(cursol)).IsStructuralEqual(parser.Parse(cursol));
         }
         [Fact]
-        public async Task ParseAsyncは内部パーサーと同じように失敗します()
+        public void ParseAsyncは内部パーサーと同じように失敗します()
         {
             var cursol = new Cursol("public");
             var parser = new CharParser('a');
             var tested = new RecursiveParser<char>(() => parser);
-            (await tested.ParseAsync(cursol)).IsStructuralEqual(await parser.ParseAsync(cursol));
+            (tested.Parse(cursol)).IsStructuralEqual(parser.Parse(cursol));
         }
     }
 }

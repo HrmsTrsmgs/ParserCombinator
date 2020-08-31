@@ -9,26 +9,26 @@ namespace Marimo.Parser.Test
     public class JSONのテスト
     {
         [Fact]
-        public async Task 空のオブジェクトを識別します()
+        public void 空のオブジェクトを識別します()
         {
-            var result =await JSON.ParseAsync("{}");
+            var result =JSON.ParseAsync("{}");
 
             result.Pairs.Count.Is(0);
         }
 
         [Fact]
-        public async Task オブジェクトの中身の値を識別します()
+        public void オブジェクトの中身の値を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":1}");
+            var result = JSON.ParseAsync(@"{""a"":1}");
 
             result.Pairs.Count.Is(1);
             var value = result["a"];
             value.IsInstanceOf<JSONLiteral>();
         }
         [Fact]
-        public async Task オブジェクトの中身は複数持てます()
+        public void オブジェクトの中身は複数持てます()
         {
-            var result = await JSON.ParseAsync(@"{""a"":1,""b"":2}");
+            var result = JSON.ParseAsync(@"{""a"":1,""b"":2}");
 
             result.Pairs.Count.Is(2);
             var value = result["a"];
@@ -38,9 +38,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値はマイナスを識別します()
+        public void 数値はマイナスを識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":-1}");
+            var result = JSON.ParseAsync(@"{""a"":-1}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -49,9 +49,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値は複数桁を識別します()
+        public void 数値は複数桁を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":123}");
+            var result = JSON.ParseAsync(@"{""a"":123}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -60,9 +60,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値は0から9を識別します()
+        public void 数値は0から9を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":1234567890}");
+            var result = JSON.ParseAsync(@"{""a"":1234567890}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -71,9 +71,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値は小数を識別します()
+        public void 数値は小数を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":1.2}");
+            var result = JSON.ParseAsync(@"{""a"":1.2}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -82,9 +82,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値は小数点以下複数桁を識別します()
+        public void 数値は小数点以下複数桁を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":1.234}");
+            var result = JSON.ParseAsync(@"{""a"":1.234}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -93,9 +93,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値は小数で整数部の数字は0個でも識別します()
+        public void 数値は小数で整数部の数字は0個でも識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":}");
+            var result = JSON.ParseAsync(@"{""a"":}");
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
             value.ValueType.Is(LiteralType.Number);
@@ -103,9 +103,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値は小数で小数部の数字は0個でも識別します()
+        public void 数値は小数で小数部の数字は0個でも識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":0.}");
+            var result = JSON.ParseAsync(@"{""a"":0.}");
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
             value.ValueType.Is(LiteralType.Number);
@@ -113,10 +113,10 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値は指数部を識別します()
+        public void 数値は指数部を識別します()
         {
             // これで指数部が成立するか疑問なのだが移植なので。
-            var result = await JSON.ParseAsync(@"{""a"":e}");
+            var result = JSON.ParseAsync(@"{""a"":e}");
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
             value.ValueType.Is(LiteralType.Number);
@@ -124,10 +124,10 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値の指数部Eは大文字でも小文字でも識別します()
+        public void 数値の指数部Eは大文字でも小文字でも識別します()
         {
             // これで指数部が成立するか疑問なのだが移植なので。
-            var result = await JSON.ParseAsync(@"{""a"":E}");
+            var result = JSON.ParseAsync(@"{""a"":E}");
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
             value.ValueType.Is(LiteralType.Number);
@@ -135,10 +135,10 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値の指数部のプラスを識別します()
+        public void 数値の指数部のプラスを識別します()
         {
             // これで指数部が成立するか疑問なのだが移植なので。
-            var result = await JSON.ParseAsync(@"{""a"":e+}");
+            var result = JSON.ParseAsync(@"{""a"":e+}");
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
             value.ValueType.Is(LiteralType.Number);
@@ -146,28 +146,28 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値の指数部のマイナスを識別します()
+        public void 数値の指数部のマイナスを識別します()
         {
             // これで指数部が成立するか疑問なのだが移植なので。
-            var result = await JSON.ParseAsync(@"{""a"":e-}");
+            var result = JSON.ParseAsync(@"{""a"":e-}");
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
             value.ValueType.Is(LiteralType.Number);
             value.Value.Is("e-");
         }
         [Fact]
-        public async Task 数値の指数部の数値を識別します()
+        public void 数値の指数部の数値を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":e+0}");
+            var result = JSON.ParseAsync(@"{""a"":e+0}");
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
             value.ValueType.Is(LiteralType.Number);
             value.Value.Is("e+0");
         }
         [Fact]
-        public async Task 数値の指数部の複数の数字を識別します()
+        public void 数値の指数部の複数の数字を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":e+10}");
+            var result = JSON.ParseAsync(@"{""a"":e+10}");
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
             value.ValueType.Is(LiteralType.Number);
@@ -175,22 +175,22 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 数値の指数部のプラスマイナスが数字の後だと認識しません()
+        public void 数値の指数部のプラスマイナスが数字の後だと認識しません()
         {
-            await Assert.ThrowsAsync<ParseException>(
-                async () => await JSON.ParseAsync(@"{""a"":e10+}"));
+            Assert.Throws<ParseException>(
+                () => JSON.ParseAsync(@"{""a"":e10+}"));
         }
         [Fact]
-        public async Task 数値の指数部のプラスマイナスがeの前だと認識しません()
+        public void 数値の指数部のプラスマイナスがeの前だと認識しません()
         {
-            await Assert.ThrowsAsync<ParseException>(
-                async () => await JSON.ParseAsync(@"{""a"":+e10}"));
+            Assert.Throws<ParseException>(
+                () => JSON.ParseAsync(@"{""a"":+e10}"));
         }
 
         [Fact]
-        public async Task 値が何もない場合は数値と判断されます()
+        public void 値が何もない場合は数値と判断されます()
         {
-            var result = await JSON.ParseAsync(@"{""a"":}");
+            var result = JSON.ParseAsync(@"{""a"":}");
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
             value.ValueType.Is(LiteralType.Number);
@@ -198,9 +198,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 文字列の値を識別します()
+        public void 文字列の値を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":""b""}");
+            var result = JSON.ParseAsync(@"{""a"":""b""}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -209,9 +209,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 文字列の複数文字を識別します()
+        public void 文字列の複数文字を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":""bc""}");
+            var result = JSON.ParseAsync(@"{""a"":""bc""}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -220,9 +220,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 文字列のエスケープ文字を識別します()
+        public void 文字列のエスケープ文字を識別します()
         {
-            var result = await JSON.ParseAsync("{\"a\":\"\\\\\\\"\\b\\f\\n\\r\\t\"}");
+            var result = JSON.ParseAsync("{\"a\":\"\\\\\\\"\\b\\f\\n\\r\\t\"}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -230,9 +230,9 @@ namespace Marimo.Parser.Test
             value.Value.Is("\\\"\b\f\n\r\t");
         }
         [Fact]
-        public async Task 真偽値の値を識別します()
+        public void 真偽値の値を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":true}");
+            var result = JSON.ParseAsync(@"{""a"":true}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -241,9 +241,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 真偽値はtrueとfalseが可能です()
+        public void 真偽値はtrueとfalseが可能です()
         {
-            var result = await JSON.ParseAsync(@"{""a"":true,""b"":false}");
+            var result = JSON.ParseAsync(@"{""a"":true,""b"":false}");
 
             result.Pairs.Count.Is(2);
             var trueValue = (JSONLiteral)result["a"];
@@ -255,9 +255,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task 真偽値は大文字と小文字を区別せずに識別します()
+        public void 真偽値は大文字と小文字を区別せずに識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":TRUE,""b"":FALSE}");
+            var result = JSON.ParseAsync(@"{""a"":TRUE,""b"":FALSE}");
 
             result.Pairs.Count.Is(2);
             var trueValue = (JSONLiteral)result["a"];
@@ -268,9 +268,9 @@ namespace Marimo.Parser.Test
             falseValue.Value.Is("FALSE");
         }
         [Fact]
-        public async Task Nullの値を識別します()
+        public void Nullの値を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":null}");
+            var result = JSON.ParseAsync(@"{""a"":null}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -279,9 +279,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task Nullの値の識別は大文字小文字を区別しません()
+        public void Nullの値の識別は大文字小文字を区別しません()
         {
-            var result = await JSON.ParseAsync(@"{""a"":NULL}");
+            var result = JSON.ParseAsync(@"{""a"":NULL}");
 
             result.Pairs.Count.Is(1);
             var value = (JSONLiteral)result["a"];
@@ -289,9 +289,9 @@ namespace Marimo.Parser.Test
             value.Value.IsNull();
         }
         [Fact]
-        public async Task オブジェクトの中身の配列を識別します()
+        public void オブジェクトの中身の配列を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":[]}");
+            var result = JSON.ParseAsync(@"{""a"":[]}");
 
             result.Pairs.Count.Is(1);
             var value = result["a"];
@@ -299,9 +299,9 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task オブジェクトの中身の配列の中身を識別します()
+        public void オブジェクトの中身の配列の中身を識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":[1]}");
+            var result = JSON.ParseAsync(@"{""a"":[1]}");
 
             result.Pairs.Count.Is(1);
             var array = (JSONArray)result["a"];
@@ -309,9 +309,9 @@ namespace Marimo.Parser.Test
             array.Elements[0].IsInstanceOf<JSONLiteral>();
         }
         [Fact]
-        public async Task 配列は複数の要素を持ちます()
+        public void 配列は複数の要素を持ちます()
         {
-            var result = await JSON.ParseAsync(@"{""a"":[1,2]}");
+            var result = JSON.ParseAsync(@"{""a"":[1,2]}");
 
             result.Pairs.Count.Is(1);
             var array = (JSONArray)result["a"];
@@ -320,9 +320,9 @@ namespace Marimo.Parser.Test
             array.Elements[1].IsInstanceOf<JSONLiteral>();
         }
         [Fact]
-        public async Task オブジェクトの中身のオブジェクトを識別します()
+        public void オブジェクトの中身のオブジェクトを識別します()
         {
-            var result = await JSON.ParseAsync(@"{""a"":{}}");
+            var result = JSON.ParseAsync(@"{""a"":{}}");
 
             result.Pairs.Count.Is(1);
             var value = result["a"];
@@ -330,138 +330,138 @@ namespace Marimo.Parser.Test
         }
 
         [Fact]
-        public async Task オブジェクトの前に空白があっても読み込みます()
+        public void オブジェクトの前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@" {}");
+            JSON.ParseAsync(@" {}");
         }
 
         [Fact]
-        public async Task タブ記号も空白として読み飛ばします()
+        public void タブ記号も空白として読み飛ばします()
         {
-            await JSON.ParseAsync("\t{}");
+            JSON.ParseAsync("\t{}");
         }
 
         [Fact]
-        public async Task CR記号も空白として読み飛ばします()
+        public void CR記号も空白として読み飛ばします()
         {
-            await JSON.ParseAsync("\r{}");
+            JSON.ParseAsync("\r{}");
         }
 
         [Fact]
-        public async Task LF記号も空白として読み飛ばします()
+        public void LF記号も空白として読み飛ばします()
         {
-            await JSON.ParseAsync("\n{}");
+            JSON.ParseAsync("\n{}");
         }
 
         [Fact]
-        public async Task オブジェクト終了の前に空白があっても読み込みます()
+        public void オブジェクト終了の前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@"{ }");
+            JSON.ParseAsync(@"{ }");
         }
         [Fact]
-        public async Task 配列の前に空白があっても読み込みます()
+        public void 配列の前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@"{""a"": []}");
+            JSON.ParseAsync(@"{""a"": []}");
         }
         [Fact]
-        public async Task 配列終了の前に空白があっても読み込みます()
+        public void 配列終了の前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@"{""a"":[ ]}");
+            JSON.ParseAsync(@"{""a"":[ ]}");
         }
         [Fact]
-        public async Task オブジェクト区切りのコロンの前に空白があっても読み込みます()
+        public void オブジェクト区切りのコロンの前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@"{""a"" :1}");
-        }
-
-        [Fact]
-        public async Task オブジェクト区切りのカンマの前に空白があっても読み込みます()
-        {
-            await JSON.ParseAsync(@"{""a"":1 ,""b"":1}");
+            JSON.ParseAsync(@"{""a"" :1}");
         }
 
         [Fact]
-        public async Task 配列区切りのカンマの前に空白があっても読み込みます()
+        public void オブジェクト区切りのカンマの前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@"{""a"":[1 ,2]}");
+            JSON.ParseAsync(@"{""a"":1 ,""b"":1}");
         }
 
         [Fact]
-        public async Task Nullの前に空白があっても読み込みます()
+        public void 配列区切りのカンマの前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@"{""a"": null}");
-        }
-        [Fact]
-        public async Task 真偽値の前に空白があっても読み込みます()
-        {
-            await JSON.ParseAsync(@"{""a"": true}");
+            JSON.ParseAsync(@"{""a"":[1 ,2]}");
         }
 
         [Fact]
-        public async Task 数値の前に空白があっても読み込みます()
+        public void Nullの前に空白があっても読み込みます()
         {
-            await JSON.ParseAsync(@"{""a"": 1}");
+            JSON.ParseAsync(@"{""a"": null}");
+        }
+        [Fact]
+        public void 真偽値の前に空白があっても読み込みます()
+        {
+            JSON.ParseAsync(@"{""a"": true}");
         }
 
         [Fact]
-        public async Task 符号と数字の間に空白があったら読み込みません()
+        public void 数値の前に空白があっても読み込みます()
         {
-            await Assert.ThrowsAsync<ParseException>(
-                async () => await JSON.ParseAsync(@"{""a"":- 1}"));
+            JSON.ParseAsync(@"{""a"": 1}");
         }
 
         [Fact]
-        public async Task 数字と数字の間に空白があったら読み込みません()
+        public void 符号と数字の間に空白があったら読み込みません()
         {
-            await Assert.ThrowsAsync<ParseException>(
-                async () => await JSON.ParseAsync(@"{""a"":1 0}"));
+            Assert.Throws<ParseException>(
+                () => JSON.ParseAsync(@"{""a"":- 1}"));
         }
 
         [Fact]
-        public async Task 小数点の前に空白があったら読み込みません()
+        public void 数字と数字の間に空白があったら読み込みません()
         {
-            await Assert.ThrowsAsync<ParseException>(
-                async () => await JSON.ParseAsync(@"{""a"":1 .}"));
+            Assert.Throws<ParseException>(
+                () => JSON.ParseAsync(@"{""a"":1 0}"));
         }
 
         [Fact]
-        public async Task 少数部の前に空白があったら読み込みません()
+        public void 小数点の前に空白があったら読み込みません()
         {
-            await Assert.ThrowsAsync<ParseException>(
-                async () => await JSON.ParseAsync(@"{""a"":1. 0}"));
+            Assert.Throws<ParseException>(
+                () => JSON.ParseAsync(@"{""a"":1 .}"));
         }
 
         [Fact]
-        public async Task 指数部の前に空白があったら読み込みません()
+        public void 少数部の前に空白があったら読み込みません()
         {
-            await Assert.ThrowsAsync<ParseException>(
-                async () => await JSON.ParseAsync(@"{""a"":1.0 e}"));
+            Assert.Throws<ParseException>(
+                () => JSON.ParseAsync(@"{""a"":1. 0}"));
         }
 
         [Fact]
-        public async Task 指数部の符号の前に空白があったら読み込みません()
+        public void 指数部の前に空白があったら読み込みません()
         {
-            await Assert.ThrowsAsync<ParseException>(
-                async () => await JSON.ParseAsync(@"{""a"":1.0e +}"));
+            Assert.Throws<ParseException>(
+                () => JSON.ParseAsync(@"{""a"":1.0 e}"));
         }
 
         [Fact]
-        public async Task 指数部の数字の前に空白があったら読み込みません()
+        public void 指数部の符号の前に空白があったら読み込みません()
         {
-            await Assert.ThrowsAsync<ParseException>(
-                async () => await JSON.ParseAsync(@"{""a"":1.0e+ 1}"));
+            Assert.Throws<ParseException>(
+                () => JSON.ParseAsync(@"{""a"":1.0e +}"));
         }
 
         [Fact]
-        public async Task 文字列の前に空白があっても読み込みます()
+        public void 指数部の数字の前に空白があったら読み込みません()
         {
-            await JSON.ParseAsync(@"{""a"": ""b""}");
+            Assert.Throws<ParseException>(
+                () => JSON.ParseAsync(@"{""a"":1.0e+ 1}"));
         }
 
         [Fact]
-        public async Task 文字列の中の空白は文字列として読み込みます()
+        public void 文字列の前に空白があっても読み込みます()
         {
-            var result = await JSON.ParseAsync(@"{""a"":"" b ""}");
+            JSON.ParseAsync(@"{""a"": ""b""}");
+        }
+
+        [Fact]
+        public void 文字列の中の空白は文字列として読み込みます()
+        {
+            var result = JSON.ParseAsync(@"{""a"":"" b ""}");
 
             result.Pairs.Count.Is(1);
             var str = (JSONLiteral)result["a"];

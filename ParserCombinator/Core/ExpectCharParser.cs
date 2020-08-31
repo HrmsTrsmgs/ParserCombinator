@@ -14,8 +14,8 @@ namespace Marimo.ParserCombinator.Core
             ExpectChars = expectChars;
         }
 
-        protected override async ValueTask<(bool isSuccess, Cursol cursol, char parsed)> ParseCoreAsync(Cursol cursol)
-            => await ExpectChars.ParseAsync(cursol) switch
+        protected override (bool isSuccess, Cursol cursol, char parsed) ParseCore(Cursol cursol)
+            => ExpectChars.Parse(cursol) switch
             {
                 (true, _, _) => (false, cursol, default),
                 (false, _, _) => (true, cursol.GoFoward(1), cursol.Current.Value)

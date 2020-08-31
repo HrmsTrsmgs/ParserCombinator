@@ -227,9 +227,9 @@ namespace Marimo.Parser
                     BraceCloseSign),
                 tuple => new JSONObject { Pairs = tuple.Item2.ToDictionary(kv => kv.Key, kv => kv.Value) });
 
-        public static async Task<JSONObject> ParseAsync(string text)
+        public static JSONObject ParseAsync(string text)
         {
-            var (isSuccess, _, parsed) = await JObject.ParseAsync(new Cursol(text));
+            var (isSuccess, _, parsed) = JObject.Parse(new Cursol(text));
             if(isSuccess)
             {
                 return parsed;

@@ -13,9 +13,9 @@ namespace Marimo.ParserCombinator.Core
             Parser = parser;
         }
 
-        protected override async ValueTask<(bool isSuccess, Cursol cursol, Optional<T> parsed)> ParseCoreAsync(Cursol cursol)
+        protected override (bool isSuccess, Cursol cursol, Optional<T> parsed) ParseCore(Cursol cursol)
         {
-            var (isSuccess, afterCursol, parsed) = await Parser.ParseAsync(cursol);
+            var (isSuccess, afterCursol, parsed) = Parser.Parse(cursol);
             return (true, afterCursol, new Optional<T>(isSuccess, parsed));
         }
     }

@@ -10,82 +10,82 @@ namespace Marimo.Test.ParserCombinator.Core
     public class OrParserのテスト
     {
         [Fact]
-        public async Task 一つ目の要素のパースに成功したら成功です()
+        public void 一つ目の要素のパースに成功したら成功です()
         {
             var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
 
-            var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("abc"));
+            var (isSuccess, _, _) = tested.Parse(new Cursol("abc"));
 
             isSuccess.IsTrue();
         }
 
 
         [Fact]
-        public async Task 一つ目の要素のパースに成功したら一つ目の要素が返ります()
+        public void 一つ目の要素のパースに成功したら一つ目の要素が返ります()
         {
             var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
 
-            var (_, _, parsed) = await tested.ParseAsync(new Cursol("abc"));
+            var (_, _, parsed) = tested.Parse(new Cursol("abc"));
 
             parsed.Is("abc");
         }
 
         [Fact]
-        public async Task 一つ目の要素のパースに成功したら一つ目の要素の分だけカーソルが進みます()
+        public void 一つ目の要素のパースに成功したら一つ目の要素の分だけカーソルが進みます()
         {
             var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
 
-            var (_, cursol, _) = await tested.ParseAsync(new Cursol("abc"));
+            var (_, cursol, _) = tested.Parse(new Cursol("abc"));
 
             cursol.Index.Is("abc".Length);
        }
 
         [Fact]
-        public async Task 一つ目の要素のパースに失敗し二つ目の要素には成功したら成功です()
+        public void 一つ目の要素のパースに失敗し二つ目の要素には成功したら成功です()
         {
             var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
 
-            var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("ab"));
+            var (isSuccess, _, _) = tested.Parse(new Cursol("ab"));
 
             isSuccess.IsTrue();
         }
 
         [Fact]
-        public async Task 一つ目の要素のパースに失敗し二つ目の要素のパースに成功したら二つ目の要素が返ります()
+        public void 一つ目の要素のパースに失敗し二つ目の要素のパースに成功したら二つ目の要素が返ります()
         {
             var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
 
-            var (_, _, parsed) = await tested.ParseAsync(new Cursol("abc"));
+            var (_, _, parsed) = tested.Parse(new Cursol("abc"));
 
             parsed.Is("abc");
         }
 
         [Fact]
-        public async Task 一つ目の要素のパースに失敗し二つ目の要素には成功したら二つ目の要素の分だけカーソルが進みます()
+        public void 一つ目の要素のパースに失敗し二つ目の要素には成功したら二つ目の要素の分だけカーソルが進みます()
         {
             var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
 
-            var (_, cursol, _) = await tested.ParseAsync(new Cursol("ab"));
+            var (_, cursol, _) = tested.Parse(new Cursol("ab"));
 
             cursol.Index.Is("ab".Length);
         }
 
         [Fact]
-        public async Task 二つとも失敗ならパースは失敗です()
+        public void 二つとも失敗ならパースは失敗です()
         {
             var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
 
-            var (isSuccess, _, _) = await tested.ParseAsync(new Cursol("a"));
+            var (isSuccess, _, _) = tested.Parse(new Cursol("a"));
 
             isSuccess.IsFalse();
         }
 
         [Fact]
-        public async Task 二つとも失敗ならカーソルは進みません()
+        public void 二つとも失敗ならカーソルは進みません()
         {
             var tested = new OrParser<string>(new WordParser("abc"), new WordParser("ab"));
 
-            var (_, cursol, _) = await tested.ParseAsync(new Cursol("a"));
+            var (_, cursol, _) = tested.Parse(new Cursol("a"));
 
             cursol.Index.Is(0);
         }

@@ -17,16 +17,16 @@ namespace Marimo.ParserCombinator
             Parser = parser;
         }
 
-        protected override async ValueTask<(bool isSuccess, Cursol cursol, T parsed)> ParseCoreAsync(Cursol cursol)
+        protected override (bool isSuccess, Cursol cursol, T parsed) ParseCore(Cursol cursol)
         {
             var current = cursol;
             bool isSuccess;
             do
             {
-                (isSuccess, current, _) = await WhiteSpace.ParseAsync(current);
+                (isSuccess, current, _) = WhiteSpace.Parse(current);
             } while (isSuccess);
 
-            return await Parser.ParseAsync(current);
+            return Parser.Parse(current);
         }
     }
 }

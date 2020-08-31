@@ -11,78 +11,78 @@ namespace Marimo.Test.ParserCombinator.Core
     public class WordParserのテスト
     {
         [Fact]
-        public async Task ParseAsyncは指定した単語を読み込みに成功します()
+        public void ParseAsyncは指定した単語を読み込みに成功します()
         {
             var cursol = new Cursol("public");
             var tested = new WordParser("public");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = tested.Parse(cursol);
 
             result.isSuccess.IsTrue();
         }
 
         [Fact]
-        public async Task ParseAsyncは指定していない単語を読み込みに失敗します()
+        public void ParseAsyncは指定していない単語を読み込みに失敗します()
         {
             var cursol = new Cursol("publi");
             var tested = new WordParser("public");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = tested.Parse(cursol);
 
             result.isSuccess.IsFalse();
         }
         [Fact]
-        public async Task ParseAsyncは指定した単語を読み込みます()
+        public void ParseAsyncは指定した単語を読み込みます()
         {
             var cursol = new Cursol("public");
             var tested = new WordParser("public");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = tested.Parse(cursol);
 
             result.parsed.Is("public");
         }
 
 
         [Fact]
-        public async Task ParseAsyncは読み込みに成功した場合に単語の長さだけ進んだカーソルを返します()
+        public void ParseAsyncは読み込みに成功した場合に単語の長さだけ進んだカーソルを返します()
         {
             var cursol = new Cursol("void");
             var tested = new WordParser("void");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = tested.Parse(cursol);
 
             result.cursol.Index.Is(4);
         }
 
         [Fact]
-        public async Task ParseAsyncは読み込みに失敗した場合には進んでいないカーソルを返します()
+        public void ParseAsyncは読み込みに失敗した場合には進んでいないカーソルを返します()
         {
             var cursol = new Cursol("publi");
             var tested = new WordParser("public");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = tested.Parse(cursol);
 
             result.cursol.Index.Is(0);
         }
 
         [Fact]
-        public async Task ParseAsyncは単語前のスペースを読み飛ばします()
+        public void ParseAsyncは単語前のスペースを読み飛ばします()
         {
             var cursol = new Cursol(" public");
             var tested = new WordParser("public");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = tested.Parse(cursol);
 
             result.cursol.Index.Is(7);
         }
 
         [Fact]
-        public async Task ParseAsyncは単語後のスペースを読み飛ばします()
+        public void ParseAsyncは単語後のスペースを読み飛ばします()
         {
             var cursol = new Cursol("public ");
             var tested = new WordParser("public");
 
-            var result = await tested.ParseAsync(cursol);
+            var result = tested.Parse(cursol);
 
             result.cursol.Index.Is(7);
         }

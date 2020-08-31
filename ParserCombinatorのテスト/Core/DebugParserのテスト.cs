@@ -10,24 +10,24 @@ namespace Marimo.ParserCombinator.Test.Core
     public class DebugParserのテスト
     {
         [Fact]
-        public async Task ParseAsyncは内部パーサーと同じように成功します()
+        public void ParseAsyncは内部パーサーと同じように成功します()
         {
             var cursol = new Cursol("public");
             var parser = new CharParser('p');
             var tested = new DebugParser<char>(parser, () => { });
-            (await tested.ParseAsync(cursol)).IsStructuralEqual(await parser.ParseAsync(cursol));
+            (tested.Parse(cursol)).IsStructuralEqual(parser.Parse(cursol));
         }
         [Fact]
-        public async Task ParseAsyncは内部パーサーと同じように失敗します()
+        public void ParseAsyncは内部パーサーと同じように失敗します()
         {
             var cursol = new Cursol("public");
             var parser = new CharParser('a');
             var tested = new DebugParser<char>(parser, () => { });
-            (await tested.ParseAsync(cursol)).IsStructuralEqual(await parser.ParseAsync(cursol));
+            (tested.Parse(cursol)).IsStructuralEqual(parser.Parse(cursol));
         }
 
         [Fact]
-        public async Task ParseAsyncは指定したActionを呼びます()
+        public void ParseAsyncは指定したActionを呼びます()
         {
             bool isActioned = false;
             var cursol = new Cursol("public");
@@ -35,7 +35,7 @@ namespace Marimo.ParserCombinator.Test.Core
             var tested = new DebugParser<char>(parser, () => { isActioned = true; });
 
             isActioned.IsFalse();
-            await tested.ParseAsync(cursol);
+            tested.Parse(cursol);
             isActioned.IsTrue();
         }
     }

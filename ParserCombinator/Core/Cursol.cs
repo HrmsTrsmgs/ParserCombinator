@@ -6,7 +6,21 @@ namespace Marimo.ParserCombinator.Core
 {
     public struct Cursol
     {
-        public char? Current => Index < Text.Length ? Text[Index] : (char?)null;
+        public char? Current
+        {
+            get
+            {
+
+                try
+                {
+                    return Text[Index];
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    return null;
+                }
+            }
+        }
 
         public int Index { get; }
         public string Text { get; }

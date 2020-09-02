@@ -20,8 +20,8 @@ namespace Marimo.ParserCombinator.Core
         protected override (bool isSuccess, Cursol cursol, char parsed) ParseCore(Cursol cursol)
             => cursol.Current switch
             {
-                var c when (IgnoreCase && c.HasValue ? char.ToLower(c.Value) == char.ToLower(Char) : c == Char)
-                        => (true, cursol.GoFoward(1), c.Value),
+                var c when (IgnoreCase  ? char.ToLower(c) == char.ToLower(Char) : c == Char)
+                        => (true, cursol.GoFoward(1), c),
                 _ => (false, cursol, default)
             };
     }

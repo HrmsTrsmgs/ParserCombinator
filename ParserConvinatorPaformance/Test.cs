@@ -22,7 +22,7 @@ namespace ParserConbinatorParormance
                 sw.Start();
                 string text = File.ReadAllText(path);
 
-                JSON.ParseAsync(text);
+                JSON.Parse(text);
                 sw.Stop();
                 var time = sw.Elapsed;
                 Console.WriteLine(time);

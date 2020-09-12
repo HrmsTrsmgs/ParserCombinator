@@ -21,5 +21,16 @@ namespace Marimo.Test.ParserCombinator.Core
             result.isSuccess.IsTrue();
         }
 
+        [Fact]
+        public void ParseAsyncは指定した文字を読み込みます()
+        {
+            var cursol = new Cursol("public");
+            var tested = new ConditionalCharParser(c => c == 'p');
+
+            var result = tested.Parse(cursol);
+
+            result.parsed.Is('p');
+        }
+
     }
 }

@@ -85,17 +85,7 @@ namespace Marimo.Parser
                 word => new JSONLiteral(word, LiteralType.Boolean));
 
         static Parser<char> Digit =
-            new OrParser<char>(
-                new CharParser('1'),
-                new CharParser('2'),
-                new CharParser('3'),
-                new CharParser('4'),
-                new CharParser('5'),
-                new CharParser('6'),
-                new CharParser('7'),
-                new CharParser('8'),
-                new CharParser('9'),
-                new CharParser('0'));
+            new ConditionalCharParser(c => char.IsDigit(c));
 
         static Parser<string> Digits =
             new ParserConverter<IEnumerable<char>, string>(

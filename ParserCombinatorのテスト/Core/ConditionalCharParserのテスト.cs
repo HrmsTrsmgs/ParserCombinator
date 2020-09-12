@@ -43,5 +43,15 @@ namespace Marimo.Test.ParserCombinator.Core
             result.isSuccess.IsFalse();
         }
 
+        [Fact]
+        public void ParseAsyncは読み込みに成功した場合にその分進んだカーソルを返します()
+        {
+            var cursol = new Cursol("public");
+            var tested = new ConditionalCharParser(c => c == 'p');
+
+            var result = tested.Parse(cursol);
+
+            result.cursol.Index.Is(1);
+        }
     }
 }
